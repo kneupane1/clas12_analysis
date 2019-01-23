@@ -5,34 +5,51 @@
 
 #ifndef DT_H_GUARD
 #define DT_H_GUARD
-#include <iostream>
 #include "constants.hpp"
+#include <iostream>
 
 class Delta_T {
- private:
-  std::vector<double> masses = {MASS_E, MASS_P, MASS_PIP, MASS_KP};
+private:
+  std::vector<double> masses = {MASS_E, MASS_P, MASS_PIP,
+                                MASS_KP}; // std::vector is a sequence
+                                          // container that encapsulates dynamic
+                                          // size arrays.
   float _sc_t_v = std::nanf("-99");
   float _sc_r_v = std::nanf("-99");
   float _vertex = std::nanf("-99");
   float _sc_t = std::nanf("-99");
   float _sc_r = std::nanf("-99");
+  float _sc_t_ctof = std::nanf("-99"); /// maile thapeko
+  float _sc_r_ctof = std::nanf("-99"); // maile thapeko
+
   float _beta = std::nanf("-99");
   float _momentum = std::nanf("-99");
 
-  float _vertex_time(float sc_time, float sc_pathlength, float relatavistic_beta);
+  float _vertex_time(float sc_time, float sc_pathlength,
+                     float relatavistic_beta);
   float _deltat(int num);
+  float _dt_calc_ctof(int num);
 
- public:
-  Delta_T(float time_1b, float path_1b, float time_1a, float path_1a, float time_2, float path_2);
+public:
+  Delta_T(float time_1b, float path_1b, float time_1a, float path_1a,
+          float time_2, float path_2);
   ~Delta_T();
 
-  void dt_calc(float momentum, float time_1b, float path_1b, float time_1a, float path_1a, float time_2, float path_2,
-               float time_ctof, float path_ctof);
+  void dt_calc(float momentum, float time_1b, float path_1b, float time_1a,
+               float path_1a, float time_2, float path_2, float time_ctof,
+               float path_ctof);
   float dt_E();
   float dt_P();
   float dt_Pi();
   float dt_K();
   float momentum();
+
+  void dt_calc_1(float momentum, float time_ctof, float path_ctof);
+
+  float dt_ctof_E();
+  float dt_ctof_P();
+  float dt_ctof_Pi();
+  float dt_ctof_K();
 
   /*
   TODO:

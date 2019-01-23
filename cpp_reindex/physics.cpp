@@ -34,12 +34,16 @@ double xb_calc(TLorentzVector e_mu, TLorentzVector e_mu_prime) {
   TLorentzVector target(0, 0, 0, MASS_P);
   return (Q2 / (2 * (q.Dot(target))));
 }
-double vertex_time(double sc_time, double sc_pathlength, double relatavistic_beta) {
+double vertex_time_ctof(double sc_time, double sc_pathlength,
+                        double relatavistic_beta) {
   return sc_time - sc_pathlength / (relatavistic_beta * c_special_units);
 }
 
-double deltat(double electron_vertex_time, double mass, double momentum, double sc_t, double sc_r) {
-  double relatavistic_beta = 1.0 / sqrt(1.0 + (mass / momentum) * (mass / momentum));
-  return electron_vertex_time - vertex_time(sc_t, sc_r, relatavistic_beta);
+double deltat_ctof(double electron_vertex_time, double mass, double momentum,
+                   double sc_t, double sc_r) {
+  double relatavistic_beta =
+      1.0 / sqrt(1.0 + (mass / momentum) * (mass / momentum));
+  return electron_vertex_time - vertex_time_ctof(sc_t, sc_r, relatavistic_beta);
 }
-}  // namespace physics
+}
+// namespace physics

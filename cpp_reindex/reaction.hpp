@@ -11,7 +11,7 @@
 #include "physics.hpp"
 
 class Reaction {
- private:
+private:
   TLorentzVector *_beam;
   TLorentzVector *_elec;
   TLorentzVector *_target;
@@ -26,11 +26,13 @@ class Reaction {
 
   float _MM;
   float _MM2;
+  float _MM_wop;
+  float _MM2_wop;
 
   float _W;
   float _Q2;
 
- public:
+public:
   Reaction();
   Reaction(TLorentzVector *beam);
   ~Reaction();
@@ -39,15 +41,30 @@ class Reaction {
   void SetProton(float px, float py, float pz, float mass);
   void SetPip(float px, float py, float pz, float mass);
   void SetPim(float px, float py, float pz, float mass);
+  TLorentzVector e_mu_prime(); // maile thapeko
+  TLorentzVector p_mu_prime();
+  TLorentzVector pip_mu_prime();
+  TLorentzVector pim_mu_prime();
+  //  TLorentzVector kp_mu_prime();
+  // TLorentzVector km_mu_prime();
+
   void CalcMissMass();
+  void CalcMissMass_wop();
 
   float MM();
   float MM2();
+  float MM_wop();
+  float MM2_wop();
   float W();
   float Q2();
-
+  bool elecWopEvent();
+  bool twoPionWopEvent();
+  bool WopPimEvent();
+  bool WopPipEvent();
+  bool elecProtEvent();
   bool twoPionEvent();
   bool ProtonPimEvent();
+  bool ProtonPipEvent();
 };
 
 #endif

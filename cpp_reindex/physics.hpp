@@ -5,9 +5,9 @@
 
 #ifndef PHYSICS_H_GUARD
 #define PHYSICS_H_GUARD
-#include <TLorentzVector.h>
 #include "TROOT.h"
 #include "constants.hpp"
+#include <TLorentzVector.h>
 
 namespace physics {
 // Calcuating Q^2
@@ -23,8 +23,10 @@ double xb_calc(TLorentzVector e_mu, TLorentzVector e_mu_prime);
 double theta_calc(double cosz);
 double phi_calc(double cosx, double cosy);
 
-double vertex_time(double sc_time, double sc_pathlength, double relatavistic_beta);
-double deltat(double electron_vertex_time, double mass, double momentum, double sc_t, double sc_r);
-}  // namespace physics
+double vertex_time_ctof(double sc_time, double sc_pathlength,
+                        double relatavistic_beta);
+double deltat_ctof(double electron_vertex_time, double mass, double momentum,
+                   double sc_t, double sc_r);
+} // namespace physics
 
 #endif
