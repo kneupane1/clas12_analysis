@@ -12,11 +12,12 @@ Histogram::Histogram() {
       w_max = 3.5;
       p_max = 3.0;
     } else if (atof(getenv("CLAS12_E")) < 7.9) {
-      q2_max = 5.0;
-      w_max = 4.5;
+      q2_max = 3.5;
+      w_max = 4.0;
       p_max = 8.0;
     }
   }
+
   // Kinematics
   momentum = new TH1D("mom", "mom", bins, p_min, p_max);
 
@@ -72,9 +73,49 @@ Histogram::Histogram() {
   makeHists_WvsQ2();
   makeHists_MM();
 }
-Histogram::~Histogram() {}
 
+Histogram::~Histogram() {}
 // W and Q^2
+
+int Histogram::mm_lim_min(int mm_number, int mm_events_number) {
+  int mm_min;
+  if (mm_number == 0 && mm_events_number < 4) {
+    mm_min = -2.0;
+  } else if (mm_number == 0 && mm_events_number > 4) {
+    mm_min = -0.50;
+  } else if (mm_number == 0 && mm_events_number == 4) {
+    mm_min = 0;
+  } else if (mm_number == 1 && mm_events_number < 4) {
+    mm_min = -1;
+  } else if (mm_number == 1 && mm_events_number > 4) {
+    mm_min = -0.5;
+  } else if (mm_number == 1 && mm_events_number == 4) {
+    mm_min = 0;
+  } else {
+    mm_min = -5;
+  }
+  return mm_min;
+}
+int Histogram::mm_lim_max(int mm_number, int mm_events_number) {
+  int mm_max;
+
+  if (mm_number == 0 && mm_events_number < 4) {
+    mm_max = 2.7;
+  } else if (mm_number == 0 && mm_events_number > 4) {
+    mm_max = 4;
+  } else if (mm_number == 0 && mm_events_number == 4) {
+    mm_max = 4.9;
+  } else if (mm_number == 1 && mm_events_number < 4) {
+    mm_max = 1;
+  } else if (mm_number == 1 && mm_events_number > 4) {
+    mm_max = 10.0;
+  } else if (mm_number == 1 && mm_events_number == 4) {
+    mm_max = +14.5;
+  } else {
+    mm_max = 10;
+  }
+  return mm_max;
+}
 void Histogram::makeHists_WvsQ2() {
   for (int i = 0; i < sec_num; i++) {
     hname.append("WvsQ2");
@@ -245,9 +286,11 @@ void Histogram::Write_WvsQ2() {
    */
 }
 void Histogram::makeHists_MM() {
+
   for (size_t m = 0; m < mm_num; m++) {
     for (size_t e = 0; e < mm_events_num; e++) {
       for (int i = 0; i < sec_num; i++) {
+
         hname.append(mm_name[m]);
         htitle.append(mm_name[m]);
         hname.append("_");
@@ -259,7 +302,8 @@ void Histogram::makeHists_MM() {
         hname.append(sec_name[i]);
         htitle.append(sec_name[i]);
         MM_hist[m][e][i] =
-            new TH1D(hname.c_str(), htitle.c_str(), bins, mm_min, mm_max);
+            new TH1D(hname.c_str(), htitle.c_str(), bins,
+                     Histogram::mm_lim_min(m, e), Histogram::mm_lim_max(m, e));
         hname.clear();
         htitle.clear();
       }

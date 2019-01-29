@@ -93,7 +93,9 @@ void datahandeler(std::string fin, std::string fout) {
                                 p->at(part));
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
-          if (abs(dt->dt_Pi()) < 0.5 && (charge->at(part) == -1)) {
+          if ((abs(dt->dt_Pi()) < 0.5) ||
+              (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) /* &&
+              (charge->at(part) == -1*/) {
             event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
           }
         } else if (charge->at(part) == 1) {
@@ -103,15 +105,17 @@ void datahandeler(std::string fin, std::string fout) {
                                 p->at(part));
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
-          if (charge->at(part) == 1) {
-            if (abs(dt->dt_P()) < 0.5) {
-              event->SetProton(px->at(part), py->at(part), pz->at(part),
-                               MASS_P);
-            } else if (abs(dt->dt_Pi()) < 0.50) {
-              event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
-            }
+          //    if (charge->at(part) == 1) {
+          if ((abs(dt->dt_P()) < 0.5) ||
+              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
+            event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
+          } else if ((abs(dt->dt_Pi()) < 0.50) ||
+                     (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7 &&
+                      event->pip_mu_prime().P() < 1.2)) {
+            event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
           }
         }
+        //  }
         if (event->p_mu_prime().Theta() != 0)
           hist->Fill_theta_P(event->p_mu_prime().Theta() * (180 / 3.14));
 

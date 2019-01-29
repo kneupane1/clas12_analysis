@@ -12,6 +12,7 @@
 #include "constants.hpp"
 #include "deltat.hpp"
 #include "physics.hpp"
+#include "reaction.hpp"
 
 class Histogram {
 private:
@@ -22,10 +23,8 @@ private:
   double Dt_min = -Dt_max;
   double q2_max = 8.0;
   double w_max = 5.0;
-  double mm_max = 13.20;
-  double mm_min = -4.5;
-
   double zero = 0.0;
+
   std::string hname;
   std::string htitle;
 
@@ -102,6 +101,8 @@ private:
 public:
   Histogram();
   ~Histogram();
+  int mm_lim_max(int mm_number, int mm_events_number);
+  int mm_lim_min(int mm_number, int mm_events_number);
 
   // W and Q^2
   void Fill_ep_mm(double mm, int sec_number);
