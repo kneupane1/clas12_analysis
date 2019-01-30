@@ -18,7 +18,7 @@ class Histogram {
 private:
   int bins = 500;
   double p_min = 0.0;
-  double p_max = 10.0;
+  double p_max = 11.0;
   double Dt_max = 10.0;
   double Dt_min = -Dt_max;
   double q2_max = 8.0;

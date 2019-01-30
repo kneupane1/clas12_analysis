@@ -80,17 +80,17 @@ Histogram::~Histogram() {}
 float Histogram::mm_lim_min(int mm_number, int mm_events_number) {
 
   if (mm_number == 0 && mm_events_number < 4) {
-    return -2.0;
+    return -4.0;
   } else if (mm_number == 0 && mm_events_number > 4) {
-    return -0.50;
+    return -4.0;
   } else if (mm_number == 0 && mm_events_number == 4) {
     return 0;
   } else if (mm_number == 1 && mm_events_number < 4) {
-    return -1;
+    return -4;
   } else if (mm_number == 1 && mm_events_number > 4) {
-    return -0.5;
+    return -4;
   } else if (mm_number == 1 && mm_events_number == 4) {
-    return 0;
+    return -1.5;
   } else {
     return -5;
   }
@@ -98,17 +98,17 @@ float Histogram::mm_lim_min(int mm_number, int mm_events_number) {
 float Histogram::mm_lim_max(int mm_number, int mm_events_number) {
 
   if (mm_number == 0 && mm_events_number < 4) {
-    return 2.7;
+    return 4.0;
   } else if (mm_number == 0 && mm_events_number > 4) {
-    return 4;
+    return 5.0;
   } else if (mm_number == 0 && mm_events_number == 4) {
-    return 4.9;
+    return 5.9;
   } else if (mm_number == 1 && mm_events_number < 4) {
-    return 1;
+    return 6;
   } else if (mm_number == 1 && mm_events_number > 4) {
-    return 10.0;
+    return 16.0;
   } else if (mm_number == 1 && mm_events_number == 4) {
-    return 14.5;
+    return 20.5;
   } else {
     return 10;
   }
