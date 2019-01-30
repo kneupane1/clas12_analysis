@@ -77,44 +77,41 @@ Histogram::Histogram() {
 Histogram::~Histogram() {}
 // W and Q^2
 
-int Histogram::mm_lim_min(int mm_number, int mm_events_number) {
-  int mm_min;
-  if (mm_number == 0 && mm_events_number < 4) {
-    mm_min = -2.0;
-  } else if (mm_number == 0 && mm_events_number > 4) {
-    mm_min = -0.50;
-  } else if (mm_number == 0 && mm_events_number == 4) {
-    mm_min = 0;
-  } else if (mm_number == 1 && mm_events_number < 4) {
-    mm_min = -1;
-  } else if (mm_number == 1 && mm_events_number > 4) {
-    mm_min = -0.5;
-  } else if (mm_number == 1 && mm_events_number == 4) {
-    mm_min = 0;
-  } else {
-    mm_min = -5;
-  }
-  return mm_min;
-}
-int Histogram::mm_lim_max(int mm_number, int mm_events_number) {
-  int mm_max;
+float Histogram::mm_lim_min(int mm_number, int mm_events_number) {
 
   if (mm_number == 0 && mm_events_number < 4) {
-    mm_max = 2.7;
+    return -2.0;
   } else if (mm_number == 0 && mm_events_number > 4) {
-    mm_max = 4;
+    return -0.50;
   } else if (mm_number == 0 && mm_events_number == 4) {
-    mm_max = 4.9;
+    return 0;
   } else if (mm_number == 1 && mm_events_number < 4) {
-    mm_max = 1;
+    return -1;
   } else if (mm_number == 1 && mm_events_number > 4) {
-    mm_max = 10.0;
+    return -0.5;
   } else if (mm_number == 1 && mm_events_number == 4) {
-    mm_max = +14.5;
+    return 0;
   } else {
-    mm_max = 10;
+    return -5;
   }
-  return mm_max;
+}
+float Histogram::mm_lim_max(int mm_number, int mm_events_number) {
+
+  if (mm_number == 0 && mm_events_number < 4) {
+    return 2.7;
+  } else if (mm_number == 0 && mm_events_number > 4) {
+    return 4;
+  } else if (mm_number == 0 && mm_events_number == 4) {
+    return 4.9;
+  } else if (mm_number == 1 && mm_events_number < 4) {
+    return 1;
+  } else if (mm_number == 1 && mm_events_number > 4) {
+    return 10.0;
+  } else if (mm_number == 1 && mm_events_number == 4) {
+    return 14.5;
+  } else {
+    return 10;
+  }
 }
 void Histogram::makeHists_WvsQ2() {
   for (int i = 0; i < sec_num; i++) {

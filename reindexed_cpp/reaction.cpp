@@ -50,10 +50,11 @@ Reaction::Reaction(TLorentzVector *beam) {
 }
 Reaction::~Reaction() {
   // delete _beam;
-  // delete _elec;
-  // delete _prot;
-  // delete _pip;
-  // delete _pim;
+  delete _elec;
+  delete _prot;
+  delete _pip;
+  delete _pim;
+  delete _target;
 }
 
 void Reaction::SetElec(float px, float py, float pz, float mass) {

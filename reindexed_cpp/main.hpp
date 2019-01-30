@@ -134,7 +134,7 @@ void datahandeler(std::string fin, std::string fout) {
     hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
     //  }
     //}
-    //  delete dt;
+    delete dt;
 
     event->CalcMissMass();
 
@@ -191,6 +191,6 @@ void datahandeler(std::string fin, std::string fout) {
   out->Close();
   chain->Reset();
   std::cerr << "\nErrors: " << total << "\t" << std::endl;
-  // delete hist;
+  delete hist;
 }
 #endif

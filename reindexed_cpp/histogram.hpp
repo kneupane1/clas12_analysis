@@ -101,8 +101,8 @@ private:
 public:
   Histogram();
   ~Histogram();
-  int mm_lim_max(int mm_number, int mm_events_number);
-  int mm_lim_min(int mm_number, int mm_events_number);
+  float mm_lim_max(int mm_number, int mm_events_number);
+  float mm_lim_min(int mm_number, int mm_events_number);
 
   // W and Q^2
   void Fill_ep_mm(double mm, int sec_number);
