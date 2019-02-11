@@ -136,6 +136,37 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
+    hname.append("W_hist_ep");
+    htitle.append("W_hist_ep");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_ep[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("W_hist_2pi");
+    htitle.append("W_hist_2pi");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_2pi[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("W_hist_singlepip");
+    htitle.append("W_hist_singlepip");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_singlepip[i] =
+        new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
     hname.append("Q2_hist");
     htitle.append("Q2_hist");
     hname.append("_");
@@ -143,6 +174,39 @@ void Histogram::makeHists_WvsQ2() {
     hname.append(sec_name[i]);
     htitle.append(sec_name[i]);
     Q2_hist[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, q2_max);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("Wvs_mmSQ_ep");
+    htitle.append("Wvs_mmSQ_ep");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_vs_mmSQ_ep[i] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
+                               w_max, bins, -4, 4);
+    hname.clear();
+    htitle.clear();
+    hname.append("Wvs_mmSQ_2pi");
+    htitle.append("Wvs_mmSQ_2pi");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_vs_mmSQ_2pi[i] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
+                                w_max, bins, -5, 5);
+    hname.clear();
+    htitle.clear();
+    hname.clear();
+    htitle.clear();
+    hname.append("Wvs_mmSQ_singlepip");
+    htitle.append("Wvs_mmSQ_singlepip");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_vs_mmSQ_singlepip[i] = new TH2D(hname.c_str(), htitle.c_str(), bins,
+                                      p_min, w_max, bins, -5, 5);
     hname.clear();
     htitle.clear();
   }
@@ -153,7 +217,29 @@ void Histogram::Fill_WvsQ2(double W, double Q2, int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_vs_Q2[sec_number]->Fill(W, Q2);
     W_hist[sec_number]->Fill(W);
+
     Q2_hist[sec_number]->Fill(Q2);
+  }
+}
+void Histogram::Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number) {
+
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    W_hist_ep[sec_number]->Fill(W);
+    W_vs_mmSQ_ep[sec_number]->Fill(W, mmSQ);
+  }
+}
+void Histogram::Fill_WvsmmSQ_2pi(double W, double mmSQ, int sec_number) {
+
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    W_hist_2pi[sec_number]->Fill(W);
+    W_vs_mmSQ_2pi[sec_number]->Fill(W, mmSQ);
+  }
+}
+void Histogram::Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number) {
+
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    W_hist_singlepip[sec_number]->Fill(W);
+    W_vs_mmSQ_singlepip[sec_number]->Fill(W, mmSQ);
   }
 }
 /*
@@ -170,7 +256,8 @@ void Histogram::Fill_WvsQ2(double W, double Q2, int sec_number) {
 
 // W and Q^2
 
-// void Histogram::Fill_WvsQ2_singlePi(double W, double Q2, TLorentzVector *mm)
+// void Histogram::Fill_WvsQ2_singlePi(double W, double Q2, TLorentzVector
+// *mm)
 // {
 //   W_vs_q2_singlePi->Fill(W, Q2);
 //   W_hist_singlePi->Fill(W);
@@ -209,9 +296,39 @@ void Histogram::Write_WvsQ2() {
     W_hist[i]->Write();
     delete W_hist[i];
 
+    W_hist_ep[i]->SetXTitle("W_ep (GeV)");
+    W_hist_ep[i]->Write();
+    delete W_hist_ep[i];
+
+    W_hist_2pi[i]->SetXTitle("W_2pi (GeV)");
+    W_hist_2pi[i]->Write();
+    delete W_hist_2pi[i];
+
+    W_hist_singlepip[i]->SetXTitle("W_singlepip (GeV)");
+    W_hist_singlepip[i]->Write();
+    delete W_hist_singlepip[i];
+
     Q2_hist[i]->SetXTitle("Q^{2} (GeV^{2})");
     Q2_hist[i]->Write();
     delete Q2_hist[i];
+
+    W_vs_mmSQ_ep[i]->SetXTitle("W (GeV)");
+    W_vs_mmSQ_ep[i]->SetYTitle("mm^{2} (GeV^{2})");
+    W_vs_mmSQ_ep[i]->SetOption("COLZ");
+    W_vs_mmSQ_ep[i]->Write();
+    delete W_vs_mmSQ_ep[i];
+
+    W_vs_mmSQ_2pi[i]->SetXTitle("W (GeV)");
+    W_vs_mmSQ_2pi[i]->SetYTitle("mm^{2} (GeV^{2})");
+    W_vs_mmSQ_2pi[i]->SetOption("COLZ");
+    W_vs_mmSQ_2pi[i]->Write();
+    delete W_vs_mmSQ_2pi[i];
+
+    W_vs_mmSQ_singlepip[i]->SetXTitle("W (GeV)");
+    W_vs_mmSQ_singlepip[i]->SetYTitle("mm^{2} (GeV^{2})");
+    W_vs_mmSQ_singlepip[i]->SetOption("COLZ");
+    W_vs_mmSQ_singlepip[i]->Write();
+    delete W_vs_mmSQ_singlepip[i];
   }
   /*
      W_vs_q2_lower->SetXTitle("W (GeV)");
@@ -442,6 +559,19 @@ void Histogram::makeHists_deltat() {
       }
     }
   }
+  // for (size_t p = 0; p < particle_num; p++) {
+  //   hname.append("delta_t_");
+  //   htitle.append("#Deltat ");
+  //   hname.append(particle_name[p]);
+  //   htitle.append(particle_name[p]);
+  //   hname.append("_ctof");
+  //   htitle.append(" ctof");
+  //   delta_t_hist_ctof[p] = new TH2D(hname.c_str(), htitle.c_str(), bins,
+  //   p_min,
+  //                                   p_max, bins, Dt_min, Dt_max);
+  //   hname.clear();
+  //   htitle.clear();
+  // }
 }
 
 void Histogram::Fill_deltat_vertex(int pid, int charge, float dt,

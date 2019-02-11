@@ -32,6 +32,11 @@ private:
   float _W;
   float _Q2;
 
+  float _W_ep;
+  float _W_2pi;
+  float _W_singlepip;
+  float _Q2_2pi;
+
 public:
   Reaction();
   Reaction(TLorentzVector *beam);
@@ -57,6 +62,10 @@ public:
   float MM2_wop();
   float W();
   float Q2();
+  float W_ep();
+  float W_2pi();
+  float W_singlepip();
+  float Q2_2pi();
   bool elecWopEvent();
   bool twoPionWopEvent();
   bool WopPimEvent();

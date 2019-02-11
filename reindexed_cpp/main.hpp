@@ -84,7 +84,7 @@ void datahandeler(std::string fin, std::string fout) {
 
       hist->Fill_deltat_vertex(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
 
-      if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
+      if (/*event->W() < 2.70 && event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
           event->Q2() > 0.0) {
         if (charge->at(part) == -1) {
           hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(),
@@ -93,7 +93,7 @@ void datahandeler(std::string fin, std::string fout) {
                                 p->at(part));
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
-          if ((abs(dt->dt_Pi()) < 0.5) ||
+          if ((abs(dt->dt_Pi()) < 0.5) /*||
               (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) /* &&
               (charge->at(part) == -1*/) {
             event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
@@ -106,12 +106,12 @@ void datahandeler(std::string fin, std::string fout) {
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
           //    if (charge->at(part) == 1) {
-          if ((abs(dt->dt_P()) < 0.5) ||
-              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
+          if ((abs(dt->dt_P()) < 0.5) /* ||
+              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)*/) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
-          } else if ((abs(dt->dt_Pi()) < 0.50) ||
+          } else if ((abs(dt->dt_Pi()) < 0.50) /* ||
                      (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7 &&
-                      event->pip_mu_prime().P() < 1.2)) {
+                      event->pip_mu_prime().P() < 1.2)*/) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
           }
         }
@@ -130,9 +130,13 @@ void datahandeler(std::string fin, std::string fout) {
       }
     }
     //  for (int i = 1; i < sector; i++) {
-    //  if (i == sector) {
-    hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
-    //  }
+    //  if (event->p_mu_prime().P() != 0) {
+    if (/*event->W() < 2.70 && event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
+        event->Q2() > 0.0) {
+      hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
+      //  hist->Fill_WvsmmSQ(event->W(), event->MM2(), sector);
+    }
+    //}
     //}
     delete dt;
 
@@ -141,15 +145,22 @@ void datahandeler(std::string fin, std::string fout) {
     if (event->elecProtEvent()) {
       hist->Fill_ep_mm(event->MM(), sector);
       hist->Fill_ep_mmSQ(event->MM2(), sector);
+      hist->Fill_WvsmmSQ_ep(event->W_ep(), event->MM2(), sector);
+
     } else if (event->twoPionEvent()) {
       hist->Fill_2pion_mm(event->MM(), sector);
       hist->Fill_2pion_mmSQ(event->MM2(), sector);
+      hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->MM2(), sector);
+      //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
+
+      // std::cout << "diff " << event->W_2pi() - event->W() << '\n';
     } else if (event->ProtonPimEvent()) {
       hist->Fill_pip_mm(event->MM(), sector);
       hist->Fill_pip_mmSQ(event->MM2(), sector);
     } else if (event->ProtonPipEvent()) {
       hist->Fill_pim_mm(event->MM(), sector);
       hist->Fill_pim_mmSQ(event->MM2(), sector);
+      hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2(), sector);
     }
     event->CalcMissMass_wop();
 

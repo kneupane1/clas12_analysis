@@ -2,6 +2,11 @@
 /*  Created by Nick Tyler*/
 /*	University Of South Carolina*/
 /************************************************************************/
+/*  2019-01-31. plot w and mmSq
+make different hist for
+ctof and ftof
+forwardtagger vs forward detector
+cut at 2 gev and look */
 
 #ifndef HIST_H_GUARD
 #define HIST_H_GUARD
@@ -43,20 +48,28 @@ private:
   static const short mm_events_num = 8; // 0-ep event 1 2pion ...
   std::string mm_events_name[mm_events_num] = {"elastic",
                                                "2pion",
-                                               "e'p'pi-",
+                                               "Neutron",
                                                "e'p'pi+",
                                                "elastic_wop" /*inclusive*/,
                                                "2pi_wop",
-                                               "e'pi-_wop",
+                                               "Neutron_wop",
                                                "e'pi+_wop"};
 
   // Kinematics
+
   TH1D *momentum;
 
   TH2D *W_vs_Q2[sec_num];
   TH1D *W_hist[sec_num];
   TH1D *Q2_hist[sec_num];
   TH1D *MM_hist[mm_num][mm_events_num][sec_num];
+  TH2D *W_vs_mmSQ_ep[sec_num];
+  TH2D *W_vs_mmSQ_2pi[sec_num];
+  TH2D *W_vs_mmSQ_singlepip[sec_num];
+
+  TH1D *W_hist_ep[sec_num];
+  TH1D *W_hist_2pi[sec_num];
+  TH1D *W_hist_singlepip[sec_num];
 
   // TH1D *MM_neutron;
 
@@ -128,6 +141,9 @@ public:
   void makeHists_WvsQ2();
   void makeHists_MM();
   //  void makeHists_Q2();
+  void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_2pi(double W, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number);
 
   void Fill_WvsQ2(double W, double Q2, int sec_number);
   void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number);
