@@ -3,10 +3,10 @@
 /*	University Of South Carolina*/
 /************************************************************************/
 /*  2019-01-31. plot w and mmSq
-make different hist for
-ctof and ftof
-forwardtagger vs forward detector
-cut at 2 gev and look */
+   make different hist for
+   ctof and ftof
+   forwardtagger vs forward detector
+   cut at 2 gev and look */
 
 #ifndef HIST_H_GUARD
 #define HIST_H_GUARD
@@ -46,14 +46,9 @@ private:
   static const short mm_num = 2; // 0 mm 1 mm square
   std::string mm_name[mm_num] = {"mm", "mmSQ"};
   static const short mm_events_num = 8; // 0-ep event 1 2pion ...
-  std::string mm_events_name[mm_events_num] = {"elastic",
-                                               "2pion",
-                                               "Neutron",
-                                               "e'p'pi+",
-                                               "elastic_wop" /*inclusive*/,
-                                               "2pi_wop",
-                                               "Neutron_wop",
-                                               "e'pi+_wop"};
+  std::string mm_events_name[mm_events_num] = {
+      "elastic", "2pion",  "e'p'pim'", "e'p'pip'", "elastic_wop" /*inclusive*/,
+      "2pi_wop", "e'pim'", "e'pi+_wop"};
 
   // Kinematics
 
@@ -69,6 +64,7 @@ private:
 
   TH1D *W_hist_ep[sec_num];
   TH1D *W_hist_2pi[sec_num];
+  TH1D *W_hist_delta_pp[sec_num];
   TH1D *W_hist_singlepip[sec_num];
 
   // TH1D *MM_neutron;
@@ -106,7 +102,6 @@ private:
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
   TH2D *delta_t_ctof_vs_comp;
-  TH1D *ctof_comp;
   TH1D *theta_prot;
 
   // Delta T
@@ -142,7 +137,7 @@ public:
   void makeHists_MM();
   //  void makeHists_Q2();
   void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number);
-  void Fill_WvsmmSQ_2pi(double W, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_2pi(double W, double W_dpp, double mmSQ, int sec_number);
   void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number);
 
   void Fill_WvsQ2(double W, double Q2, int sec_number);
@@ -167,7 +162,6 @@ public:
   void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
 
   void Fill_dt_ctof_comp(int ctof_comp, float dt);
-  void Fill_ctof_comp(int ctof_comp_1);
 
   void Write_deltat();
 

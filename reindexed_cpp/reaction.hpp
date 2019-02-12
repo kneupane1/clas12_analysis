@@ -34,6 +34,7 @@ private:
 
   float _W_ep;
   float _W_2pi;
+  float _W_delta_pp;
   float _W_singlepip;
   float _Q2_2pi;
 
@@ -64,6 +65,7 @@ public:
   float Q2();
   float W_ep();
   float W_2pi();
+  float W_delta_pp();
   float W_singlepip();
   float Q2_2pi();
   bool elecWopEvent();

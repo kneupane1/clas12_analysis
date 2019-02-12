@@ -26,7 +26,7 @@ Histogram::Histogram() {
   theta_prot =
       new TH1D("theta_distribution", "theta_dist-prot", bins, zero, 90);
 
-  ctof_comp = new TH1D("ctof_component", "ctof_component", bins, zero, 55);
+  // ctof_comp = new TH1D("ctof_component", "ctof_component", bins, zero, 55);
 
   delta_t_ctof_vs_comp =
       new TH2D("delta_t_ctof_vs_comp", "delta_t_ctof_vs_comp", 50, zero, 50,
@@ -156,6 +156,17 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
+    hname.append("W_hist_#Delta++");
+    htitle.append("W_hist_#Delta++");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_delta_pp[i] =
+        new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
     hname.append("W_hist_singlepip");
     htitle.append("W_hist_singlepip");
     hname.append("_");
@@ -228,10 +239,12 @@ void Histogram::Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number) {
     W_vs_mmSQ_ep[sec_number]->Fill(W, mmSQ);
   }
 }
-void Histogram::Fill_WvsmmSQ_2pi(double W, double mmSQ, int sec_number) {
+void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double mmSQ,
+                                 int sec_number) {
 
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_hist_2pi[sec_number]->Fill(W);
+    W_hist_delta_pp[sec_number]->Fill(W_dpp);
     W_vs_mmSQ_2pi[sec_number]->Fill(W, mmSQ);
   }
 }
@@ -279,9 +292,7 @@ void Histogram::Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number) {
 void Histogram::Fill_dt_ctof_comp(int ctof_comp, float dt) {
   delta_t_ctof_vs_comp->Fill(ctof_comp, dt);
 }
-void Histogram::Fill_ctof_comp(int ctof_comp_1) {
-  ctof_comp->Fill(ctof_comp_1);
-}
+
 void Histogram::Fill_theta_P(float theta) { theta_prot->Fill(theta); }
 
 void Histogram::Write_WvsQ2() {
@@ -303,6 +314,10 @@ void Histogram::Write_WvsQ2() {
     W_hist_2pi[i]->SetXTitle("W_2pi (GeV)");
     W_hist_2pi[i]->Write();
     delete W_hist_2pi[i];
+
+    W_hist_delta_pp[i]->SetXTitle("W_#Delta++ (GeV)");
+    W_hist_delta_pp[i]->Write();
+    delete W_hist_delta_pp[i];
 
     W_hist_singlepip[i]->SetXTitle("W_singlepip (GeV)");
     W_hist_singlepip[i]->Write();
@@ -370,8 +385,8 @@ void Histogram::Write_WvsQ2() {
   delta_t_ctof_vs_comp->SetOption("COLZ");
   delta_t_ctof_vs_comp->Write();
 
-  ctof_comp->SetXTitle("ctof_comp");
-  ctof_comp->Write();
+  //  ctof_comp->SetXTitle("ctof_comp");
+  // ctof_comp->Write();
   theta_prot->SetXTitle("theta_prot");
   theta_prot->Write();
 
