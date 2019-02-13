@@ -65,6 +65,9 @@ private:
   TH1D *W_hist_ep[sec_num];
   TH1D *W_hist_2pi[sec_num];
   TH1D *W_hist_delta_pp[sec_num];
+  TH1D *W_hist_delta_zero[sec_num];
+  TH1D *W_hist_rho[sec_num];
+
   TH1D *W_hist_singlepip[sec_num];
 
   // TH1D *MM_neutron;
@@ -137,7 +140,8 @@ public:
   void makeHists_MM();
   //  void makeHists_Q2();
   void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number);
-  void Fill_WvsmmSQ_2pi(double W, double W_dpp, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_,
+                        double rho_ double mmSQ, int sec_number);
   void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number);
 
   void Fill_WvsQ2(double W, double Q2, int sec_number);

@@ -29,6 +29,9 @@ Reaction::Reaction() {
   _W_ep = std::nan("-99");
   _W_2pi = std::nan("-99");
   _W_delta_pp = std::nan("-99");
+  _W_delta_zero = std::nan("-99");
+  _W_rho = std::nan("-99");
+
   _W_singlepip = std::nan("-99");
 
   _Q2_2pi = std::nan("-99");
@@ -57,6 +60,9 @@ Reaction::Reaction(TLorentzVector *beam) {
   _W_ep = std::nan("-99");
   _W_2pi = std::nan("-99");
   _W_delta_pp = std::nan("-99");
+  _W_delta_zero = std::nan("-99");
+  _W_rho = std::nan("-99");
+
   _W_singlepip = std::nan("-99");
   _Q2_2pi = std::nan("-99");
 }
@@ -95,6 +101,8 @@ void Reaction::SetPim(float px, float py, float pz, float mass) {
 void Reaction::CalcMissMass() {
   TLorentzVector mm;
   TLorentzVector m_dpp;
+  TLorentzVector m_d0;
+  TLorentzVector m_rho;
   if (elecProtEvent()) {
     mm = (*_beam - *_elec);
     mm += *_target;
@@ -114,8 +122,16 @@ void Reaction::CalcMissMass() {
     //  if (twoPionEvent()) {
     _W_2pi = physics::W_calc(*_beam, *_elec);
     _Q2_2pi = physics::Q2_calc(*_beam, *_elec);
-    m_dpp = (*_prot + *_pip);
+    m_dpp = (*_prot);
+    m_dpp += *_pip;
     _W_delta_pp = m_dpp.M();
+    m_d0 = (*_prot);
+    m_d0 += *_pim;
+    _W_delta_zero = m_d0.M();
+    m_rho = (*_prot);
+    m_rho += *_pim;
+    _W_rho = m_rho.M();
+
     //}
   } else if (ProtonPimEvent()) {
     mm = (*_beam - *_elec);
@@ -181,6 +197,9 @@ float Reaction::Q2() { return _Q2; }
 float Reaction::W_ep() { return _W_ep; }
 float Reaction::W_2pi() { return _W_2pi; }
 float Reaction::W_delta_pp() { return _W_delta_pp; }
+float Reaction::W_delta_zero() { return _W_delta_zero; }
+float Reaction::W_rho() { return _W_rho; }
+
 float Reaction::W_singlepip() { return _W_singlepip; }
 
 float Reaction::Q2_2pi() { return _Q2_2pi; }

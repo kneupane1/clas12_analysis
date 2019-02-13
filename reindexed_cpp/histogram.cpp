@@ -167,6 +167,27 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
+    hname.append("W_hist_#Delta0");
+    htitle.append("W_hist_#Delta0");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_delta_zero[i] =
+        new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("W_hist_#Rho0");
+    htitle.append("W_hist_#Rho0");
+    hname.append("_");
+    htitle.append(" ");
+    hname.append(sec_name[i]);
+    htitle.append(sec_name[i]);
+    W_hist_rho[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, w_max);
+    hname.clear();
+    htitle.clear();
+
     hname.append("W_hist_singlepip");
     htitle.append("W_hist_singlepip");
     hname.append("_");
@@ -239,12 +260,14 @@ void Histogram::Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number) {
     W_vs_mmSQ_ep[sec_number]->Fill(W, mmSQ);
   }
 }
-void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double mmSQ,
-                                 int sec_number) {
+void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_,
+                                 double rho_ double mmSQ, int sec_number) {
 
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_hist_2pi[sec_number]->Fill(W);
     W_hist_delta_pp[sec_number]->Fill(W_dpp);
+    W_hist_delta_zero[sec_number]->Fill(delta_zero);
+    W_hist_rho[sec_number]->Fill(W_rho_);
     W_vs_mmSQ_2pi[sec_number]->Fill(W, mmSQ);
   }
 }
@@ -315,9 +338,17 @@ void Histogram::Write_WvsQ2() {
     W_hist_2pi[i]->Write();
     delete W_hist_2pi[i];
 
-    W_hist_delta_pp[i]->SetXTitle("W_#Delta++ (GeV)");
+    W_hist_delta_pp[i]->SetXTitle("W_Delta++ (GeV)");
     W_hist_delta_pp[i]->Write();
     delete W_hist_delta_pp[i];
+
+    W_hist_delta_zero[i]->SetXTitle("W_Delta_0 (GeV)");
+    W_hist_delta_zero[i]->Write();
+    delete W_hist_delta_zero[i];
+
+    W_hist_rho[i]->SetXTitle("W_rho0 (GeV)");
+    W_hist_rho[i]->Write();
+    delete W_hist_rho[i];
 
     W_hist_singlepip[i]->SetXTitle("W_singlepip (GeV)");
     W_hist_singlepip[i]->Write();
