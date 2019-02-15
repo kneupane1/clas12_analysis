@@ -128,7 +128,7 @@ void Reaction::CalcMissMass() {
     m_d0 = (*_prot);
     m_d0 += *_pim;
     _W_delta_zero = m_d0.M();
-    m_rho = (*_prot);
+    m_rho = (*_pip);
     m_rho += *_pim;
     _W_rho = m_rho.M();
 

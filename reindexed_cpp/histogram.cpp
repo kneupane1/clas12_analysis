@@ -136,8 +136,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_ep");
-    htitle.append("W_hist_ep");
+    hname.append("invariant_mass_ep");
+    htitle.append("invariant_mass_ep");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -146,8 +146,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_2pi");
-    htitle.append("W_hist_2pi");
+    hname.append("invariant_mass_2pi");
+    htitle.append("invariant_mass_2pi");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -156,8 +156,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_#Delta++");
-    htitle.append("W_hist_#Delta++");
+    hname.append("invariant_mass P#pi+");
+    htitle.append("invariant_mass P#pi+");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -167,8 +167,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_#Delta0");
-    htitle.append("W_hist_#Delta0");
+    hname.append("invariant_mass P#pi-");
+    htitle.append("invariant_mass P#pi-");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -178,8 +178,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_#Rho0");
-    htitle.append("W_hist_#Rho0");
+    hname.append("invariant_mass #pi+#pi-");
+    htitle.append("invariant_mass #pi+#pi-");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -188,8 +188,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_hist_singlepip");
-    htitle.append("W_hist_singlepip");
+    hname.append("invariant_mass N#pi+ ");
+    htitle.append("invariant_mass N#pi+");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);
@@ -261,13 +261,13 @@ void Histogram::Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number) {
   }
 }
 void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_,
-                                 double rho_ double mmSQ, int sec_number) {
+                                 double rho_, double mmSQ, int sec_number) {
 
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_hist_2pi[sec_number]->Fill(W);
     W_hist_delta_pp[sec_number]->Fill(W_dpp);
-    W_hist_delta_zero[sec_number]->Fill(delta_zero);
-    W_hist_rho[sec_number]->Fill(W_rho_);
+    W_hist_delta_zero[sec_number]->Fill(delta_zero_);
+    W_hist_rho[sec_number]->Fill(rho_);
     W_vs_mmSQ_2pi[sec_number]->Fill(W, mmSQ);
   }
 }
@@ -338,19 +338,19 @@ void Histogram::Write_WvsQ2() {
     W_hist_2pi[i]->Write();
     delete W_hist_2pi[i];
 
-    W_hist_delta_pp[i]->SetXTitle("W_Delta++ (GeV)");
+    W_hist_delta_pp[i]->SetXTitle("W (GeV)");
     W_hist_delta_pp[i]->Write();
     delete W_hist_delta_pp[i];
 
-    W_hist_delta_zero[i]->SetXTitle("W_Delta_0 (GeV)");
+    W_hist_delta_zero[i]->SetXTitle("W (GeV)");
     W_hist_delta_zero[i]->Write();
     delete W_hist_delta_zero[i];
 
-    W_hist_rho[i]->SetXTitle("W_rho0 (GeV)");
+    W_hist_rho[i]->SetXTitle("W (GeV)");
     W_hist_rho[i]->Write();
     delete W_hist_rho[i];
 
-    W_hist_singlepip[i]->SetXTitle("W_singlepip (GeV)");
+    W_hist_singlepip[i]->SetXTitle("W (GeV)");
     W_hist_singlepip[i]->Write();
     delete W_hist_singlepip[i];
 
