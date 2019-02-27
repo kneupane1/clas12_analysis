@@ -43,11 +43,20 @@ void datahandeler(std::string fin, std::string fout) {
   int num_pip = 0;
   bool good_e = true;
   int sector;
+  float cc_tot;
+  float cc_ltcc;
+  float cc_htcc;
+  float cc_tot_pim;
+  float cc_ltcc_pim;
+  float cc_htcc_pim;
+  float cc_tot_pip;
+  float cc_ltcc_pip;
+  float cc_htcc_pip;
   Histogram *hist = new Histogram();
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     chain->GetEntry(current_event);
-    if (pid->size() == 0 || pid->at(0) != ELECTRON)
+    if (pid->size() == 0 || /*pid->at(0) != ELECTRON*/ charge->at(0) >= 0)
       continue;
 
     per = ((double)current_event / (double)num_of_events);
@@ -63,12 +72,30 @@ void datahandeler(std::string fin, std::string fout) {
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0),
                               sc_ftof_1a_time->at(0), sc_ftof_1a_path->at(0),
                               sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
+    if (pid->at(0) == ELECTRON) {
+      cc_tot = cc_nphe_tot->at(0);
+      if (cc_tot >= 0) {
+        hist->Fill_hist_cc_tot(cc_tot);
+      }
+      cc_ltcc = cc_ltcc_nphe->at(0);
+      if (cc_ltcc >= 0) {
+
+        hist->Fill_hist_cc_ltcc(cc_ltcc);
+        // std::cout << cc_tot << "    " << cc_ltcc << '\n';
+      }
+      cc_htcc = cc_htcc_nphe->at(0);
+      if (cc_htcc >= 0) {
+        hist->Fill_hist_cc_htcc(cc_htcc);
+      }
+    }
 
     for (int part = 1; part < pid->size(); part++) {
+
       if (beta->at(part) < 0.02 || p->at(part) < 0.02)
         continue;
-      if (dc_sec->at(0) < 7)
+      if (dc_sec->at(0) < 7) {
         sector = dc_sec->at(0) - 1;
+      }
 
       dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part),
                   sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
@@ -97,6 +124,20 @@ void datahandeler(std::string fin, std::string fout) {
               (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) /* &&
                                                                                                                         (charge->at(part) == -1*/) {
             event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
+            if (pid->at(part) == PIM) {
+              cc_tot_pim = cc_nphe_tot->at(part);
+              if (cc_tot_pim >= 0) {
+                hist->Fill_hist_cc_tot_pim(cc_tot_pim);
+              }
+              cc_ltcc_pim = cc_ltcc_nphe->at(part);
+              if (cc_ltcc_pim >= 0) {
+                hist->Fill_hist_cc_ltcc_pim(cc_ltcc_pim);
+              }
+              cc_htcc_pim = cc_htcc_nphe->at(part);
+              if (cc_htcc_pim >= 0) {
+                hist->Fill_hist_cc_htcc_pim(cc_htcc_pim);
+              }
+            }
           }
         } else if (charge->at(part) == 1) {
           hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(),
@@ -113,22 +154,40 @@ void datahandeler(std::string fin, std::string fout) {
                      (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7 &&
                       event->pip_mu_prime().P() < 1.2)*/) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
+            // if (pid->at(part) == 2212 && charge->at(part) > 0) {
+            if (pid->at(part) == PIP) {
+              cc_tot_pip = cc_nphe_tot->at(part);
+              if (cc_tot_pip >= 0) {
+                hist->Fill_hist_cc_tot_pip(cc_tot_pip);
+              }
+              cc_ltcc_pip = cc_ltcc_nphe->at(part);
+              if (cc_ltcc_pip >= 0) {
+                hist->Fill_hist_cc_ltcc_pip(cc_ltcc_pip);
+              }
+              cc_htcc_pip = cc_htcc_nphe->at(part);
+              if (cc_htcc_pip >= 0) {
+                hist->Fill_hist_cc_htcc_pip(cc_htcc_pip);
+              }
+            }
           }
         }
-        //  }
-        if (event->p_mu_prime().Theta() != 0)
-          hist->Fill_theta_P(event->p_mu_prime().Theta() * (180 / 3.14));
+      }
 
-        dt->dt_calc_1(p->at(part), sc_ctof_time->at(part),
-                      sc_ctof_path->at(part));
-        if (sc_ctof_component->at(part) > 0) {
-          //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
-          //  << sc_ctof_component->at(part) << '\n';
+      if (event->p_mu_prime().Theta() != 0)
+        hist->Fill_theta_P(event->p_mu_prime().Theta() * (180 / 3.14));
 
-          hist->Fill_dt_ctof_comp(sc_ctof_component->at(part), dt->dt_ctof_P());
-        }
+      dt->dt_calc_1(p->at(part), sc_ctof_time->at(part),
+                    sc_ctof_path->at(part));
+      if (sc_ctof_component->at(part) > 0) {
+        //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
+        //  << sc_ctof_component->at(part) << '\n';
+
+        hist->Fill_dt_ctof_comp(sc_ctof_component->at(part), dt->dt_ctof_P());
       }
     }
+    //  }
+    //  std::cout << cc_tot << "    vs   " << cc_tot_pi << '\n';
+
     //  for (int i = 1; i < sector; i++) {
     // if (event->p_mu_prime().P() != 0) {
 
@@ -158,6 +217,7 @@ void datahandeler(std::string fin, std::string fout) {
     } else if (event->ProtonPimEvent()) {
       hist->Fill_pip_mm(event->MM(), sector);
       hist->Fill_pip_mmSQ(event->MM2(), sector);
+
     } else if (event->ProtonPipEvent()) {
       hist->Fill_pim_mm(event->MM(), sector);
       hist->Fill_pim_mmSQ(event->MM2(), sector);
@@ -186,7 +246,11 @@ void datahandeler(std::string fin, std::string fout) {
   }
 
   out->cd();
+  TDirectory *CC_EC = out->mkdir("ccEc");
+  CC_EC->cd();
   hist->Write_EC();
+  hist->Write_hist_cc();
+
   TDirectory *MM = out->mkdir("missingMass");
   MM->cd();
   hist->Write_MM_hist();

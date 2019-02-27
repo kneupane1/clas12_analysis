@@ -26,7 +26,7 @@ Histogram::Histogram() {
   theta_prot =
       new TH1D("theta_distribution", "theta_dist-prot", bins, zero, 90);
 
-  // ctof_comp = new TH1D("ctof_component", "ctof_component", bins, zero, 55);
+  ctof_comp = new TH1D("ctof_component", "ctof_component", bins, zero, 65);
 
   delta_t_ctof_vs_comp =
       new TH2D("delta_t_ctof_vs_comp", "delta_t_ctof_vs_comp", 50, zero, 50,
@@ -72,6 +72,7 @@ Histogram::Histogram() {
   makeHists_MomVsBeta();
   makeHists_WvsQ2();
   makeHists_MM();
+  Make_hist_cc();
 }
 
 Histogram::~Histogram() {}
@@ -311,6 +312,77 @@ void Histogram::Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number) {
     Q2_hist_upper_singlePi->Fill(Q2);
    }
  */
+void Histogram::Make_hist_cc() {
+  for (int i = 0; i < cc_num; i++) {
+    hname.append("cc_total_");
+    htitle.append("cc_total_");
+    hname.append(cc_name[i]);
+    htitle.append(cc_name[i]);
+    cherenkov_total[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, 0, 60);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("cc_ltcc_");
+    htitle.append("cc_ltcc_");
+    hname.append(cc_name[i]);
+    htitle.append(cc_name[i]);
+    cherenkov_ltcc[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, 0, 20);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("cc_htcc_");
+    htitle.append("cc_htcc_");
+    hname.append(cc_name[i]);
+    htitle.append(cc_name[i]);
+    cherenkov_htcc[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, 0, 60);
+    hname.clear();
+    htitle.clear();
+  }
+}
+void Histogram::Fill_hist_cc_tot(float tot_el) {
+  cherenkov_total[0]->Fill(tot_el);
+}
+void Histogram::Fill_hist_cc_ltcc(float ltcc_el) {
+  cherenkov_ltcc[0]->Fill(ltcc_el);
+}
+void Histogram::Fill_hist_cc_htcc(float htcc_el) {
+  cherenkov_htcc[0]->Fill(htcc_el);
+}
+void Histogram::Fill_hist_cc_tot_pim(float tot_pim) {
+  cherenkov_total[1]->Fill(tot_pim);
+}
+void Histogram::Fill_hist_cc_ltcc_pim(float ltcc_pim) {
+  cherenkov_ltcc[1]->Fill(ltcc_pim);
+}
+void Histogram::Fill_hist_cc_htcc_pim(float htcc_pim) {
+  cherenkov_htcc[1]->Fill(htcc_pim);
+}
+void Histogram::Fill_hist_cc_tot_pip(float tot_pip) {
+  cherenkov_total[2]->Fill(tot_pip);
+}
+void Histogram::Fill_hist_cc_ltcc_pip(float ltcc_pip) {
+  cherenkov_ltcc[2]->Fill(ltcc_pip);
+}
+void Histogram::Fill_hist_cc_htcc_pip(float htcc_pip) {
+  cherenkov_htcc[2]->Fill(htcc_pip);
+}
+//  } else if (cc_num == 1) {
+
+void Histogram::Write_hist_cc() {
+  for (int i = 0; i < cc_num; i++) {
+    cherenkov_total[i]->SetXTitle("cc total");
+    cherenkov_total[i]->Write();
+    delete cherenkov_total[i];
+
+    cherenkov_ltcc[i]->SetXTitle("cc ltcc");
+    cherenkov_ltcc[i]->Write();
+    delete cherenkov_ltcc[i];
+
+    cherenkov_htcc[i]->SetXTitle("cc htcc");
+    cherenkov_htcc[i]->Write();
+    delete cherenkov_htcc[i];
+  }
+}
 
 void Histogram::Fill_dt_ctof_comp(int ctof_comp, float dt) {
   delta_t_ctof_vs_comp->Fill(ctof_comp, dt);
@@ -416,8 +488,8 @@ void Histogram::Write_WvsQ2() {
   delta_t_ctof_vs_comp->SetOption("COLZ");
   delta_t_ctof_vs_comp->Write();
 
-  //  ctof_comp->SetXTitle("ctof_comp");
-  // ctof_comp->Write();
+  ctof_comp->SetXTitle("ctof_comp");
+  ctof_comp->Write();
   theta_prot->SetXTitle("theta_prot");
   theta_prot->Write();
 
@@ -859,4 +931,5 @@ void Histogram::Write_EC() {
   EC_sampling_fraction->SetYTitle("Sampling Fraction");
   EC_sampling_fraction->SetOption("COLZ");
   EC_sampling_fraction->Write();
+  delete EC_sampling_fraction;
 }

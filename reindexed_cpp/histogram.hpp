@@ -50,9 +50,15 @@ private:
       "elastic", "2pion",  "e'p'pim'", "e'p'pip'", "elastic_wop" /*inclusive*/,
       "2pi_wop", "e'pim'", "e'pi+_wop"};
 
+  static const short cc_num = 3; // 0-without 1-with 2-anti
+  std::string cc_name[cc_num] = {"ele", " pi-",
+                                 "pi+" /*"total", "htcc", "ltcc"*/};
   // Kinematics
 
   TH1D *momentum;
+  TH1D *cherenkov_total[cc_num];
+  TH1D *cherenkov_ltcc[cc_num];
+  TH1D *cherenkov_htcc[cc_num];
 
   TH2D *W_vs_Q2[sec_num];
   TH1D *W_hist[sec_num];
@@ -105,6 +111,8 @@ private:
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
   TH2D *delta_t_ctof_vs_comp;
+  TH1D *ctof_comp;
+
   TH1D *theta_prot;
 
   // Delta T
@@ -153,6 +161,19 @@ public:
   // P and E
   void makeHists_MomVsBeta();
   void Fill_momentum(double P);
+
+  void Make_hist_cc();
+  void Fill_hist_cc_tot(float tot_el /*, float ltcc_el, float htcc_el*/);
+  void Fill_hist_cc_ltcc(/*float tot_el, */ float ltcc_el /*, float htcc_el*/);
+  void Fill_hist_cc_htcc(/*float tot_el, float ltcc_el, */ float htcc_el);
+  void Fill_hist_cc_tot_pim(float tot_pim);
+  void Fill_hist_cc_ltcc_pim(float ltcc_pim /*, float htcc_el*/);
+  void Fill_hist_cc_htcc_pim(float htcc_pim);
+  void Fill_hist_cc_tot_pip(float tot_pip);
+  void Fill_hist_cc_ltcc_pip(float ltcc_pip /*, float htcc_el*/);
+  void Fill_hist_cc_htcc_pip(float htcc_pip);
+  void Write_hist_cc();
+
   void Fill_MomVsBeta_vertex(int pid, int charge, double P, double beta);
   void Fill_MomVsBeta(int pid, int charge, double P, double beta);
   void Write_MomVsBeta();
