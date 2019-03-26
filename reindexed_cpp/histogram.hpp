@@ -114,6 +114,12 @@ private:
   TH1D *ctof_comp;
 
   TH1D *theta_prot;
+  TH1D *theta_pip;
+  TH1D *theta_pim;
+
+  TH1D *Phi_prot;
+  TH1D *Phi_pip;
+  TH1D *Phi_pim;
 
   // Delta T
 
@@ -156,8 +162,8 @@ public:
   void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number);
   void Write_WvsQ2();
   void Write_MM_hist();
-  void Fill_theta_P(float theta);
-
+  void Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_);
+  void Fill_Phi_cm(float Phi_p, float Phi_pip_, float Phi_pim_);
   // P and E
   void makeHists_MomVsBeta();
   void Fill_momentum(double P);

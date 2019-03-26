@@ -52,6 +52,8 @@ void datahandeler(std::string fin, std::string fout) {
   float cc_tot_pip;
   float cc_ltcc_pip;
   float cc_htcc_pip;
+  int n = 0;
+
   Histogram *hist = new Histogram();
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
@@ -172,9 +174,11 @@ void datahandeler(std::string fin, std::string fout) {
           }
         }
       }
-
-      if (event->p_mu_prime().Theta() != 0)
-        hist->Fill_theta_P(event->p_mu_prime().Theta() * (180 / 3.14));
+      // if (event->pim_mu_prime_cm().Theta() > 0) {
+      //   std::cout << "p_theta " << event->pim_mu_prime_cm().Theta() * (180 /
+      //   PI)
+      //             << '\n';
+      // }
 
       dt->dt_calc_1(p->at(part), sc_ctof_time->at(part),
                     sc_ctof_path->at(part));
@@ -185,19 +189,40 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_dt_ctof_comp(sc_ctof_component->at(part), dt->dt_ctof_P());
       }
     }
-    //  }
-    //  std::cout << cc_tot << "    vs   " << cc_tot_pi << '\n';
+
+    // if (event->twoPionEvent()) {
 
     //  for (int i = 1; i < sector; i++) {
     // if (event->p_mu_prime().P() != 0) {
-
     hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
     //}
     //}
     delete dt;
-
     event->CalcMissMass();
+    event->AlphaCalc();
+    if (event->twoPionEvent()) {
+      if (event->p_mu_prime_cm().Theta() > 0) {
+        hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI),
+                           event->pip_mu_prime_cm().Theta() * (180 / PI),
+                           event->pim_mu_prime_cm().Theta() * (180 / PI));
+      }
 
+      hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI),
+                        event->pip_mu_prime_cm().Phi() * (180 / PI),
+                        event->pim_mu_prime_cm().Phi() * (180 / PI));
+
+      //{
+      // std::cout << "electron " << event->q_cm().M() << '\n';
+
+      n += 1;
+      std::cout
+          << "  pip_pim_alpha_cm  " << event->alpha_ppip_pipim()
+          //<< "  pip_theta_cm  "
+          //<< event->pip_mu_prime_cm().Theta() * (180 / PI)
+          //<< "   pim_theta_cm  "
+          //  << event->pim_mu_prime_cm().Theta() * (180 / PI) << "  " << n
+          << '\n';
+    }
     if (event->elecProtEvent()) {
       hist->Fill_ep_mm(event->MM(), sector);
       hist->Fill_ep_mmSQ(event->MM2(), sector);
@@ -207,10 +232,11 @@ void datahandeler(std::string fin, std::string fout) {
     } else if (event->twoPionEvent()) {
       hist->Fill_2pion_mm(event->MM(), sector);
       hist->Fill_2pion_mmSQ(event->MM2(), sector);
-      if (event->MM2() < 0.1 && event->MM2() > -0.1)
+      if (event->MM2() < 0.1 && event->MM2() > -0.1) {
         hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
                                event->W_delta_zero(), event->W_rho(),
                                event->MM2(), sector);
+      }
       //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
 
       // std::cout << "diff " << event->W_2pi() - event->W() << '\n';

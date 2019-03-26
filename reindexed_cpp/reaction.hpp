@@ -19,6 +19,11 @@ private:
   TLorentzVector *_pip;
   TLorentzVector *_pim;
 
+  TLorentzVector *_q_cm;
+  TLorentzVector *_p_mu_prime_cm;
+  TLorentzVector *_pip_mu_prime_cm;
+  TLorentzVector *_pim_mu_prime_cm;
+
   bool _hasE;
   bool _hasP;
   bool _hasPip;
@@ -40,6 +45,20 @@ private:
 
   float _W_singlepip;
   float _Q2_2pi;
+  float _beta;
+  float _gamma;
+
+  float _theta_gamma = std::nan("-99");
+  float _phi_gamma = std::nan("-99");
+  float _theta_prot = std::nan("-99");
+  float _phi_prot = std::nan("-99");
+  float _theta_pip = std::nan("-99");
+  float _phi_pip = std::nan("-99");
+  float _theta_pim = std::nan("-99");
+  float _phi_pim = std::nan("-99");
+  float _alpha_ppip_pipim = std::nan("-99");
+  float _alpha_pippim_pipf = std::nan("-99");
+  float _alpha_ppim_pipip = std::nan("-99");
 
 public:
   Reaction();
@@ -56,16 +75,31 @@ public:
   TLorentzVector pim_mu_prime();
   //  TLorentzVector kp_mu_prime();
   // TLorentzVector km_mu_prime();
+  // TLorentzVector q_cm(); // maile thapeko
+  float q_3_();
+  TLorentzVector p_mu_prime_cm();
+  TLorentzVector pip_mu_prime_cm();
+  TLorentzVector pim_mu_prime_cm();
+  double theta_();
 
+  //  void boost_fn(/*TLorentzVector four_vect, TLorentzVector e_mu,
+  // TLorentzVector e_mu_prime);
   void CalcMissMass();
   void CalcMissMass_wop();
 
+  void AlphaCalc();
   float MM();
   float MM2();
   float MM_wop();
   float MM2_wop();
   float W();
   float Q2();
+
+  float alpha_ppip_pipim();
+
+  float beta();
+  float gamma_();
+
   float W_ep();
   float W_2pi();
   float W_delta_pp();

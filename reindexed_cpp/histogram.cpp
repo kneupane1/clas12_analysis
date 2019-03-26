@@ -24,7 +24,14 @@ Histogram::Histogram() {
   // MM_neutron =
   //     new TH1D("missMassNEutron", "missMassNeutron", bins, zero, p_max);
   theta_prot =
-      new TH1D("theta_distribution", "theta_dist-prot", bins, zero, 90);
+      new TH1D("theta_prot_dist_cm", "theta_dist-prot_cm", bins, zero, 180);
+  theta_pip =
+      new TH1D("theta_pip_dist_cm", "theta_dist-pip_cm", bins, zero, 180);
+  theta_pim =
+      new TH1D("theta_pim_dist_cm", "theta_dist-pim_cm", bins, zero, 180);
+  Phi_prot = new TH1D("Phi_prot_dist_cm", "Phi_dist-prot_cm", bins, -180, 180);
+  Phi_pip = new TH1D("Phi_pip_dist_cm", "Phi_dist-pip_cm", bins, -180, 180);
+  Phi_pim = new TH1D("Phi_pim_dist_cm", "Phi_dist-pim_cm", bins, -180, 180);
 
   ctof_comp = new TH1D("ctof_component", "ctof_component", bins, zero, 65);
 
@@ -388,7 +395,17 @@ void Histogram::Fill_dt_ctof_comp(int ctof_comp, float dt) {
   delta_t_ctof_vs_comp->Fill(ctof_comp, dt);
 }
 
-void Histogram::Fill_theta_P(float theta) { theta_prot->Fill(theta); }
+void Histogram::Fill_theta_P(float theta_p, float theta_pip_,
+                             float theta_pim_) {
+  theta_prot->Fill(theta_p);
+  theta_pip->Fill(theta_pip_);
+  theta_pim->Fill(theta_pim_);
+}
+void Histogram::Fill_Phi_cm(float Phi_p, float Phi_pip_, float Phi_pim_) {
+  Phi_prot->Fill(Phi_p);
+  Phi_pip->Fill(Phi_pip_);
+  Phi_pim->Fill(Phi_pim_);
+}
 
 void Histogram::Write_WvsQ2() {
   for (int i = 0; i < sec_num; i++) {
@@ -490,9 +507,19 @@ void Histogram::Write_WvsQ2() {
 
   ctof_comp->SetXTitle("ctof_comp");
   ctof_comp->Write();
-  theta_prot->SetXTitle("theta_prot");
+  theta_prot->SetXTitle("theta_prot_cm");
   theta_prot->Write();
+  theta_pip->SetXTitle("theta_pip_cm");
+  theta_pip->Write();
+  theta_pim->SetXTitle("theta_pim_cm");
+  theta_pim->Write();
 
+  Phi_prot->SetXTitle("Phi_prot_cm");
+  Phi_prot->Write();
+  Phi_pip->SetXTitle("Phi_pip_cm");
+  Phi_pip->Write();
+  Phi_pim->SetXTitle("Phi_pim_cm");
+  Phi_pim->Write();
   /*
      W_vs_q2_lower_singlePi->SetXTitle("W (GeV)");
      W_vs_q2_lower_singlePi->SetYTitle("Q^{2} (GeV^{2})");

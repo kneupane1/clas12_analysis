@@ -34,17 +34,54 @@ double xb_calc(TLorentzVector e_mu, TLorentzVector e_mu_prime) {
   TLorentzVector target(0, 0, 0, MASS_P);
   return (Q2 / (2 * (q.Dot(target))));
 }
-// double vertex_time_ctof(double sc_time, double sc_pathlength,
-//                         double relatavistic_beta) {
-//   return sc_time - sc_pathlength / (relatavistic_beta * c_special_units);
-// }
-//
-// double deltat_ctof(double electron_vertex_time, double mass, double momentum,
-//                    double sc_t, double sc_r) {
-//   double relatavistic_beta =
-//       1.0 / sqrt(1.0 + (mass / momentum) * (mass / momentum));
-//   return electron_vertex_time - vertex_time_ctof(sc_t, sc_r,
-//   relatavistic_beta);
+
+float_t beta_boost(TLorentzVector e_mu, TLorentzVector e_mu_prime) {
+  TLorentzVector q = e_mu - e_mu_prime;
+  return ((sqrt(q[3] * q[3] + Q2_calc(e_mu, e_mu_prime))) / (q[3] + MASS_P));
+}
+double gamma(TLorentzVector e_mu, TLorentzVector e_mu_prime) {
+  double b = beta_boost(e_mu, e_mu_prime);
+  return sqrt(1 / (b * b));
+}
+float q_3(TLorentzVector e_mu, TLorentzVector e_mu_prime) {
+  TLorentzVector q = e_mu - e_mu_prime;
+  return Q2_calc(e_mu, e_mu_prime);
+}
+
+TLorentzVector boost_(TLorentzVector four_vect, TLorentzVector e_mu,
+                      TLorentzVector e_mu_prime) {
+  TRotation rot;
+  TLorentzVector q = e_mu - e_mu_prime;
+  //  double beta = sqrt((q[3] * q[3] + Q2_calc(e_mu, e_mu_prime)) /
+  //                   (q[3] + MASS_P)); // q[3] = q.Vect().Mag()
+  float_t beta_1 = beta_boost(e_mu, e_mu_prime);
+  TVector3 uz = q.Vect().Unit(); // uit vector along virtual photon
+  TVector3 ux = (e_mu.Vect().Cross(e_mu_prime.Vect()))
+                    .Unit(); // unit vector along e cross e'
+  ux.Rotate(3. * PI / 2,
+            uz); // rotating ux by 3pi/2 with uz as axis of roration
+  rot.SetZAxis(uz, ux).Invert(); // setting TRotation rot
+  four_vect.Transform(rot);
+  four_vect.Boost(0, 0, -beta_1); // -beta ko value (0.5 to -0.5 huda samma
+                                  // value aauchha nattra aaudyna)
+  // four_vect.Boost(-(e_mu + target).BoostVector());
+  return four_vect;
+}
+
+double theta_fn(TLorentzVector four_vect, TLorentzVector e_mu,
+                TLorentzVector e_mu_prime) {
+  TLorentzVector q = e_mu - e_mu_prime;
+  return acos((q.Vect().Dot(four_vect.Vect())) /
+              (q.Vect().Mag() * (four_vect.Vect()).Mag()));
+}
+// TLorentzVector P_eCM(TLorentzVector e_mu) {
+//   // double Energy_eCM = gamma* ( e_mu.E() -
+//   // (beta_boost+e_mu_3).Mag()*c_special_units;
+//   TVector3 P_e_CM_3 =
+//       gamma * (e_mu_3 - beta_boost * e_mu.E() * c_special_units);
+//   TLorentzVector e_mu_cm;
+//   e_mu_cm.SetVectM(P_e_CM_3, Energy_eCM);
+//   return e_mu_cm;
 // }
 }
 // namespace physics
