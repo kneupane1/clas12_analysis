@@ -104,7 +104,6 @@ void datahandeler(std::string fin, std::string fout) {
                   sc_ftof_1a_path->at(part), sc_ftof_2_time->at(part),
                   sc_ftof_2_path->at(part), sc_ctof_time->at(part),
                   sc_ctof_path->at(part));
-
       hist->Fill_MomVsBeta_vertex(pid->at(part), charge->at(part), p->at(part),
                                   beta->at(part));
 
@@ -214,14 +213,14 @@ void datahandeler(std::string fin, std::string fout) {
       //{
       // std::cout << "electron " << event->q_cm().M() << '\n';
 
-      n += 1;
-      std::cout
-          << "  pip_pim_alpha_cm  " << event->alpha_ppip_pipim()
-          //<< "  pip_theta_cm  "
-          //<< event->pip_mu_prime_cm().Theta() * (180 / PI)
-          //<< "   pim_theta_cm  "
-          //  << event->pim_mu_prime_cm().Theta() * (180 / PI) << "  " << n
-          << '\n';
+      // n += 1;
+      // std::cout
+      //    << "  pip_pim_alpha_cm  " << event->alpha_ppip_pipim()
+      //<< "  pip_theta_cm  "
+      //<< event->pip_mu_prime_cm().Theta() * (180 / PI)
+      //<< "   pim_theta_cm  "
+      //  << event->pim_mu_prime_cm().Theta() * (180 / PI) << "  " << n
+      //  << '\n';
     }
     if (event->elecProtEvent()) {
       hist->Fill_ep_mm(event->MM(), sector);
