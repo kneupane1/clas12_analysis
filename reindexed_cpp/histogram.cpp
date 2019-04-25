@@ -217,39 +217,52 @@ void Histogram::makeHists_WvsQ2() {
     Q2_hist[i] = new TH1D(hname.c_str(), htitle.c_str(), bins, p_min, q2_max);
     hname.clear();
     htitle.clear();
-
-    hname.append("Wvs_mmSQ_ep");
-    htitle.append("Wvs_mmSQ_ep");
-    hname.append("_");
-    htitle.append(" ");
-    hname.append(sec_name[i]);
-    htitle.append(sec_name[i]);
-    W_vs_mmSQ_ep[i] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
-                               w_max, bins, -4, 4);
-    hname.clear();
-    htitle.clear();
-    hname.append("Wvs_mmSQ_2pi");
-    htitle.append("Wvs_mmSQ_2pi");
-    hname.append("_");
-    htitle.append(" ");
-    hname.append(sec_name[i]);
-    htitle.append(sec_name[i]);
-    W_vs_mmSQ_2pi[i] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
-                                w_max, bins, -5, 5);
-    hname.clear();
-    htitle.clear();
-    hname.clear();
-    htitle.clear();
-    hname.append("Wvs_mmSQ_singlepip");
-    htitle.append("Wvs_mmSQ_singlepip");
-    hname.append("_");
-    htitle.append(" ");
-    hname.append(sec_name[i]);
-    htitle.append(sec_name[i]);
-    W_vs_mmSQ_singlepip[i] = new TH2D(hname.c_str(), htitle.c_str(), bins,
-                                      p_min, w_max, bins, -5, 5);
-    hname.clear();
-    htitle.clear();
+    for (int j = 0; j < cut_y_n; j++) {
+      hname.append("Wvs_mmSQ_ep");
+      htitle.append("Wvs_mmSQ_ep");
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(sec_name[i]);
+      htitle.append(sec_name[i]);
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(cut_name[j]);
+      htitle.append(cut_name[j]);
+      W_vs_mmSQ_ep[i][j] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
+                                    w_max, bins, -4, 4);
+      hname.clear();
+      htitle.clear();
+      hname.append("Wvs_mmSQ_2pi");
+      htitle.append("Wvs_mmSQ_2pi");
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(sec_name[i]);
+      htitle.append(sec_name[i]);
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(cut_name[j]);
+      htitle.append(cut_name[j]);
+      W_vs_mmSQ_2pi[i][j] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min,
+                                     w_max, bins, -5, 5);
+      hname.clear();
+      htitle.clear();
+      hname.clear();
+      htitle.clear();
+      hname.append("Wvs_mmSQ_singlepip");
+      htitle.append("Wvs_mmSQ_singlepip");
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(sec_name[i]);
+      htitle.append(sec_name[i]);
+      hname.append("_");
+      htitle.append(" ");
+      hname.append(cut_name[j]);
+      htitle.append(cut_name[j]);
+      W_vs_mmSQ_singlepip[i][j] = new TH2D(hname.c_str(), htitle.c_str(), bins,
+                                           p_min, w_max, bins, -5, 5);
+      hname.clear();
+      htitle.clear();
+    }
   }
 }
 
@@ -292,13 +305,15 @@ void Histogram::Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number) {
     W_vs_mmSQ_ep[sec_number][1]->Fill(W, mmSQ);
   }
 }
-void Histogram::Fill_WvsmmSQ_anti_2pi(double W, double mmSQ, int sec_number) {
+void Histogram::Fill_WvsmmSQ_anti_2pi(double W, double W_dpp,
+                                      double delta_zero_, double rho_,
+                                      double mmSQ, int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_vs_mmSQ_2pi[sec_number][1]->Fill(W, mmSQ);
   }
 }
-void Histogram::Fill_WvsmmSQ_anti_singlepip(double W,
-                                            double mmSQ int sec_number) {
+void Histogram::Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ,
+                                            int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_vs_mmSQ_singlepip[sec_number][1]->Fill(W, mmSQ);
   }

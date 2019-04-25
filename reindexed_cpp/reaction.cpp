@@ -141,6 +141,7 @@ void Reaction::SetProton(float px, float py, float pz, float mass) {
   _prot->SetXYZM(px, py, pz, mass);
 }
 void Reaction::SetPip(float px, float py, float pz, float mass) {
+  std::cout << "pip" << 1pion << '\n';
   _hasPip = true;
   _pip->SetXYZM(px, py, pz, mass);
 }
