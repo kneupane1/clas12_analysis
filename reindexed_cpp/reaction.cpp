@@ -422,22 +422,26 @@ float Reaction::Q2_2pi() { return _Q2_2pi; }
 bool Reaction::elecProtEvent() {
   return (_hasE && _hasP && !_hasPip && !_hasPim);
 }
-bool Reaction::twoPionEvent() { return (_hasE && _hasP && _hasPip && _hasPim); }
+bool Reaction::twoPionEvent() {
+  return (_hasE && _hasP && _hasPip && _hasPim && !(_hasPip && _hasPip) &&
+          !(_hasPim && _hasPim));
+}
 bool Reaction::ProtonPimEvent() {
-  return (_hasE && _hasP && _hasPim && !_hasPip);
+  return (_hasE && _hasP && _hasPim && !_hasPip && !(_hasPim && _hasPim));
 }
 bool Reaction::ProtonPipEvent() {
-  return (_hasE && _hasP && _hasPip && !_hasPim);
+  return (_hasE && _hasP && _hasPip && !_hasPim && !(_hasPip && _hasPip));
 }
 bool Reaction::elecWopEvent() {
   return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim);
 }
 bool Reaction::twoPionWopEvent() {
-  return (_hasE /*&& _hasP*/ && _hasPip && _hasPim);
+  return (_hasE /*&& _hasP*/ && _hasPip && _hasPim && !(_hasPip && _hasPip) &&
+          !(_hasPim && _hasPim));
 }
 bool Reaction::WopPimEvent() {
-  return (_hasE /*&& _hasP*/ && _hasPim && !_hasPip);
+  return (_hasE /*&& _hasP*/ && _hasPim && !_hasPip && !(_hasPim && _hasPim));
 }
 bool Reaction::WopPipEvent() {
-  return (_hasE /*&& _hasP*/ && _hasPip && !_hasPim);
+  return (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !(_hasPip && _hasPip));
 }

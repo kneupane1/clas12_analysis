@@ -121,7 +121,7 @@ void datahandeler(std::string fin, std::string fout) {
                                 p->at(part));
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
-          if ((abs(dt->dt_Pi()) < 0.5) /*||
+          if ((abs(dt->dt_Pi()) < 0.5) ||
               (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) /* &&
                                                                                                                         (charge->at(part) == -1*/) {
             event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
@@ -148,12 +148,12 @@ void datahandeler(std::string fin, std::string fout) {
           hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
                                p->at(part));
           //    if (charge->at(part) == 1) {
-          if ((abs(dt->dt_P()) < 0.5) /*||
-              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)*/) {
+          if ((abs(dt->dt_P()) < 0.5) ||
+              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
-          } else if ((abs(dt->dt_Pi()) < 0.50) /*||
+          } else if ((abs(dt->dt_Pi()) < 0.50) ||
                      (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7 &&
-                      event->pip_mu_prime().P() < 1.2)*/) {
+                      event->pip_mu_prime().P() < 1.2)) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
             // if (pid->at(part) == 2212 && charge->at(part) > 0) {
             if (pid->at(part) == PIP) {
@@ -197,79 +197,90 @@ void datahandeler(std::string fin, std::string fout) {
     //}
     //}
     delete dt;
-    event->CalcMissMass();
-    event->AlphaCalc();
-    if (event->twoPionEvent()) {
-      if (event->p_mu_prime_cm().Theta() > 0) {
-        hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI),
-                           event->pip_mu_prime_cm().Theta() * (180 / PI),
-                           event->pim_mu_prime_cm().Theta() * (180 / PI));
+    if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 1.30 &&
+        event->Q2() > 0.0) {
+      event->CalcMissMass();
+      event->AlphaCalc();
+      if (event->twoPionEvent()) {
+        if (event->p_mu_prime_cm().Theta() > 0) {
+          hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI),
+                             event->pip_mu_prime_cm().Theta() * (180 / PI),
+                             event->pim_mu_prime_cm().Theta() * (180 / PI));
+        }
+
+        hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI),
+                          event->pip_mu_prime_cm().Phi() * (180 / PI),
+                          event->pim_mu_prime_cm().Phi() * (180 / PI));
+
+        //{
+        // std::cout << "electron " << event->q_cm().M() << '\n';
+
+        // n += 1;
+        // std::cout
+        //    << "  pip_pim_alpha_cm  " << event->alpha_ppip_pipim()
+        //<< "  pip_theta_cm  "
+        //<< event->pip_mu_prime_cm().Theta() * (180 / PI)
+        //<< "   pim_theta_cm  "
+        //  << event->pim_mu_prime_cm().Theta() * (180 / PI) << "  " << n
+        //  << '\n';
+      }
+      if (event->elecProtEvent()) {
+        hist->Fill_ep_mm(event->MM(), sector);
+        hist->Fill_ep_mmSQ(event->MM2(), sector);
+        if (event->MM2() < 0.2 && event->MM2() > -0.2)
+          hist->Fill_WvsmmSQ_ep(event->W_ep(), event->MM2(), sector);
+        else
+          hist->Fill_WvsmmSQ_anti_ep(event->W_ep(), event->MM2(), sector);
+
+      } else if (event->twoPionEvent()) {
+        hist->Fill_2pion_mm(event->MM(), sector);
+        hist->Fill_2pion_mmSQ(event->MM2(), sector);
+        if (event->MM2() < 0.2 && event->MM2() > -0.2) {
+          hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
+                                 event->W_delta_zero(), event->W_rho(),
+                                 event->MM2(), sector);
+        } else {
+          hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(),
+                                      event->W_delta_zero(), event->W_rho(),
+                                      event->MM2(), sector);
+        }
+        //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
+
+        // std::cout << "diff " << event->W_2pi() - event->W() << '\n';
+      } else if (event->ProtonPimEvent()) {
+        hist->Fill_pip_mm(event->MM(), sector);
+        hist->Fill_pip_mmSQ(event->MM2(), sector);
+
+      } else if (event->ProtonPipEvent()) {
+        hist->Fill_pim_mm(event->MM(), sector);
+        hist->Fill_pim_mmSQ(event->MM2(), sector);
       }
 
-      hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI),
-                        event->pip_mu_prime_cm().Phi() * (180 / PI),
-                        event->pim_mu_prime_cm().Phi() * (180 / PI));
+      event->CalcMissMass_wop();
 
-      //{
-      // std::cout << "electron " << event->q_cm().M() << '\n';
+      if (event->elecWopEvent()) {
+        hist->Fill_MM_wop_e_prime(event->MM_wop(), sector);
+        hist->Fill_MMSQ_wop_e_prime(event->MM2_wop(), sector);
+      } else if (event->twoPionWopEvent()) {
+        hist->Fill_MM_wop_2pion(event->MM_wop(), sector);
+        hist->Fill_MMSQ_wop_2pion(event->MM2_wop(), sector);
 
-      // n += 1;
-      // std::cout
-      //    << "  pip_pim_alpha_cm  " << event->alpha_ppip_pipim()
-      //<< "  pip_theta_cm  "
-      //<< event->pip_mu_prime_cm().Theta() * (180 / PI)
-      //<< "   pim_theta_cm  "
-      //  << event->pim_mu_prime_cm().Theta() * (180 / PI) << "  " << n
-      //  << '\n';
-    }
-    if (event->elecProtEvent()) {
-      hist->Fill_ep_mm(event->MM(), sector);
-      hist->Fill_ep_mmSQ(event->MM2(), sector);
-      if (event->MM2() < 0.1 && event->MM2() > -0.1)
-        hist->Fill_WvsmmSQ_ep(event->W_ep(), event->MM2(), sector);
-
-    } else if (event->twoPionEvent()) {
-      hist->Fill_2pion_mm(event->MM(), sector);
-      hist->Fill_2pion_mmSQ(event->MM2(), sector);
-      if (event->MM2() < 0.1 && event->MM2() > -0.1) {
-        hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
-                               event->W_delta_zero(), event->W_rho(),
-                               event->MM2(), sector);
+      } else if (event->WopPimEvent()) {
+        hist->Fill_MM_wop_pip(event->MM_wop(), sector);
+        hist->Fill_MMSQ_wop_pip(event->MM2_wop(), sector);
+      } else if (event->WopPipEvent()) {
+        hist->Fill_MM_wop_pim(event->MM_wop(), sector);
+        hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
+        if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7)
+          hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(),
+                                       sector);
+        else
+          hist->Fill_WvsmmSQ__anti_singlepip(event->W_singlepip(),
+                                             event->MM2_wop(), sector);
       }
-      //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
-
-      // std::cout << "diff " << event->W_2pi() - event->W() << '\n';
-    } else if (event->ProtonPimEvent()) {
-      hist->Fill_pip_mm(event->MM(), sector);
-      hist->Fill_pip_mmSQ(event->MM2(), sector);
-
-    } else if (event->ProtonPipEvent()) {
-      hist->Fill_pim_mm(event->MM(), sector);
-      hist->Fill_pim_mmSQ(event->MM2(), sector);
+      delete event;
     }
-
-    event->CalcMissMass_wop();
-
-    if (event->elecWopEvent()) {
-      hist->Fill_MM_wop_e_prime(event->MM_wop(), sector);
-      hist->Fill_MMSQ_wop_e_prime(event->MM2_wop(), sector);
-    } else if (event->twoPionWopEvent()) {
-      hist->Fill_MM_wop_2pion(event->MM_wop(), sector);
-      hist->Fill_MMSQ_wop_2pion(event->MM2_wop(), sector);
-
-    } else if (event->WopPimEvent()) {
-      hist->Fill_MM_wop_pip(event->MM_wop(), sector);
-      hist->Fill_MMSQ_wop_pip(event->MM2_wop(), sector);
-    } else if (event->WopPipEvent()) {
-      hist->Fill_MM_wop_pim(event->MM_wop(), sector);
-      hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
-      if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7)
-        hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(),
-                                     sector);
-    }
-    delete event;
   }
-
   out->cd();
   TDirectory *CC_EC = out->mkdir("ccEc");
   CC_EC->cd();

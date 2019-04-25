@@ -53,6 +53,8 @@ private:
   static const short cc_num = 3; // 0-without 1-with 2-anti
   std::string cc_name[cc_num] = {"ele", " pi-",
                                  "pi+" /*"total", "htcc", "ltcc"*/};
+  static const short cut_y_n = 2;
+  std::string cut_name[cut_y_n] = {"with_cut", "with_anti_cut"};
   // Kinematics
 
   TH1D *momentum;
@@ -64,9 +66,10 @@ private:
   TH1D *W_hist[sec_num];
   TH1D *Q2_hist[sec_num];
   TH1D *MM_hist[mm_num][mm_events_num][sec_num];
-  TH2D *W_vs_mmSQ_ep[sec_num];
-  TH2D *W_vs_mmSQ_2pi[sec_num];
-  TH2D *W_vs_mmSQ_singlepip[sec_num];
+  TH2D *W_vs_mmSQ_ep[sec_num][cut_y_n];
+  TH2D *W_vs_mmSQ_2pi[sec_num][cut_y_n];
+  TH2D *W_vs_mmSQ_singlepip[sec_num][cut_y_n];
+  ;
 
   TH1D *W_hist_ep[sec_num];
   TH1D *W_hist_2pi[sec_num];
@@ -157,9 +160,13 @@ public:
   void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_,
                         double mmSQ, int sec_number);
   void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number);
-
+  void Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_,
+                             double rho_, double mmSQ, int sec_number);
+  void Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_number);
   void Fill_WvsQ2(double W, double Q2, int sec_number);
   void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number);
+
   void Write_WvsQ2();
   void Write_MM_hist();
   void Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_);
