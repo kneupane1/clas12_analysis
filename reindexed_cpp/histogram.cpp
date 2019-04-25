@@ -480,7 +480,7 @@ void Histogram::Write_WvsQ2() {
     Q2_hist[i]->Write();
     delete Q2_hist[i];
 
-    for (j = 0; j < cut_y_n; j++) {
+    for (int j = 0; j < cut_y_n; j++) {
       W_vs_mmSQ_ep[i][j]->SetXTitle("W (GeV)");
       W_vs_mmSQ_ep[i][j]->SetYTitle("mm^{2} (GeV^{2})");
       W_vs_mmSQ_ep[i][j]->SetOption("COLZ");
