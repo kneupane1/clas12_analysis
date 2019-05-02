@@ -231,8 +231,11 @@ void datahandeler(std::string fin, std::string fout) {
       if (event->elecProtEvent()) {
         hist->Fill_ep_mm(event->MM(), sector);
         hist->Fill_ep_mmSQ(event->MM2(), sector);
-        if (event->MM2() < 0.15 && event->MM2() > -0.15)
+        if (event->MM2() < 0.15 && event->MM2() > -0.15) {
           hist->Fill_WvsmmSQ_ep(event->W_ep(), event->MM2(), sector);
+        } else {
+          hist->Fill_WvsmmSQ_anti_ep(event->W_ep(), event->MM2(), sector);
+        }
 
       } else if (event->twoPionEvent()) {
         hist->Fill_2pion_mm(event->MM(), sector);
@@ -241,6 +244,10 @@ void datahandeler(std::string fin, std::string fout) {
           hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
                                  event->W_delta_zero(), event->W_rho(),
                                  event->MM2(), sector);
+        } else {
+          hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(),
+                                      event->W_delta_zero(), event->W_rho(),
+                                      event->MM2(), sector);
         }
         //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
 
@@ -269,9 +276,13 @@ void datahandeler(std::string fin, std::string fout) {
       } else if (event->WopPipEvent()) {
         hist->Fill_MM_wop_pim(event->MM_wop(), sector);
         hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
-        if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7)
+        if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7) {
           hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(),
                                        sector);
+        } else {
+          hist->Fill_WvsmmSQ_anti_singlepip(event->W_singlepip(),
+                                            event->MM2_wop(), sector);
+        }
       }
     }
     delete event;
