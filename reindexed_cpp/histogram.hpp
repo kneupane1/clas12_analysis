@@ -46,9 +46,14 @@ private:
   static const short mm_num = 2; // 0 mm 1 mm square
   std::string mm_name[mm_num] = {"mm", "mmSQ"};
   static const short mm_events_num = 8; // 0-ep event 1 2pion ...
-  std::string mm_events_name[mm_events_num] = {
-      "elastic", "2pion",  "e'p'pim'", "e'p'pip'", "elastic_wop" /*inclusive*/,
-      "2pi_wop", "e'pim'", "e'pi+_wop"};
+  std::string mm_events_name[mm_events_num] = {"e(p,p'X)e'",
+                                               "e(p,p'pi+pi-X)e'",
+                                               "e(p,p'pi-X)e'",
+                                               "e(p,p'pi+X)e'",
+                                               "e(p,X)e'" /*inclusive*/,
+                                               "e(p,pi+pi-X)e'",
+                                               "e(p,pi-X)e'",
+                                               "e(p,pi+X)e'"};
 
   static const short cc_num = 3; // 0-without 1-with 2-anti
   std::string cc_name[cc_num] = {"ele", " pi-",

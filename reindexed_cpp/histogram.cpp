@@ -218,8 +218,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
     for (int j = 0; j < cut_y_n; j++) {
-      hname.append("Wvs_mmSQ_ep");
-      htitle.append("Wvs_mmSQ_ep");
+      hname.append("Wvs_mmSQ_e(p,p'X)e'");
+      htitle.append("Wvs_mmSQ_e(p,p'X)e'");
       hname.append("_");
       htitle.append(" ");
       hname.append(sec_name[i]);
@@ -232,8 +232,8 @@ void Histogram::makeHists_WvsQ2() {
                                     w_max, bins, -4, 4);
       hname.clear();
       htitle.clear();
-      hname.append("Wvs_mmSQ_2pi");
-      htitle.append("Wvs_mmSQ_2pi");
+      hname.append("Wvs_mmSQ_e(p,p'pi+pi-X)e'");
+      htitle.append("Wvs_mmSQ_e(p,p'pi+pi-X)e'");
       hname.append("_");
       htitle.append(" ");
       hname.append(sec_name[i]);
@@ -248,8 +248,8 @@ void Histogram::makeHists_WvsQ2() {
       htitle.clear();
       hname.clear();
       htitle.clear();
-      hname.append("Wvs_mmSQ_singlepip");
-      htitle.append("Wvs_mmSQ_singlepip");
+      hname.append("Wvs_mmSQ_e(p,pi+X)e'");
+      htitle.append("Wvs_mmSQ_e(p,pi+X)e'");
       hname.append("_");
       htitle.append(" ");
       hname.append(sec_name[i]);
