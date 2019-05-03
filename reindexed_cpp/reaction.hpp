@@ -33,6 +33,14 @@ class Reaction {
   bool _hasOther;
   bool _hasNeutron;
 
+  short _numProt = 0;
+  short _numPip = 0;
+  short _numPim = 0;
+  short _numPos = 0;
+  short _numNeg = 0;
+  short _numNeutral = 0;
+  short _numOther = 0;
+
   float _MM;
   float _MM2;
   float _MM_wop;
@@ -112,16 +120,32 @@ class Reaction {
   float W_delta_zero();
   float W_rho();
 
-  float W_singlepip();
-  float Q2_2pi();
-  bool elecWopEvent();
-  bool twoPionWopEvent();
-  bool WopPimEvent();
-  bool WopPipEvent();
-  bool elecProtEvent();
-  bool twoPionEvent();
-  bool ProtonPimEvent();
-  bool ProtonPipEvent();
+  // float W_singlepip();
+  // float Q2_2pi();
+  // bool elecWopEvent();
+  // bool twoPionWopEvent();
+  // bool WopPimEvent();
+  // bool WopPipEvent();
+  // bool elecProtEvent();
+  // bool twoPionEvent();
+  // bool ProtonPimEvent();
+  // bool ProtonPipEvent();
+  bool Reaction::elecProtEvent() { return (_numProt == 1 )&&_hasE && _hasP && !_hasPip && !_hasPim && !_hasOther && !_hasNeutron);
+  }
+  bool Reaction::twoPionEvent() {
+    return ((_numPip == 1 && _numPim == 1) && _hasE && _hasP && _hasPip && _hasPim && !_hasOther && !_hasNeutron);
+  }
+  bool Reaction::ProtonPimEvent() { return (_numProt == 1 && _numPim == 1)&& _hasE && _hasP && _hasPim && !_hasPip && !_hasOther && !_hasNeutron);
+  }
+  bool Reaction::ProtonPipEvent() { return (_numProt == 1 && _numPip == 1)&& _hasE && _hasP && _hasPip && !_hasPim && !_hasOther && !_hasNeutron);
+  }
+  bool Reaction::elecWopEvent() { return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim); }
+  bool Reaction::twoPionWopEvent() { return (_numProt == 1 && _numPim == 1) && _hasE /*&& _hasP*/ && _hasPip && _hasPim);
+  }
+  bool Reaction::WopPimEvent() { return (_numPim == 1)&& _hasE /*&& _hasP*/ && _hasPim && !_hasPip);
+  }
+  bool Reaction::WopPipEvent() { return (_numProt == 1)&& _hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron);
+  }
 };
 
 #endif

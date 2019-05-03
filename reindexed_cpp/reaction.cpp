@@ -147,11 +147,12 @@ void Reaction::SetElec(float px, float py, float pz, float mass) {
 }
 
 void Reaction::SetProton(float px, float py, float pz, float mass) {
+  _numProt++;
   _hasP = true;
   _prot->SetXYZM(px, py, pz, mass);
 }
 void Reaction::SetPip(float px, float py, float pz, float mass) {
-  if (_hasPip == 1) {
+  {
     _hasPip = true;
     _pip->SetXYZM(px, py, pz, mass);
   }
@@ -416,12 +417,3 @@ float Reaction::W_rho() { return _W_rho; }
 float Reaction::W_singlepip() { return _W_singlepip; }
 
 float Reaction::Q2_2pi() { return _Q2_2pi; }
-
-bool Reaction::elecProtEvent() { return (_hasE && _hasP && !_hasPip && !_hasPim && !_hasOther && !_hasNeutron); }
-bool Reaction::twoPionEvent() { return (_hasE && _hasP && _hasPip && _hasPim && !_hasOther && !_hasNeutron); }
-bool Reaction::ProtonPimEvent() { return (_hasE && _hasP && _hasPim && !_hasPip && !_hasOther && !_hasNeutron); }
-bool Reaction::ProtonPipEvent() { return (_hasE && _hasP && _hasPip && !_hasPim && !_hasOther && !_hasNeutron); }
-bool Reaction::elecWopEvent() { return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim); }
-bool Reaction::twoPionWopEvent() { return (_hasE /*&& _hasP*/ && _hasPip && _hasPim); }
-bool Reaction::WopPimEvent() { return (_hasE /*&& _hasP*/ && _hasPim && !_hasPip); }
-bool Reaction::WopPipEvent() { return (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron); }

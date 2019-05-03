@@ -166,7 +166,7 @@ void datahandeler(std::string fin, std::string fout) {
             }
           }
         } else
-          event->SetOther(px->at(part), py->at(part), pz->at(part), MASS_N, data->pid(part));
+          event->SetOther(px->at(part), py->at(part), pz->at(part), MASS_N, pid->at(part));
       }
       // if (event->pim_mu_prime_cm().Theta() > 0) {
       //   std::cout << "p_theta " << event->pim_mu_prime_cm().Theta() * (180 /
