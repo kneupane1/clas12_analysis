@@ -120,8 +120,8 @@ class Reaction {
   float W_delta_zero();
   float W_rho();
 
-  // float W_singlepip();
-  // float Q2_2pi();
+  float W_singlepip();
+  float Q2_2pi();
   // bool elecWopEvent();
   // bool twoPionWopEvent();
   // bool WopPimEvent();
