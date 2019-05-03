@@ -14,7 +14,7 @@ Reaction::Reaction() {
   _pip = new TLorentzVector();
   _pim = new TLorentzVector();
   _neutron = new TLorentzVector();
-  _other = TLorentzVector();
+  _other = new TLorentzVector();
 
   _q_cm = new TLorentzVector();
   _p_mu_prime_cm = new TLorentzVector();
@@ -68,7 +68,7 @@ Reaction::Reaction(TLorentzVector *beam) {
   _pip = new TLorentzVector();
   _pim = new TLorentzVector();
   _neutron = new TLorentzVector();
-  _other = TLorentzVector();
+  _other = new TLorentzVector();
 
   _q_cm = new TLorentzVector();
   _p_mu_prime_cm = new TLorentzVector();

@@ -73,7 +73,7 @@ class Reaction {
   void SetProton(float px, float py, float pz, float mass);
   void SetPip(float px, float py, float pz, float mass);
   void SetPim(float px, float py, float pz, float mass);
-  void SetOther(float px, float py, float pz, int pid);
+  void SetOther(float px, float py, float pz, float mass, int pid);
 
   TLorentzVector e_mu_prime();  // maile thapeko
   TLorentzVector p_mu_prime();
