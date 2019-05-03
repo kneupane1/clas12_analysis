@@ -18,6 +18,8 @@ class Reaction {
   TLorentzVector *_prot;
   TLorentzVector *_pip;
   TLorentzVector *_pim;
+  TLorentzVector *_neutron;
+  TLorentzVector *_other;
 
   TLorentzVector *_q_cm;
   TLorentzVector *_p_mu_prime_cm;

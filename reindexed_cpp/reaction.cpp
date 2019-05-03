@@ -13,6 +13,8 @@ Reaction::Reaction() {
   _prot = new TLorentzVector();
   _pip = new TLorentzVector();
   _pim = new TLorentzVector();
+  _neutron = new TLorentzVector();
+  _other = TLorentzVector();
 
   _q_cm = new TLorentzVector();
   _p_mu_prime_cm = new TLorentzVector();
@@ -65,6 +67,8 @@ Reaction::Reaction(TLorentzVector *beam) {
   _prot = new TLorentzVector();
   _pip = new TLorentzVector();
   _pim = new TLorentzVector();
+  _neutron = new TLorentzVector();
+  _other = TLorentzVector();
 
   _q_cm = new TLorentzVector();
   _p_mu_prime_cm = new TLorentzVector();
@@ -75,6 +79,8 @@ Reaction::Reaction(TLorentzVector *beam) {
   _hasP = false;
   _hasPip = false;
   _hasPim = false;
+  _hasNeutron = false;
+  _hasOther = false;
 
   _MM = std::nan("-99");
   _MM2 = std::nan("-99");
@@ -115,6 +121,8 @@ Reaction::~Reaction() {
   delete _pip;
   delete _pim;
   delete _target;
+  delete _neutron;
+  delete _other;
 
   delete _q_cm;
   delete _p_mu_prime_cm;
@@ -152,13 +160,13 @@ void Reaction::SetPim(float px, float py, float pz, float mass) {
   _hasPim = true;
   _pim->SetXYZM(px, py, pz, mass);
 }
-void Reaction::SetOther(float px, float py, float pz, int pid) {
+void Reaction::SetOther(float px, float py, float pz, float mass, int pid) {
   if (pid == NEUTRON) {
     _hasNeutron = true;
-    _neutron->SetXYZM(px, py, pz, _mass_map[pid]);
+    _neutron->SetXYZM(px, py, pz, mass);
   } else {
     _hasOther = true;
-    _other->SetXYZM(px, py, pz, _mass_map[pid]);
+    _other->SetXYZM(px, py, pz, mass);
   }
 }
 void Reaction::CalcMissMass() {
@@ -412,12 +420,8 @@ float Reaction::Q2_2pi() { return _Q2_2pi; }
 bool Reaction::elecProtEvent() { return (_hasE && _hasP && !_hasPip && !_hasPim && !_hasOther && !_hasNeutron); }
 bool Reaction::twoPionEvent() { return (_hasE && _hasP && _hasPip && _hasPim && !_hasOther && !_hasNeutron); }
 bool Reaction::ProtonPimEvent() { return (_hasE && _hasP && _hasPim && !_hasPip && !_hasOther && !_hasNeutron); }
-bool Reaction::ProtonPipEvent() {
-  return (_hasE && _hasP && _hasPip && !_hasPim && !_hasOther && !_hasNeutron));
-}
+bool Reaction::ProtonPipEvent() { return (_hasE && _hasP && _hasPip && !_hasPim && !_hasOther && !_hasNeutron); }
 bool Reaction::elecWopEvent() { return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim); }
 bool Reaction::twoPionWopEvent() { return (_hasE /*&& _hasP*/ && _hasPip && _hasPim); }
 bool Reaction::WopPimEvent() { return (_hasE /*&& _hasP*/ && _hasPim && !_hasPip); }
-bool Reaction::WopPipEvent() {
-  return (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron));
-}
+bool Reaction::WopPipEvent() { return (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron); }
