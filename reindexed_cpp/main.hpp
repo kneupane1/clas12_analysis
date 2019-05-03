@@ -5,6 +5,10 @@
 
 #ifndef MAIN_H_GUARD
 #define MAIN_H_GUARD
+#include <TFile.h>
+#include <TLorentzVector.h>
+#include <fstream>
+#include <vector>
 #include "TChain.h"
 #include "colors.hpp"
 #include "constants.hpp"
@@ -13,15 +17,10 @@
 #include "histogram.hpp"
 #include "physics.hpp"
 #include "reaction.hpp"
-#include <TFile.h>
-#include <TLorentzVector.h>
-#include <fstream>
-#include <vector>
 
 void datahandeler(std::string fin, std::string fout) {
   double energy = CLAS12_E;
-  if (getenv("CLAS12_E") != NULL)
-    energy = atof(getenv("CLAS12_E"));
+  if (getenv("CLAS12_E") != NULL) energy = atof(getenv("CLAS12_E"));
   TLorentzVector *e_mu = new TLorentzVector(0.0, 0.0, energy, energy);
 
   TFile *out = new TFile(fout.c_str(), "RECREATE");
@@ -52,28 +51,25 @@ void datahandeler(std::string fin, std::string fout) {
   float cc_tot_pip;
   float cc_ltcc_pip;
   float cc_htcc_pip;
-  int n = 0;
+  int n_pip = 0;
+  int n_pim = 0;
 
   Histogram *hist = new Histogram();
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     chain->GetEntry(current_event);
-    if (pid->size() == 0 || /*pid->at(0) != ELECTRON*/ charge->at(0) >= 0)
-      continue;
+    if (pid->size() == 0 || /*pid->at(0) != ELECTRON*/ charge->at(0) >= 0) continue;
 
     per = ((double)current_event / (double)num_of_events);
-    if (current_event % 1000 == 0)
-      std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
+    if (current_event % 1000 == 0) std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
     Reaction *event = new Reaction(e_mu);
     event->SetElec(px->at(0), py->at(0), pz->at(0), MASS_E);
 
     if (event->e_mu_prime().P() != 0)
-      hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(),
-                    event->e_mu_prime().P());
+      hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
 
-    Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0),
-                              sc_ftof_1a_time->at(0), sc_ftof_1a_path->at(0),
-                              sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
+    Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
+                              sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
     if (pid->at(0) == ELECTRON) {
       cc_tot = cc_nphe_tot->at(0);
       if (cc_tot >= 0) {
@@ -81,7 +77,6 @@ void datahandeler(std::string fin, std::string fout) {
       }
       cc_ltcc = cc_ltcc_nphe->at(0);
       if (cc_ltcc >= 0) {
-
         hist->Fill_hist_cc_ltcc(cc_ltcc);
         // std::cout << cc_tot << "    " << cc_ltcc << '\n';
       }
@@ -90,38 +85,38 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_hist_cc_htcc(cc_htcc);
       }
     }
-
+    n_pip = 0;
+    n_pim = 0;
     for (int part = 1; part < pid->size(); part++) {
+      // if (pid->at(part) == PIP) {
+      //   n_pip = n_pip + 1;
+      // }
+      // if (n_pip > 1) continue;
+      // if (pid->at(part) == PIM) {
+      //   n_pim = n_pim + 1;
+      // }
+      // if (n_pim > 1) continue;
 
-      if (beta->at(part) < 0.02 || p->at(part) < 0.02)
-        continue;
+      if (beta->at(part) < 0.02 || p->at(part) < 0.02) continue;
       if (dc_sec->at(0) < 7) {
         sector = dc_sec->at(0) - 1;
       }
 
-      dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part),
-                  sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
-                  sc_ftof_1a_path->at(part), sc_ftof_2_time->at(part),
-                  sc_ftof_2_path->at(part), sc_ctof_time->at(part),
+      dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part), sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
+                  sc_ftof_1a_path->at(part), sc_ftof_2_time->at(part), sc_ftof_2_path->at(part), sc_ctof_time->at(part),
                   sc_ctof_path->at(part));
 
-      hist->Fill_MomVsBeta_vertex(pid->at(part), charge->at(part), p->at(part),
-                                  beta->at(part));
+      hist->Fill_MomVsBeta_vertex(pid->at(part), charge->at(part), p->at(part), beta->at(part));
 
-      hist->Fill_MomVsBeta(pid->at(part), charge->at(part), p->at(part),
-                           beta->at(part));
+      hist->Fill_MomVsBeta(pid->at(part), charge->at(part), p->at(part), beta->at(part));
 
       hist->Fill_deltat_vertex(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
 
-      if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
-          event->Q2() > 0.0) {
+      if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {
         if (charge->at(part) == -1) {
-          hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(),
-                                  p->at(0));
-          hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(),
-                                p->at(part));
-          hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
-                               p->at(part));
+          hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
+          hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
+          hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           if ((abs(dt->dt_Pi()) < 0.5) ||
               (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) /* &&
                                                                                                                                                       (charge->at(part) == -1*/) {
@@ -142,21 +137,16 @@ void datahandeler(std::string fin, std::string fout) {
             }
           }
         } else if (charge->at(part) == 1) {
-          hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(),
-                                 p->at(part));
-          hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(),
-                                p->at(part));
-          hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(),
-                               p->at(part));
+          hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), p->at(part));
+          hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
+          hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           //    if (charge->at(part) == 1) {
-          if ((abs(dt->dt_P()) < 0.5) ||
-              (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
+          if ((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
           } else if ((abs(dt->dt_Pi()) < 0.50) ||
-                                                                                (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7 /*&&
+                     (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7) /*&&
                                                                                 event->pip_mu_prime().P() < 1.2)*/) {
-            event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP,
-                          pid->at(part));
+            event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
             //        std::cout << "pip " << pid->at(part) << '\n';
 
             // if (pid->at(part) == 2212 && charge->at(part) > 0) {
@@ -175,7 +165,8 @@ void datahandeler(std::string fin, std::string fout) {
               }
             }
           }
-        }
+        } else
+          event->SetOther(data->px(part), data->py(part), data->pz(part), data->pid(part));
       }
       // if (event->pim_mu_prime_cm().Theta() > 0) {
       //   std::cout << "p_theta " << event->pim_mu_prime_cm().Theta() * (180 /
@@ -183,8 +174,7 @@ void datahandeler(std::string fin, std::string fout) {
       //             << '\n';
       // }
 
-      dt->dt_calc_1(p->at(part), sc_ctof_time->at(part),
-                    sc_ctof_path->at(part));
+      dt->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
       if (sc_ctof_component->at(part) > 0) {
         //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
         //  << sc_ctof_component->at(part) << '\n';
@@ -201,19 +191,16 @@ void datahandeler(std::string fin, std::string fout) {
     //}
     //}
     delete dt;
-    if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
-        event->Q2() > 0.0) {
+    if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {
       event->CalcMissMass();
       event->AlphaCalc();
       if (event->twoPionEvent()) {
         if (event->p_mu_prime_cm().Theta() > 0) {
-          hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI),
-                             event->pip_mu_prime_cm().Theta() * (180 / PI),
+          hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI), event->pip_mu_prime_cm().Theta() * (180 / PI),
                              event->pim_mu_prime_cm().Theta() * (180 / PI));
         }
 
-        hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI),
-                          event->pip_mu_prime_cm().Phi() * (180 / PI),
+        hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI), event->pip_mu_prime_cm().Phi() * (180 / PI),
                           event->pim_mu_prime_cm().Phi() * (180 / PI));
 
         //{
@@ -241,12 +228,10 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_2pion_mm(event->MM(), sector);
         hist->Fill_2pion_mmSQ(event->MM2(), sector);
         if (event->MM2() < 0.15 && event->MM2() > -0.15) {
-          hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
-                                 event->W_delta_zero(), event->W_rho(),
+          hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                  event->MM2(), sector);
         } else {
-          hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(),
-                                      event->W_delta_zero(), event->W_rho(),
+          hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                       event->MM2(), sector);
         }
         //  std::cout << "w_2pi   " << event->W_2pi() << '\n';
@@ -277,11 +262,9 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_MM_wop_pim(event->MM_wop(), sector);
         hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
         if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7) {
-          hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(),
-                                       sector);
+          hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
         } else {
-          hist->Fill_WvsmmSQ_anti_singlepip(event->W_singlepip(),
-                                            event->MM2_wop(), sector);
+          hist->Fill_WvsmmSQ_anti_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
         }
       }
     }
