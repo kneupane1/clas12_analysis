@@ -144,8 +144,7 @@ class Reaction {
   }
   bool elecWopEvent() { return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim); }
   bool twoPionWopEvent() { return ((_numProt == 1 && _numPim == 1) && (_hasE /*&& _hasP*/ && _hasPip && _hasPim)); }
-  bool WopPimEvent() { return (_numPim == 1) && (_hasE /*&& _hasP*/ && _hasPim && !_hasPip));
-  }
+  bool WopPimEvent() { return ((_numPim == 1) && (_hasE /*&& _hasP*/ && _hasPim && !_hasPip)); }
   bool WopPipEvent() {
     return ((_numProt == 1) && (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron));
   }
