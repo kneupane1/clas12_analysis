@@ -130,24 +130,14 @@ class Reaction {
   // bool twoPionEvent();
   // bool ProtonPimEvent();
   // bool ProtonPipEvent();
-  bool elecProtEvent() {
-    return ((_numProt == 1) && (_hasE && _hasP && !_hasPip && !_hasPim && !_hasOther && !_hasNeutron));
-  }
-  bool twoPionEvent() {
-    return ((_numPip == 1 && _numPim == 1) && (_hasE && _hasP && _hasPip && _hasPim && !_hasOther && !_hasNeutron));
-  }
-  bool ProtonPimEvent() {
-    return ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim && !_hasPip && !_hasOther && !_hasNeutron));
-  }
-  bool ProtonPipEvent() {
-    return ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP && _hasPip && !_hasPim && !_hasOther && !_hasNeutron));
-  }
+  bool elecProtEvent() { return ((_numProt == 1) && (_hasE && _hasP && !_hasPip && !_hasPim)); }
+  bool twoPionEvent() { return ((_numPip == 1 && _numPim == 1) && (_hasE && _hasP && _hasPip && _hasPim)); }
+  bool ProtonPimEvent() { return ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim && !_hasPip)); }
+  bool ProtonPipEvent() { return ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP && _hasPip && !_hasPim)); }
   bool elecWopEvent() { return (_hasE /*&& _hasP*/ && !_hasPip && !_hasPim); }
-  bool twoPionWopEvent() { return ((_numProt == 1 && _numPim == 1) && (_hasE /*&& _hasP*/ && _hasPip && _hasPim)); }
+  bool twoPionWopEvent() { return ((_numProt == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim)); }
   bool WopPimEvent() { return ((_numPim == 1) && (_hasE /*&& _hasP*/ && _hasPim && !_hasPip)); }
-  bool WopPipEvent() {
-    return ((_numProt == 1) && (_hasE /*&& _hasP*/ && _hasPip && !_hasPim && !_hasOther && _hasNeutron));
-  }
+  bool WopPipEvent() { return ((_numProt == 1) && (_hasE /*&& _hasP*/ && _hasPip && !_hasPim)); }
 };
 
 #endif
