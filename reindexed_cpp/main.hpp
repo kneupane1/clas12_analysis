@@ -182,7 +182,7 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_dt_ctof_comp(sc_ctof_component->at(part), dt->dt_ctof_P());
       }
     }
-    hist->Fill_vertex_vz(vz);
+    hist->Fill_vertex_vz(vz->at(0));
 
     // if (event->twoPionEvent()) {
 
