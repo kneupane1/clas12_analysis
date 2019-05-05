@@ -30,7 +30,7 @@ Histogram::Histogram() {
   Phi_pip = new TH1D("Phi_pip_dist_cm", "Phi_dist-pip_cm", bins, -180, 180);
   Phi_pim = new TH1D("Phi_pim_dist_cm", "Phi_dist-pim_cm", bins, -180, 180);
 
-  vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -4, 4);
+  vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
   delta_t_ctof_vs_comp = new TH2D("delta_t_ctof_vs_comp", "delta_t_ctof_vs_comp", 50, zero, 50, bins, Dt_min, Dt_max);
   /*
