@@ -191,7 +191,7 @@ void datahandeler(std::string fin, std::string fout) {
     //}
     //}
     delete dt;
-    if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {
+    if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 1.30) {
       event->CalcMissMass();
       event->AlphaCalc();
       if (event->twoPionEvent()) {
