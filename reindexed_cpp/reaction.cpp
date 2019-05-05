@@ -148,27 +148,32 @@ void Reaction::SetElec(float px, float py, float pz, float mass) {
 
 void Reaction::SetProton(float px, float py, float pz, float mass) {
   _numProt++;
+  _numPos++;
   _hasP = true;
   _prot->SetXYZM(px, py, pz, mass);
 }
 void Reaction::SetPip(float px, float py, float pz, float mass) {
   {
     _numPip++;
+    _numPos++;
     _hasPip = true;
     _pip->SetXYZM(px, py, pz, mass);
   }
 }
 void Reaction::SetPim(float px, float py, float pz, float mass) {
   _numPim++;
+  _numNeg++;
   _hasPim = true;
   _pim->SetXYZM(px, py, pz, mass);
 }
 void Reaction::SetOther(float px, float py, float pz, float mass, int pid) {
   if (pid == NEUTRON) {
     _hasNeutron = true;
+    _numNeutral++;
     _neutron->SetXYZM(px, py, pz, mass);
   } else {
     _hasOther = true;
+    _numOther++;
     _other->SetXYZM(px, py, pz, mass);
   }
 }
