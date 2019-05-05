@@ -26,12 +26,12 @@ class Reaction {
   TLorentzVector *_pip_mu_prime_cm;
   TLorentzVector *_pim_mu_prime_cm;
 
-  bool _hasE;
-  bool _hasP;
-  bool _hasPip;
-  bool _hasPim;
-  bool _hasOther;
-  bool _hasNeutron;
+  bool _hasE = false;
+  bool _hasP = false;
+  bool _hasPip = false;
+  bool _hasPim = false;
+  bool _hasOther = false;
+  bool _hasNeutron = false;
 
   short _numProt = 0;
   short _numPip = 0;

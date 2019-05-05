@@ -21,12 +21,12 @@ Reaction::Reaction() {
   _pip_mu_prime_cm = new TLorentzVector();
   _pim_mu_prime_cm = new TLorentzVector();
 
-  _hasE = false;
-  _hasP = false;
-  _hasPip = false;
-  _hasPim = false;
-  _hasOther = false;
-  _hasNeutron = false;
+  // _hasE = false;
+  // _hasP = false;
+  // _hasPip = false;
+  // _hasPim = false;
+  // _hasOther = false;
+  // _hasNeutron = false;
 
   _MM = std::nan("-99");
   _MM2 = std::nan("-99");
@@ -75,12 +75,12 @@ Reaction::Reaction(TLorentzVector *beam) {
   _pip_mu_prime_cm = new TLorentzVector();
   _pim_mu_prime_cm = new TLorentzVector();
 
-  _hasE = false;
-  _hasP = false;
-  _hasPip = false;
-  _hasPim = false;
-  _hasNeutron = false;
-  _hasOther = false;
+  // _hasE = false;
+  // _hasP = false;
+  // _hasPip = false;
+  // _hasPim = false;
+  // _hasNeutron = false;
+  // _hasOther = false;
 
   _MM = std::nan("-99");
   _MM2 = std::nan("-99");
@@ -153,11 +153,13 @@ void Reaction::SetProton(float px, float py, float pz, float mass) {
 }
 void Reaction::SetPip(float px, float py, float pz, float mass) {
   {
+    _numPip++;
     _hasPip = true;
     _pip->SetXYZM(px, py, pz, mass);
   }
 }
 void Reaction::SetPim(float px, float py, float pz, float mass) {
+  _numPim++;
   _hasPim = true;
   _pim->SetXYZM(px, py, pz, mass);
 }
