@@ -384,7 +384,7 @@ void Histogram::Write_hist_cc() {
 }
 
 void Histogram::Fill_dt_ctof_comp(int ctof_comp, float dt) { delta_t_ctof_vs_comp->Fill(ctof_comp, dt); }
-void Histogram::Fill_vertex_vz(float vz);
+void Histogram::Fill_vertex_vz(float vz) { vertex_vz->Fill(vz); }
 void Histogram::Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_) {
   theta_prot->Fill(theta_p);
   theta_pip->Fill(theta_pip_);
