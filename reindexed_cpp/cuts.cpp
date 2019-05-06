@@ -11,7 +11,7 @@ Cuts::Cuts() {
 }
 Cuts::~Cuts() {}
 
-bool Cuts::electron_cuts() {
+bool Cuts::electron_cuts(int status, int charge, float min_mom, float sf, float vertex_) {
   if (2000 < status < 4000) {
     if (charge == -1) {
       if (min_mom > 1.0) {
