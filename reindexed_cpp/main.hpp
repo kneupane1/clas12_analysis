@@ -13,6 +13,7 @@
 #include "colors.hpp"
 #include "constants.hpp"
 #include "deltat.hpp"
+#include "electron_cuts.hpp"
 #include "filehandeler.hpp"
 #include "histogram.hpp"
 #include "physics.hpp"
@@ -64,6 +65,9 @@ void datahandeler(std::string fin, std::string fout) {
     if (current_event % 1000 == 0) std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
     Reaction *event = new Reaction(e_mu);
     event->SetElec(px->at(0), py->at(0), pz->at(0), MASS_E);
+
+    Cuts *e_cuts = new electron_cuts(status->at(0), charge->at(0), event->e_mu_prime().P(),
+                                     ec_tot_energy->at(0) / event->e_mu_prime().P(), vz->at(0));
 
     if (event->e_mu_prime().P() != 0)
       hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
@@ -269,7 +273,7 @@ void datahandeler(std::string fin, std::string fout) {
         }
       }
     }
-    delete event;
+    delete e_cuts, delete event;
   }
 
   out->cd();

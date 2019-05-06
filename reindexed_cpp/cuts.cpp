@@ -1,5 +1,6 @@
-#include "electron_cuts.hpp"
-cuts::cuts() {
+#include <iostream>
+#include "cuts.hpp"
+Cuts::Cuts() {
   _status = std::nan("-99");
   _charge = std::nan("-99");
   _min_mom = std::nan("-99");
@@ -8,9 +9,9 @@ cuts::cuts() {
 
   _good_e = false;
 }
-electron_cuts::~electron_cuts() {}
+Cuts::~Cuts() {}
 
-bool electron_cuts::electron_cuts(int status, int charge, float min_mom, float sf, float vertex_p) {
+bool Cuts::electron_cuts() {
   if (2000 < status < 4000) {
     if (charge == -1) {
       if (min_mom > 1.0) {
@@ -24,3 +25,6 @@ bool electron_cuts::electron_cuts(int status, int charge, float min_mom, float s
   }
   return _good_e;
 }
+// bool Cuts::ELE(){
+//         return _good_e;
+// }

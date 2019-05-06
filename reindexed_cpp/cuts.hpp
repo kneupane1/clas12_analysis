@@ -1,10 +1,10 @@
 
-#ifndef ELECTRON_CUTS_H_GUARD
-#define ELECTRON_CUTS_H_GUARD
+#ifndef CUTS_H_GUARD
+#define CUTS_H_GUARD
 #include <iostream>
 #include "constants.hpp"
 
-class cuts {
+class Cuts {
  private:
   int _status;
   int _charge;
@@ -14,9 +14,8 @@ class cuts {
   bool _good_e;
 
  public:
-  electron_cuts();
-  ~electron_cuts();
-
+  Cuts();
+  ~Cuts();
   bool electron_cuts(int status, int charge, float min_mom, float sf, float vertex_);
   bool hadron_cuts();
 };
