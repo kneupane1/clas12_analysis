@@ -66,8 +66,9 @@ void datahandeler(std::string fin, std::string fout) {
     Reaction *event = new Reaction(e_mu);
     event->SetElec(px->at(0), py->at(0), pz->at(0), MASS_E);
 
-    Cuts *e_cuts = new electron_cuts(status->at(0), charge->at(0), event->e_mu_prime().P(),
-                                     ec_tot_energy->at(0) / event->e_mu_prime().P(), vz->at(0));
+    Cuts *e_cuts = new Cuts();
+    e_cuts->electron_cuts(status->at(0), charge->at(0), event->e_mu_prime().P(),
+                          ec_tot_energy->at(0) / event->e_mu_prime().P(), vz->at(0));
 
     if (event->e_mu_prime().P() != 0)
       hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
