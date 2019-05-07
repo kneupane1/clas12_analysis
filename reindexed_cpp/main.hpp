@@ -68,10 +68,8 @@ void datahandeler(std::string fin, std::string fout) {
 
     Cuts *e_cuts = new Cuts();
     good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), event->e_mu_prime().P(),
-                                   (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0));
-    // std::cout << "ele " << good_e<< '\n';
+                                   (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0), chi2pid->at(0));
     if (good_e == false) continue;
-
     if (event->e_mu_prime().P() != 0)
       hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
 
@@ -85,7 +83,6 @@ void datahandeler(std::string fin, std::string fout) {
       cc_ltcc = cc_ltcc_nphe->at(0);
       if (cc_ltcc >= 0) {
         hist->Fill_hist_cc_ltcc(cc_ltcc);
-        // std::cout << cc_tot << "    " << cc_ltcc << '\n';
       }
       cc_htcc = cc_htcc_nphe->at(0);
       if (cc_htcc >= 0) {
@@ -154,7 +151,6 @@ void datahandeler(std::string fin, std::string fout) {
                                                    (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7) /*&&
                                                                                                               event->pip_mu_prime().P() < 1.2)*/) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
-            //        std::cout << "pip " << pid->at(part) << '\n';
 
             // if (pid->at(part) == 2212 && charge->at(part) > 0) {
             if (pid->at(part) == PIP) {
@@ -175,20 +171,17 @@ void datahandeler(std::string fin, std::string fout) {
         } else
           event->SetOther(px->at(part), py->at(part), pz->at(part), MASS_N, pid->at(part));
       }
-      // if (event->pim_mu_prime_cm().Theta() > 0) {
-      //   std::cout << "p_theta " << event->pim_mu_prime_cm().Theta() * (180 /
-      //   PI)
-      //             << '\n';
-      // }
-
-      dt->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
-      if (sc_ctof_component->at(part) > 0) {
-        //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
-        //  << sc_ctof_component->at(part) << '\n';
-
-        hist->Fill_dt_ctof_comp(sc_ctof_component->at(part), dt->dt_ctof_P());
-      }
     }
+
+    // dt->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
+    // if (sc_ctof_component->at(part) > 0) {
+    //         //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
+    //  << sc_ctof_component->at(part) << '\n';
+
+    hist->Fill_dt_ctof_comp((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3,
+                            (ec_tot_energy->at(0) / event->e_mu_prime().P()));
+    //}
+    //}
     hist->Fill_vertex_vz(vz->at(0));
 
     // if (event->twoPionEvent()) {
