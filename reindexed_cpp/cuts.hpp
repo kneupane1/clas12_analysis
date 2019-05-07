@@ -1,8 +1,7 @@
 
-
 #ifndef CUTS_H_GUARD
 #define CUTS_H_GUARD
-
+#include "constants.hpp"
 class Cuts {
  private:
   int _status;
