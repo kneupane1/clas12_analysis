@@ -274,7 +274,8 @@ void datahandeler(std::string fin, std::string fout) {
         }
       }
     }
-    delete e_cuts, delete event;
+    delete e_cuts;
+    delete event;
   }
 
   out->cd();

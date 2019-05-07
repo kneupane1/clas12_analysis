@@ -10,7 +10,7 @@ Cuts::Cuts() {
 
   _good_e = false;
 }
-
+Cuts::~Cuts() {}
 bool Cuts::electron_cuts(int status, int charge, float min_mom, float sf, float vertex_pos) {
   if (2000 < status < 4000) {
     if (charge == -1) {
