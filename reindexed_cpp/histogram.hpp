@@ -66,7 +66,6 @@ class Histogram {
   TH2D *W_vs_mmSQ_ep[sec_num][cut_y_n];
   TH2D *W_vs_mmSQ_2pi[sec_num][cut_y_n];
   TH2D *W_vs_mmSQ_singlepip[sec_num][cut_y_n];
-  ;
 
   TH1D *W_hist_ep[sec_num];
   TH1D *W_hist_2pi[sec_num];
@@ -110,7 +109,7 @@ class Histogram {
   // Delta T
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
-  TH2D *delta_t_ctof_vs_comp;
+  TH2D *sf_vs_lu_distance_on_u_side;
   TH1D *vertex_vz;
 
   TH1D *theta_prot;
@@ -194,7 +193,10 @@ class Histogram {
   void Fill_deltat_pip(int pid, int charge, float dt, float momentum);
   void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
 
-  void Fill_dt_ctof_comp(int ctof_comp, float dt);
+  void Fill_sf_vs_lu(float li, float sf_);
+  void Fill_sf_vs_lv(float li, float sf_);
+  void Fill_sf_vs_lw(float li, float sf_);
+
   void Fill_vertex_vz(float vz);
   void Write_deltat();
 

@@ -178,10 +178,12 @@ void datahandeler(std::string fin, std::string fout) {
     //         //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
     //  << sc_ctof_component->at(part) << '\n';
 
-    hist->Fill_dt_ctof_comp((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3,
-                            (ec_tot_energy->at(0) / event->e_mu_prime().P()));
-    //}
-    //}
+    hist->Fill_sf_vs_lu((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3,
+                        (ec_tot_energy->at(0) / event->e_mu_prime().P()));
+    hist->Fill_sf_vs_lv((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3,
+                        (ec_tot_energy->at(0) / event->e_mu_prime().P()));
+    hist->Fill_sf_vs_lw((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3,
+                        (ec_tot_energy->at(0) / event->e_mu_prime().P()));
     hist->Fill_vertex_vz(vz->at(0));
 
     // if (event->twoPionEvent()) {
