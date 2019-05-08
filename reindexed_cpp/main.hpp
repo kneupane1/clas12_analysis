@@ -69,7 +69,7 @@ void datahandeler(std::string fin, std::string fout) {
     Cuts *e_cuts = new Cuts();
     good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), event->e_mu_prime().P(),
                                    (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0), chi2pid->at(0));
-    if (good_e == false) continue;
+    // if (good_e == false) continue;
     if (event->e_mu_prime().P() != 0)
       hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
 
@@ -185,8 +185,8 @@ void datahandeler(std::string fin, std::string fout) {
     hist->Fill_sf_vs_lw((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3,
                         (ec_tot_energy->at(0) / event->e_mu_prime().P()));
     hist->Fill_lu_dist((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3);
-    hist->Fill_lu_dist((ec_ecin_lv->at(0) + ec_ecout_lv->at(0) + ec_pcal_lv->at(0)) / 3);
-    hist->Fill_lu_dist((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3);
+    hist->Fill_lv_dist((ec_ecin_lv->at(0) + ec_ecout_lv->at(0) + ec_pcal_lv->at(0)) / 3);
+    hist->Fill_lv_dist((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3);
 
     hist->Fill_vertex_vz(vz->at(0));
 

@@ -32,12 +32,12 @@ Histogram::Histogram() {
 
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
-  sf_vs_lu_distance_on_u_side = new TH2D("E/p_vs_lu", "E/p_vs_lu", bins, zero, 500, bins, 0.1, 0.45);
-  sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 500, bins, 0.1, 0.45);
-  sf_vs_lw_distance_on_w_side = new TH2D("E/p_vs_lw", "E/p_vs_lw", bins, zero, 500, bins, 0.1, 0.45);
-  lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", bins, 0, 450);
-  lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", bins, 0, 450);
-  lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", bins, 0, 450);
+  sf_vs_lu_distance_on_u_side = new TH2D("E/p_vs_lu", "E/p_vs_lu", bins, zero, 450, 100, 0.1, 0.40);
+  sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 450, 100, 0.1, 0.40);
+  sf_vs_lw_distance_on_w_side = new TH2D("E/p_vs_lw", "E/p_vs_lw", bins, zero, 450, 100, 0.1, 0.40);
+  lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", 50, 0, 400);
+  lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", 50, 0, 450);
+  lw_side_distribution = new TH1D("lw_side_distribution", "lw_side_distribution", 50, 0, 450);
 
   /*
      W_hist_lower = new TH1D("W_lower", "W_lower", bins, zero, w_max);
@@ -503,26 +503,6 @@ void Histogram::Write_WvsQ2() {
   // Q2_hist_singlePi->Write();
   // MM_neutron->Write();
 
-  sf_vs_lu_distance_on_u_side->SetXTitle("E/p");
-  sf_vs_lu_distance_on_u_side->SetYTitle("distance_on_U_side");
-  sf_vs_lu_distance_on_u_side->SetOption("COLZ");
-  sf_vs_lu_distance_on_u_side->Write();
-  sf_vs_lv_distance_on_v_side->SetXTitle("E/p");
-  sf_vs_lv_distance_on_v_side->SetYTitle("distance_on_V_side");
-  sf_vs_lv_distance_on_v_side->SetOption("COLZ");
-  sf_vs_lv_distance_on_v_side->Write();
-  sf_vs_lw_distance_on_w_side->SetXTitle("E/p");
-  sf_vs_lw_distance_on_w_side->SetYTitle("distance_on_W_side");
-  sf_vs_lw_distance_on_w_side->SetOption("COLZ");
-  sf_vs_lw_distance_on_w_side->Write();
-  lu_side_distribution->SetXTitle("side_U");
-  lu_side_distribution->Write();
-  lv_side_distribution->SetXTitle("side_V");
-  lv_side_distribution->Write();
-  lw_side_distribution->SetXTitle("side_W");
-  lw_side_distribution->Write();
-  vertex_vz->SetXTitle("vertex_vz");
-  vertex_vz->Write();
   theta_prot->SetXTitle("theta_prot_cm");
   theta_prot->Write();
   theta_pip->SetXTitle("theta_pip_cm");
@@ -954,4 +934,24 @@ void Histogram::Write_EC() {
   EC_sampling_fraction->SetOption("COLZ");
   EC_sampling_fraction->Write();
   delete EC_sampling_fraction;
+  sf_vs_lu_distance_on_u_side->SetXTitle("E/p");
+  sf_vs_lu_distance_on_u_side->SetYTitle("distance_on_U_side");
+  sf_vs_lu_distance_on_u_side->SetOption("COLZ");
+  sf_vs_lu_distance_on_u_side->Write();
+  sf_vs_lv_distance_on_v_side->SetXTitle("E/p");
+  sf_vs_lv_distance_on_v_side->SetYTitle("distance_on_V_side");
+  sf_vs_lv_distance_on_v_side->SetOption("COLZ");
+  sf_vs_lv_distance_on_v_side->Write();
+  sf_vs_lw_distance_on_w_side->SetXTitle("E/p");
+  sf_vs_lw_distance_on_w_side->SetYTitle("distance_on_W_side");
+  sf_vs_lw_distance_on_w_side->SetOption("COLZ");
+  sf_vs_lw_distance_on_w_side->Write();
+  lu_side_distribution->SetXTitle("side_U");
+  lu_side_distribution->Write();
+  lv_side_distribution->SetXTitle("side_V");
+  lv_side_distribution->Write();
+  lw_side_distribution->SetXTitle("side_W");
+  lw_side_distribution->Write();
+  vertex_vz->SetXTitle("vertex_vz");
+  vertex_vz->Write();
 }
