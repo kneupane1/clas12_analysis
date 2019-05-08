@@ -389,18 +389,12 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_sf_vs_lu(float li, float sf_) {
-  lu_side_distribution->Fill(li);
-  sf_vs_lu_distance_on_u_side->Fill(li, sf_);
-}
-void Histogram::Fill_sf_vs_lv(float li, float sf_) {
-  lv_side_distribution->Fill(li);
-  sf_vs_lv_distance_on_v_side->Fill(li, sf_);
-}
-void Histogram::Fill_sf_vs_lw(float li, float sf_) {
-  lw_side_distribution->Fill(li);
-  sf_vs_lw_distance_on_w_side->Fill(li, sf_);
-}
+void Histogram::Fill_sf_vs_lu(float li, float sf_) { sf_vs_lu_distance_on_u_side->Fill(li, sf_); }
+void Histogram::Fill_sf_vs_lv(float li, float sf_) { sf_vs_lv_distance_on_v_side->Fill(li, sf_); }
+void Histogram::Fill_sf_vs_lw(float li, float sf_) { sf_vs_lw_distance_on_w_side->Fill(li, sf_); }
+void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
+void Histogram::Fill_lv_dist(float li) { lv_side_distribution->Fill(li); }
+void Histogram::Fill_lw_dist(float li) { lw_side_distribution->Fill(li); }
 
 void Histogram::Fill_vertex_vz(float vz) { vertex_vz->Fill(vz); }
 void Histogram::Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_) {

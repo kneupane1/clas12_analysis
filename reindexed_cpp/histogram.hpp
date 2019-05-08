@@ -203,6 +203,9 @@ class Histogram {
   void Fill_sf_vs_lu(float li, float sf_);
   void Fill_sf_vs_lv(float li, float sf_);
   void Fill_sf_vs_lw(float li, float sf_);
+  void Fill_lu_dist(float li);
+  void Fill_lv_dist(float li);
+  void Fill_lw_dist(float li);
 
   void Fill_vertex_vz(float vz);
   void Write_deltat();
