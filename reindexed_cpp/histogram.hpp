@@ -113,6 +113,10 @@ class Histogram {
   TH2D *sf_vs_lv_distance_on_v_side;
   TH2D *sf_vs_lw_distance_on_w_side;
 
+  TH1D *lu_side_distribution;
+  TH1D *lv_side_distribution;
+  TH1D *lw_side_distribution;
+
   TH1D *vertex_vz;
 
   TH1D *theta_prot;

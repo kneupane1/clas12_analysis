@@ -35,6 +35,9 @@ Histogram::Histogram() {
   sf_vs_lu_distance_on_u_side = new TH2D("E/p_vs_lu", "E/p_vs_lu", bins, zero, 500, bins, 0.1, 0.45);
   sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 500, bins, 0.1, 0.45);
   sf_vs_lw_distance_on_w_side = new TH2D("E/p_vs_lw", "E/p_vs_lw", bins, zero, 500, bins, 0.1, 0.45);
+  lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", bins, 0, 450);
+  lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", bins, 0, 450);
+  lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", bins, 0, 450);
 
   /*
      W_hist_lower = new TH1D("W_lower", "W_lower", bins, zero, w_max);
@@ -386,9 +389,18 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_sf_vs_lu(float li, float sf_) { sf_vs_lu_distance_on_u_side->Fill(li, sf_); }
-void Histogram::Fill_sf_vs_lv(float li, float sf_) { sf_vs_lv_distance_on_u_side->Fill(li, sf_); }
-void Histogram::Fill_sf_vs_lw(float li, float sf_) { sf_vs_lw_distance_on_w_side->Fill(li, sf_); }
+void Histogram::Fill_sf_vs_lu(float li, float sf_) {
+  lu_side_distribution->Fill(li);
+  sf_vs_lu_distance_on_u_side->Fill(li, sf_);
+}
+void Histogram::Fill_sf_vs_lv(float li, float sf_) {
+  lv_side_distribution->Fill(li);
+  sf_vs_lv_distance_on_v_side->Fill(li, sf_);
+}
+void Histogram::Fill_sf_vs_lw(float li, float sf_) {
+  lw_side_distribution->Fill(li);
+  sf_vs_lw_distance_on_w_side->Fill(li, sf_);
+}
 
 void Histogram::Fill_vertex_vz(float vz) { vertex_vz->Fill(vz); }
 void Histogram::Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_) {
@@ -509,6 +521,12 @@ void Histogram::Write_WvsQ2() {
   sf_vs_lw_distance_on_w_side->SetYTitle("distance_on_W_side");
   sf_vs_lw_distance_on_w_side->SetOption("COLZ");
   sf_vs_lw_distance_on_w_side->Write();
+  lu_side_distribution->SetXTitle("side_U");
+  lu_side_distribution->Write();
+  lv_side_distribution->SetXTitle("side_V");
+  lv_side_distribution->Write();
+  lw_side_distribution->SetXTitle("side_W");
+  lw_side_distribution->Write();
   vertex_vz->SetXTitle("vertex_vz");
   vertex_vz->Write();
   theta_prot->SetXTitle("theta_prot_cm");
