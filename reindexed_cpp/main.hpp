@@ -44,7 +44,7 @@ void datahandeler(std::string fin, std::string fout) {
   bool good_e = false;
   bool good_p = false;
   bool good_pip = false;
-  bool good pim = false;
+  bool good_pim = false;
   int sector;
   float cc_tot;
   float cc_ltcc;
@@ -152,8 +152,8 @@ void datahandeler(std::string fin, std::string fout) {
           //    if (charge->at(part) == 1) {
           if ((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
-            good_proton = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(),
-                                              pid->at(part), chi2pid->at(part));
+            good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
+                                         chi2pid->at(part));
           } else if ((abs(dt->dt_Pi()) < 0.50) ||
                                                    (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7) /*&&
                                                                                                               event->pip_mu_prime().P() < 1.2)*/) {
@@ -181,7 +181,7 @@ void datahandeler(std::string fin, std::string fout) {
       }
     }
     // if (good_pim == false) continue;
-    // if (good_proton == false) continue;
+    // if (good_p == false) continue;
     // if (good_pim == false) continue;
 
     // dt->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
