@@ -154,9 +154,8 @@ void datahandeler(std::string fin, std::string fout) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
             good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                          chi2pid->at(part));
-          } else if ((abs(dt->dt_Pi()) < 0.50) ||
-                                                   (dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7) /*&&
-                                                                                                              event->pip_mu_prime().P() < 1.2)*/) {
+          } else if ((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50) ||
+                     ((dt->dt_Pi() > -4.25 && dt->dt_P() < -3.7) && event->pip_mu_prime().P() < 0.7)) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
             good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                         chi2pid->at(part));
