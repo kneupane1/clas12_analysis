@@ -54,7 +54,7 @@ bool Cuts::pip_cuts(int status, int charge, float min_mom, int pid, float chi_sq
                         }
                 }
         }
-        return _good_p;
+        return _good_pip;
 }
 bool Cuts::pim_cuts(int status, int charge, float min_mom, int pid, float chi_sq){
         if (2000 <= status && status < 6000) {
@@ -62,7 +62,7 @@ bool Cuts::pim_cuts(int status, int charge, float min_mom, int pid, float chi_sq
                         if (min_mom > 0.20) {
                                 if (pid == -211) {
                                         if (-2000 < chi_sq && chi_sq < 2000) {
-                                                _good_p = true;
+                                                _good_pim = true;
 
                                         }
                                 }
