@@ -178,9 +178,9 @@ void datahandeler(std::string fin, std::string fout) {
           event->SetOther(px->at(part), py->at(part), pz->at(part), MASS_N, pid->at(part));
       }
     }
-    // if (good_pim == false) continue;
-    // if (good_p == false) continue;
-    // if (good_pim == false) continue;
+    if (good_pim == false) continue;
+    if (good_p == false) continue;
+    if (good_pim == false) continue;
 
     // dt->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
     // if (sc_ctof_component->at(part) > 0) {
