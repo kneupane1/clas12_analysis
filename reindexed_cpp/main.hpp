@@ -265,7 +265,7 @@ void datahandeler(std::string fin, std::string fout) {
       } else if (event->WopPipEvent()) {
         hist->Fill_MM_wop_pim(event->MM_wop(), sector);
         hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
-        if (event->MM2_wop() < 1.05 && event->MM2_wop() > 0.7) {
+        if (event->MM_wop() < 1.05 && event->MM2_wop() > 0.8) {
           hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
         } else {
           hist->Fill_WvsmmSQ_anti_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
