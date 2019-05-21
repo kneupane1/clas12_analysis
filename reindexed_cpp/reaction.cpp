@@ -182,18 +182,14 @@ void Reaction::CalcMissMass() {
   TLorentzVector m_dpp;
   TLorentzVector m_d0;
   TLorentzVector m_rho;
-
+  mm = (*_beam - *_elec + *_target;);
   if (elecProtEvent()) {
-    mm = (*_beam - *_elec);
-    mm += *_target;
     mm -= *_prot;
     _MM = mm.M();
     _MM2 = mm.M2();
     _W_ep = physics::W_calc(*_beam, *_elec);
 
   } else if (twoPionEvent()) {
-    mm = (*_beam - *_elec);
-    mm += *_target;
     mm -= *_prot;
     mm -= *_pip;
     mm -= *_pim;
@@ -217,15 +213,11 @@ void Reaction::CalcMissMass() {
     *_pim_mu_prime_cm = physics::boost_(*_pim, *_beam, *_elec);
     //}
   } else if (ProtonPimEvent()) {
-    mm = (*_beam - *_elec);
-    mm += *_target;
     mm -= *_prot;
     mm -= *_pim;
     _MM = mm.M();
     _MM2 = mm.M2();
   } else if (ProtonPipEvent()) {
-    mm = (*_beam - *_elec);
-    mm += *_target;
     mm -= *_prot;
     mm -= *_pip;
     _MM = mm.M();
@@ -234,31 +226,20 @@ void Reaction::CalcMissMass() {
 }
 void Reaction::CalcMissMass_wop() {
   TLorentzVector mm_1;
+  mm_1 = (*_beam - *_elec + *_target);
   if (elecWopEvent()) {
-    mm_1 = (*_beam - *_elec);
-    mm_1 += *_target;
-    // mm_1 -= *_prot;
     _MM_wop = mm_1.M();
     _MM2_wop = mm_1.M2();
   } else if (twoPionWopEvent()) {
-    mm_1 = (*_beam - *_elec);
-    mm_1 += *_target;
-    // mm_1 -= *_prot;
     mm_1 -= *_pip;
     mm_1 -= *_pim;
     _MM_wop = mm_1.M();
     _MM2_wop = mm_1.M2();
   } else if (WopPimEvent()) {
-    mm_1 = (*_beam - *_elec);
-    mm_1 += *_target;
-    // mm_1 -= *_prot;
     mm_1 -= *_pim;
     _MM_wop = mm_1.M();
     _MM2_wop = mm_1.M2();
   } else if (WopPipEvent()) {
-    mm_1 = (*_beam - *_elec);
-    mm_1 += *_target;
-    // mm_1 -= *_prot;
     mm_1 -= *_pip;
     _MM_wop = mm_1.M();
     _MM2_wop = mm_1.M2();
