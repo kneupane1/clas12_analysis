@@ -61,6 +61,7 @@ void Delta_T::dt_calc(float momentum, float time_1b, float path_1b, float time_1
     _sc_r = path_2;
   }
 }
+
 void Delta_T::dt_calc_1(float momentum, float time_ctof, float path_ctof) {
   _momentum = momentum;
   if (time_ctof == time_ctof) {
