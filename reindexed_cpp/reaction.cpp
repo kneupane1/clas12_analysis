@@ -182,7 +182,7 @@ void Reaction::CalcMissMass() {
   TLorentzVector m_dpp;
   TLorentzVector m_d0;
   TLorentzVector m_rho;
-  mm = (*_beam - *_elec + *_target;);
+  mm = (*_beam - *_elec + *_target);
   if (elecProtEvent()) {
     mm -= *_prot;
     _MM = mm.M();

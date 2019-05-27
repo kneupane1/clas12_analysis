@@ -32,7 +32,7 @@ Histogram::Histogram() {
 
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
-  sf_vs_lu_distance_on_u_side = new TH2D("E/p_vs_lu", "E/p_vs_lu", bins, zero, 450, 100, 0.1, 0.40);
+  theta_vs_phi_cm = new TH2D("theta_vs_phi_cm", "theta_vs_phi_cm", bins, zero, 60, 100, -180, 180);
   sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 450, 100, 0.1, 0.40);
   sf_vs_lw_distance_on_w_side = new TH2D("E/p_vs_lw", "E/p_vs_lw", bins, zero, 450, 100, 0.1, 0.40);
   lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", 50, 0, 400);
@@ -393,7 +393,7 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_sf_vs_lu(float li, float sf_) { sf_vs_lu_distance_on_u_side->Fill(li, sf_); }
+void Histogram::Fill_sf_vs_lu(float li, float sf_) { theta_vs_phi_cm->Fill(li, sf_); }
 void Histogram::Fill_sf_vs_lv(float li, float sf_) { sf_vs_lv_distance_on_v_side->Fill(li, sf_); }
 void Histogram::Fill_sf_vs_lw(float li, float sf_) { sf_vs_lw_distance_on_w_side->Fill(li, sf_); }
 void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
@@ -941,10 +941,10 @@ void Histogram::Write_EC() {
   EC_sampling_fraction->SetOption("COLZ");
   EC_sampling_fraction->Write();
   delete EC_sampling_fraction;
-  sf_vs_lu_distance_on_u_side->SetXTitle("E/p");
-  sf_vs_lu_distance_on_u_side->SetYTitle("distance_on_U_side");
-  sf_vs_lu_distance_on_u_side->SetOption("COLZ");
-  sf_vs_lu_distance_on_u_side->Write();
+  theta_vs_phi_cm->SetXTitle("theta");
+  theta_vs_phi_cm->SetYTitle("phi");
+  theta_vs_phi_cm->SetOption("COLZ");
+  theta_vs_phi_cm->Write();
   sf_vs_lv_distance_on_v_side->SetXTitle("E/p");
   sf_vs_lv_distance_on_v_side->SetYTitle("distance_on_V_side");
   sf_vs_lv_distance_on_v_side->SetOption("COLZ");
