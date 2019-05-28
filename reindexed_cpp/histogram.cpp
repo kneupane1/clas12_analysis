@@ -393,7 +393,7 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_sf_vs_lu(float li, float sf_) { theta_vs_phi_cm->Fill(li, sf_); }
+void Histogram::Fill_theta_vs_phi_cm(float th_el, float ph_el) { theta_vs_phi_cm->Fill(th_el, ph_el); }
 void Histogram::Fill_sf_vs_lv(float li, float sf_) { sf_vs_lv_distance_on_v_side->Fill(li, sf_); }
 void Histogram::Fill_sf_vs_lw(float li, float sf_) { sf_vs_lw_distance_on_w_side->Fill(li, sf_); }
 void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
