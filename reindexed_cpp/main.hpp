@@ -70,11 +70,11 @@ void datahandeler(std::string fin, std::string fout) {
     event->SetElec(px->at(0), py->at(0), pz->at(0), MASS_E);
 
     Cuts *e_cuts = new Cuts();
-    good_e = e_cuts->electron_cuts(status->at(0), charge->at(0),
-                                   (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0), chi2pid->at(0), event->e_mu_prime().P(),
-                                                            event->e_mu_prime().Theta(), event->e_mu_prime().Phi()));
+    good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
+                                   vz->at(0), chi2pid->at(0), event->e_mu_prime().P(), event->e_mu_prime().Theta(),
+                                   event->e_mu_prime().Phi());
 
-    if (good_e == false) continue;
+    // if (good_e == false) continue;
 
     if (event->e_mu_prime().P() != 0)
       hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P());
@@ -202,7 +202,8 @@ void datahandeler(std::string fin, std::string fout) {
     //         //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
     //  << sc_ctof_component->at(part) << '\n';
 
-    hist->Fill_theta_vs_phi_cm(e_mu_prime.Theta(), e_mu_prime.Phi());
+    hist->Fill_theta_vs_phi_cm(event->e_mu_prime().Theta() * 180 / PI, event->e_mu_prime().Phi() * 180 / PI);
+
     hist->Fill_sf_vs_lv((ec_ecin_lv->at(0) + ec_ecout_lv->at(0) + ec_pcal_lv->at(0)) / 3,
                         (ec_tot_energy->at(0) / event->e_mu_prime().P()));
     hist->Fill_sf_vs_lw((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3,

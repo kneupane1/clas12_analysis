@@ -52,11 +52,10 @@ void Delta_T::dt_calc(float momentum, float time_1b, float path_1b, float time_1
   } else if (time_1a == time_1a) {
     _sc_t = time_1a;
     _sc_r = path_1a;
-  } /*else if (time_ctof == time_ctof) {
+  } else if (time_ctof == time_ctof) {
     _sc_t = time_ctof;
     _sc_r = path_ctof;
-  }*/
-  else if (time_2 == time_2) {
+  } else if (time_2 == time_2) {
     _sc_t = time_2;
     _sc_r = path_2;
   }

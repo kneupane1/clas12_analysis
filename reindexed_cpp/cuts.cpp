@@ -34,9 +34,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               th_max = 76.8617 - 76.537 * mom_el + 77.9387 * mom_el * mom_el - 28.389 * mom_el * mom_el * mom_el;
 
               if ((th_el > th_min) && (th_el < th_max) && (ph_el > fid_b + 360) && (ph_el < fid_a + 360)) {
-                if ((mom_el < 1.75999) && (mom_el > 0.4)) {
-                  _good_e = true;
-                }
+                //  if ((mom_el < 1.75999) && (mom_el > 0.4)) {
+                _good_e = true;
+                //  }
               }
             }
           }
