@@ -55,6 +55,7 @@ void datahandeler(std::string fin, std::string fout) {
   float cc_tot_pip;
   float cc_ltcc_pip;
   float cc_htcc_pip;
+  float ec_tot_en;
   int n_pip = 0;
   int n_pim = 0;
 
@@ -107,6 +108,7 @@ void datahandeler(std::string fin, std::string fout) {
       if (beta->at(part) < 0.02 || p->at(part) < 0.02) continue;
       if (dc_sec->at(0) < 7) {
         sector = dc_sec->at(0) - 1;
+        ec_tot_en = ec_tot_energy->at(0);
       }
 
       dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part), sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
@@ -217,7 +219,7 @@ void datahandeler(std::string fin, std::string fout) {
     // if (event->p_mu_prime().P() != 0) {
     hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
     if (event->e_mu_prime().P() != 0)
-      hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P(), sector);
+      hist->Fill_EC(ec_tot_en / event->e_mu_prime().P(), event->e_mu_prime().P(), sector);
     //}
     //}
     delete dt;
