@@ -69,10 +69,6 @@ void datahandeler(std::string fin, std::string fout) {
     Reaction *event = new Reaction(e_mu);
     event->SetElec(px->at(0), py->at(0), pz->at(0), MASS_E);
 
-    if (dc_sec->at(0) < 7) {
-      sector = dc_sec->at(0) - 1;
-    }
-
     Cuts *e_cuts = new Cuts();
     good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
                                    vz->at(0), chi2pid->at(0), event->e_mu_prime().P(),
@@ -112,6 +108,9 @@ void datahandeler(std::string fin, std::string fout) {
       // if (n_pim > 1) continue;
 
       if (beta->at(part) < 0.02 || p->at(part) < 0.02) continue;
+      if (dc_sec->at(0) < 7) {
+        sector = dc_sec->at(0) - 1;
+      }
 
       dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part), sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
                   sc_ftof_1a_path->at(part), sc_ftof_2_time->at(part), sc_ftof_2_path->at(part), sc_ctof_time->at(part),

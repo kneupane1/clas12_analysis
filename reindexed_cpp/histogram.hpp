@@ -98,7 +98,7 @@ class Histogram {
   // TH2D *W_vs_q2_upper_singlePi;
 
   // EC Sampling Fraction
-  TH2D *EC_sampling_fraction[i];
+  TH2D *EC_sampling_fraction[sec_number];
   // EC Sampling Fraction
 
   // Mom vs Beta
