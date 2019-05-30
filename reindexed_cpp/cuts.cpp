@@ -23,21 +23,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
         if (sf > 0.18 && sf < 0.28) {
           if (-10.0 < vertex_pos && vertex_pos < 5.0) {
             if (-2000 < chi_sq && chi_sq < 2000) {
-              th_min = (11.7398 + 8.21504 / (0.433327 * mom_el + 0.158076));
-              par1 = 0.85 + 1.1 * mom_el;
-              par2 = -62.8 - 30. * mom_el;
-              par3 = 0.0047 * mom_el + 0.0079;
-
-              fid_a = 41.3 * pow((sin((th_el - th_min) * par3)), (par1 + par2 / th_el + 1485. / th_el / th_el)) + 1.;
-              fid_b = -41.3 * pow((sin((th_el - th_min) * par3)), (par1 + par2 / th_el + 1485. / th_el / th_el)) - 1.;
-
-              th_max = 76.8617 - 76.537 * mom_el + 77.9387 * mom_el * mom_el - 28.389 * mom_el * mom_el * mom_el;
-
-              if ((th_el > th_min) && (th_el < th_max) && (ph_el > fid_b + 360) && (ph_el < fid_a + 360)) {
-                //  if ((mom_el < 1.75999) && (mom_el > 0.4)) {
-                _good_e = true;
-                //  }
-              }
+              _good_e = true;
+              //  }
+              //}
             }
           }
         }
