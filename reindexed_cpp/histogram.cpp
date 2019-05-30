@@ -280,6 +280,11 @@ void Histogram::Fill_WvsQ2(double W, double Q2, int sec_number) {
     Q2_hist[sec_number]->Fill(Q2);
   }
 }
+void Histogram::Fill_EC(double sf, double momentum, int sec_number) {
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    EC_sampling_fraction[sec_number]->Fill(sf, momentum);
+  }
+}
 void Histogram::Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_hist_ep[sec_number]->Fill(W);
@@ -943,11 +948,6 @@ void Histogram::Write_MomVsBeta() {
         delete momvsbeta_hist[p][c][i];
       }
     }
-  }
-}
-void Histogram::Fill_EC(double sf, double momentum, int sec_number) {
-  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
-    EC_sampling_fraction[sec_number]->Fill(momentum, sf);
   }
 }
 void Histogram::Write_EC() {

@@ -98,7 +98,7 @@ class Histogram {
   // TH2D *W_vs_q2_upper_singlePi;
 
   // EC Sampling Fraction
-  TH2D *EC_sampling_fraction[sec_number];
+  TH2D *EC_sampling_fraction[sec_num];
   // EC Sampling Fraction
 
   // Mom vs Beta
@@ -213,7 +213,7 @@ class Histogram {
   void Write_deltat();
 
   // EC Sampling Fraction
-  void Fill_EC(double etot, double momentum, int sec);
+  void Fill_EC(double sf, double momentum, int sec_number);
   void Write_EC();
 };
 

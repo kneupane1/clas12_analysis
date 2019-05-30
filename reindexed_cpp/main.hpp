@@ -76,9 +76,6 @@ void datahandeler(std::string fin, std::string fout) {
 
     // if (good_e == false) continue;
 
-    if (event->e_mu_prime().P() != 0)
-      hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P(), dc_sec->at(0));
-
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
                               sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
     if (pid->at(0) == ELECTRON) {
@@ -219,6 +216,8 @@ void datahandeler(std::string fin, std::string fout) {
     //  for (int i = 1; i < sector; i++) {
     // if (event->p_mu_prime().P() != 0) {
     hist->Fill_WvsQ2(event->W(), event->Q2(), sector);
+    if (event->e_mu_prime().P() != 0)
+      hist->Fill_EC(ec_tot_energy->at(0) / event->e_mu_prime().P(), event->e_mu_prime().P(), sector);
     //}
     //}
     delete dt;
