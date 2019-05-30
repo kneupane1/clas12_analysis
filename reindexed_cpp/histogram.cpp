@@ -946,7 +946,11 @@ void Histogram::makeHists_EC_sf() {
     }
   }
 
-  void Histogram::Fill_EC(double sf, double momentum) { EC_sampling_fraction->Fill(momentum, sf, int sec); }
+  void Histogram::Fill_EC(double sf, double momentum, int sec_number) {
+    if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+      EC_sampling_fraction->Fill(momentum, sf);
+    }
+  }
   void Histogram::Write_EC() {
     for (int i = 0; i < sec_num; i++) {
       EC_sampling_fraction[i]->SetXTitle("Momentum (GeV)");
