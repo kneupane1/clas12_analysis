@@ -63,7 +63,7 @@ void datahandeler(std::string fin, std::string fout) {
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     chain->GetEntry(current_event);
-    if (pid->size() == 0 || pid->at(0) != ELECTRON * /* charge->at(0) >= 0*/) continue;
+    if (pid->size() == 0 || pid->at(0) != ELECTRON /* charge->at(0) >= 0*/) continue;
 
     per = ((double)current_event / (double)num_of_events);
     if (current_event % 1000 == 0) std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
@@ -73,10 +73,6 @@ void datahandeler(std::string fin, std::string fout) {
       sector = dc_sec->at(0) - 1;
       // ec_tot_en = ec_tot_energy->at(0);
     }
-    if (event->e_mu_prime().P() != 0) {
-      hist->Fill_EC_sampling_fraction(event->e_mu_prime().P(), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
-                                      sector);
-    }
 
     Cuts *e_cuts = new Cuts();
     good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
@@ -85,6 +81,11 @@ void datahandeler(std::string fin, std::string fout) {
 
     if (good_e == false) continue;
 
+    if (event->e_mu_prime().P() != 0) {
+      hist->Fill_EC_sampling_fraction(event->e_mu_prime().P(), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
+                                      sector);
+      hist->Fill_PCAL_VS_ECAL->(ec_pcal_energy->at(0), (ec_ecin_energy->at(0) + ec_ecout_energy->at(0)), sector);
+    }
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
                               sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
     if (pid->at(0) == ELECTRON) {
