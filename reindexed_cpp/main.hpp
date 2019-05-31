@@ -63,7 +63,7 @@ void datahandeler(std::string fin, std::string fout) {
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     chain->GetEntry(current_event);
-    if (pid->size() == 0 || /*pid->at(0) != ELECTRON*/ charge->at(0) >= 0) continue;
+    if (pid->size() == 0 || pid->at(0) != ELECTRON * /* charge->at(0) >= 0*/) continue;
 
     per = ((double)current_event / (double)num_of_events);
     if (current_event % 1000 == 0) std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
@@ -83,7 +83,7 @@ void datahandeler(std::string fin, std::string fout) {
                                    vz->at(0), chi2pid->at(0), event->e_mu_prime().P(),
                                    event->e_mu_prime().Theta() * 180 / PI, event->e_mu_prime().Phi() * 180 / PI);
 
-    // if (good_e == false) continue;
+    if (good_e == false) continue;
 
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
                               sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
@@ -165,14 +165,14 @@ void datahandeler(std::string fin, std::string fout) {
           if (abs(dt->dt_K()) < 10.1) {
             hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           }
-          if (((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) && (pid->at(part) == 2212) &&
-              (abs(dt->dt_Pi()) > 0.5)) {
+          if (((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) && (pid->at(part) == 2212) /*&&
+        (abs(dt->dt_Pi()) > 0.5)*/) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
             good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                          chi2pid->at(part));
           } else if ((((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
                       ((dt->dt_Pi() > -4.25 && dt->dt_Pi() < -3.7) && event->pip_mu_prime().P() < 0.7)) &&
-                     (pid->at(part) == 211) && ((dt->dt_P() < -0.10) && (dt->dt_P() > 0.50))) {
+                     (pid->at(part) == 211) /*&& ((dt->dt_P() < -0.10) && (dt->dt_P() > 0.50))*/) {
             event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
             good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                         chi2pid->at(part));
