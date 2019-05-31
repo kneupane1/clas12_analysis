@@ -129,9 +129,11 @@ void datahandeler(std::string fin, std::string fout) {
         if (charge->at(part) == -1) {
           if (abs(dt->dt_E()) < 10.1) {
             hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
-          } else if (abs(dt->dt_Pi()) < 10.1) {
+          }
+          if (abs(dt->dt_Pi()) < 10.1) {
             hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
-          } else if (abs(dt->dt_K()) < 10.1) {
+          }
+          if (abs(dt->dt_K()) < 10.1) {
             hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           }
           if ((abs(dt->dt_Pi()) < 0.5) || (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) && (pid->at(part) == -211)) {
@@ -156,9 +158,11 @@ void datahandeler(std::string fin, std::string fout) {
         } else if (charge->at(part) == 1) {
           if (abs(dt->dt_P()) < 10.1) {
             hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), p->at(part));
-          } else if (abs(dt->dt_Pi()) < 10.1) {
+          }
+          if (abs(dt->dt_Pi()) < 10.1) {
             hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
-          } else if (abs(dt->dt_K()) < 10.1) {
+          }
+          if (abs(dt->dt_K()) < 10.1) {
             hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           }
           if (((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) && (pid->at(part) == 2212) &&
