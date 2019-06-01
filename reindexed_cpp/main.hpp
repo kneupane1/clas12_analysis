@@ -85,6 +85,7 @@ void datahandeler(std::string fin, std::string fout) {
       hist->Fill_EC_sampling_fraction(event->e_mu_prime().P(), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
                                       sector);
       hist->Fill_PCAL_VS_ECAL->(ec_pcal_energy->at(0), (ec_ecin_energy->at(0) + ec_ecout_energy->at(0)), sector);
+      hist->Fill_hist_PCAL_FID_CUT(ec_pcal_x->at(0), ec_pcal_y->at(0));
     }
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
                               sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));

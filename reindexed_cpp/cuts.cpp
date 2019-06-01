@@ -16,16 +16,26 @@ Cuts::Cuts() {
 }
 Cuts::~Cuts() {}
 bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, float chi_sq, float mom_el, float th_el,
-                         float ph_el) {
+                         float ph_el, int sec_PCAL, float x_PCAL, float y_PCAL) {
   if (2000 <= status && status < 4000) {
     if (charge == -1) {
       if (mom_el > 1.0) {
         if (sf > 0.18 && sf < 0.28) {
           if (-10.0 < vertex_pos && vertex_pos < 5.0) {
             if (-2000 < chi_sq && chi_sq < 2000) {
-              _good_e = true;
-              //  }
-              //}
+              float x_PCAL_rot = y_PCAL * sin(sec_PCAL * 60.0 * PI / 180) + x_PCAL * cos(sec_PCAL * 60.0 * PI / 180);
+              float y_PCAL_rot = y_PCAL * cos(sec_PCAL * 60.0 * PI / 180) - x_PCAL * sin(sec_PCAL * 60.0 * PI / 180);
+              float angle_PCAL = 60;
+              float height_PCAL = 45;
+              float slope_PCAL = 1 / tan(0.5 * angle_PCAL * PI / 180);
+              float left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
+              float right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
+              float radius2_PCAL = pow(height_PCAL + 6, 2) - pow(y_PCAL_rot, 2);
+              if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
+                  x_PCAL_rot < 372) {
+                _good_e = true;
+                //  }
+              }
             }
           }
         }

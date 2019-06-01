@@ -1,6 +1,7 @@
 
 #ifndef CUTS_H_GUARD
 #define CUTS_H_GUARD
+#include "TMath"
 #include "constants.hpp"
 #include "reaction.hpp"
 

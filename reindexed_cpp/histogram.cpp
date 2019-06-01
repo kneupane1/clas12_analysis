@@ -31,6 +31,7 @@ Histogram::Histogram() {
   Phi_pim = new TH1D("Phi_pim_dist_cm", "Phi_dist-pim_cm", bins, -180, 180);
 
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
+  PCAL_FID_CUT = new TH2D("PCAL_FID_CUT", "PCAL_FID_CUT", bins, -400, 400, bins, -400, 400);
 
   theta_vs_phi_cm = new TH2D("theta_vs_phi_cm", "theta_vs_phi_cm", bins, zero, 60, 100, -180, 180);
   sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 450, 100, 0.1, 0.40);
@@ -434,6 +435,8 @@ void Histogram::Fill_lv_dist(float li) { lv_side_distribution->Fill(li); }
 void Histogram::Fill_lw_dist(float li) { lw_side_distribution->Fill(li); }
 
 void Histogram::Fill_vertex_vz(float vz) { vertex_vz->Fill(vz); }
+Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT->(x_PCAL, y_PCAL); }
+
 void Histogram::Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_) {
   theta_prot->Fill(theta_p);
   theta_pip->Fill(theta_pip_);
@@ -685,9 +688,9 @@ void Histogram::Write_MM_hist() {
   for (size_t m = 0; m < mm_num; m++) {
     for (size_t e = 0; e < mm_events_num; e++) {
       for (int i = 0; i < sec_num; i++) {
-        if (m == 1 && e == 1) {
-          MM_hist[m][e][i]->Fit("gaus", "", "", -0.05, 0.05);
-        }
+        // if (m == 1 && e == 1) {
+        //   MM_hist[m][e][i]->Fit("gaus", "", "", -0.05, 0.05);
+        // }
         MM_hist[m][e][i]->Write();
         delete MM_hist[m][e][i];
       }
@@ -998,6 +1001,11 @@ void Histogram::Write_EC() {
   lv_side_distribution->Write();
   lw_side_distribution->SetXTitle("side_W");
   lw_side_distribution->Write();
+
+  PCAL_FID_CUT->SetXTitle(x / cm);
+  PCAL_FID_CUT->SetYTitle(y / cm);
+  PCAL_FID_CUT->SetOption("COLZ");
+  PCAL_FID_CUT->Write();
   vertex_vz->SetXTitle("vertex_vz");
   vertex_vz->Write();
 }
