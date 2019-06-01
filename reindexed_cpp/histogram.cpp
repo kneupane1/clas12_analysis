@@ -435,7 +435,7 @@ void Histogram::Fill_lv_dist(float li) { lv_side_distribution->Fill(li); }
 void Histogram::Fill_lw_dist(float li) { lw_side_distribution->Fill(li); }
 
 void Histogram::Fill_vertex_vz(float vz) { vertex_vz->Fill(vz); }
-void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT->(x_PCAL, y_PCAL); }
+void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT->Fill(x_PCAL, y_PCAL); }
 
 void Histogram::Fill_theta_P(float theta_p, float theta_pip_, float theta_pim_) {
   theta_prot->Fill(theta_p);
