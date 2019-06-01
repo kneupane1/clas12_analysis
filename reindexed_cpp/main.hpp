@@ -75,9 +75,10 @@ void datahandeler(std::string fin, std::string fout) {
     }
 
     Cuts *e_cuts = new Cuts();
-    good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
-                                   vz->at(0), chi2pid->at(0), event->e_mu_prime().P(),
-                                   event->e_mu_prime().Theta() * 180 / PI, event->e_mu_prime().Phi() * 180 / PI);
+    good_e =
+        e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0),
+                              chi2pid->at(0), event->e_mu_prime().P(), event->e_mu_prime().Theta() * 180 / PI,
+                              event->e_mu_prime().Phi() * 180 / PI, ec_pcal_x->at(0), ec_pcal_y->at(0));
 
     if (good_e == false) continue;
 
