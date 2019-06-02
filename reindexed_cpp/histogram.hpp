@@ -76,7 +76,6 @@ class Histogram {
   TH1D *W_hist_singlepip[sec_num];
 
   // TH1D *MM_neutron;
-
   // TH1D *W_hist_lower;
   // TH1D *Q2_hist_lower;
   // TH2D *W_vs_q2_lower;
@@ -100,7 +99,7 @@ class Histogram {
   // EC Sampling Fraction
   TH2D *EC_sampling_fraction[sec_num];
   TH2D *PCAL_VS_ECAL[sec_num];
-  TH2D *PCAL_FID_CUT;
+  TH2D *PCAL_FID_CUT[cut_y_n];
   // EC Sampling Fraction
 
   // Mom vs Beta
@@ -161,6 +160,7 @@ class Histogram {
   void makeHists_WvsQ2();
   void makeHists_MM();
   void makeHists_EC_sf();
+  void makeHists_pcal_fid_cuts();
 
   //  void makeHists_Q2();
   void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number);
@@ -218,6 +218,8 @@ class Histogram {
   // EC Sampling Fraction
   void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number);
   void Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL);
+  void Fill_hist_PCAL_without_FID__CUT(float x_PCAL, float y_PCAL);
+
   void Write_EC();
 };
 

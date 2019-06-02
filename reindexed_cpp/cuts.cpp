@@ -16,7 +16,7 @@ Cuts::Cuts() {
 }
 Cuts::~Cuts() {}
 bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, float chi_sq, float mom_el, float th_el,
-                         float ph_el, int sec_PCAL, float x_PCAL, float y_PCAL) {
+                         float ph_el, int sec_PCAL, float x_PCAL, float y_PCAL /*, float dc_c1x, float dc_c1y*/) {
   if (2000 <= status && status < 4000) {
     if (charge == -1) {
       if (mom_el > 1.0) {
@@ -31,10 +31,19 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               float left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
               float right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
               float radius2_PCAL = pow(height_PCAL + 6, 2) - pow(y_PCAL_rot, 2);
+              void Histogram::Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL) {
+                PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL);
+              }
+
               if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
                   x_PCAL_rot < 372) {
+                void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) {
+                  PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL);
+                }
+
+                //  bool DC_hit_position_region1_fiducial_cut(int j){
+
                 _good_e = true;
-                //  }
               }
             }
           }
