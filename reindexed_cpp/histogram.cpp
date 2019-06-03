@@ -123,7 +123,7 @@ float Histogram::mm_lim_max(int mm_number, int mm_events_number) {
     return 20;
   }
 }
-void makeHists_pcal_fid_cuts() {
+void Histogram::makeHists_pcal_fid_cuts() {
   for (int j = 0; j < cut_y_n; j++) {
     hname.append("PCAL_FID_CUTS");
     htitle.append("PCAL_FID_CUTS");
