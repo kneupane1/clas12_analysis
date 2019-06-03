@@ -314,10 +314,7 @@ void Histogram::Fill_EC_sampling_fraction(double momentum, double sf, int sec_nu
     EC_sampling_fraction[sec_number]->Fill(momentum, sf);
   }
 }
-void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) {
-  PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL);
-  PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL);
-}
+
 void Histogram::Fill_PCAL_VS_ECAL(float pcal, float ecal, int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     PCAL_VS_ECAL[sec_number]->Fill(pcal, ecal);

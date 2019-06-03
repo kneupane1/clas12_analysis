@@ -218,7 +218,7 @@ class Histogram {
   // EC Sampling Fraction
   void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number);
   void Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL);
-  void Fill_hist_PCAL_without_FID__CUT(float x_PCAL, float y_PCAL);
+  void Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL);
 
   void Write_EC();
 };
