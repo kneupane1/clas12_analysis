@@ -136,6 +136,11 @@ void Histogram::makeHists_pcal_fid_cuts() {
     htitle.clear();
   }
 }
+void Histogram::Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL) {
+  hist1->PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL);
+}
+void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL); }
+
 void Histogram::makeHists_EC_sf() {
   for (int i = 0; i < sec_num; i++) {
     hname.append("EC_sampling_fraction");

@@ -33,27 +33,21 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               float left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
               float right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
               float radius2_PCAL = pow(height_PCAL + 6, 2) - pow(y_PCAL_rot, 2);
-              hist1->PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL);
+
+              if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
+                  x_PCAL_rot < 372) {
+                //  bool DC_hit_position_region1_fiducial_cut(int j){
+
+                _good_e = true;
+              }
             }
-
-            if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
-                x_PCAL_rot < 372) {
-              hist1->PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL);
-            }
-
-            //  bool DC_hit_position_region1_fiducial_cut(int j){
-
-            _good_e = true;
           }
         }
       }
     }
   }
+  return _good_e;
 }
-}
-return _good_e;
-}
-delete hist1;
 bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
   if (2000 <= status && status < 6000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
     if (charge != 0) {
