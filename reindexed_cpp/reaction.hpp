@@ -94,7 +94,7 @@ class Reaction {
   TLorentzVector p_mu_prime_cm();
   TLorentzVector pip_mu_prime_cm();
   TLorentzVector pim_mu_prime_cm();
-  double theta_();
+  float theta_();
 
   //  void boost_fn(/*TLorentzVector four_vect, TLorentzVector e_mu,
   // TLorentzVector e_mu_prime);

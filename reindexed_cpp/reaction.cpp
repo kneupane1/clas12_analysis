@@ -264,7 +264,7 @@ float Reaction::q_3_() {
   return physics::q_3(*_beam, *_elec);  ///*_q_cm; /*/ (physics::boost_((*_beam -
                                         ///*_elec), *_beam, *_elec));
 }
-double Reaction::theta_() { return physics::theta_fn(*_pip_mu_prime_cm, *_beam, *_elec); }
+float Reaction::theta_() { return physics::theta_fn(*_pip_mu_prime_cm, *_beam, *_elec); }
 TLorentzVector Reaction::p_mu_prime_cm() {
   // if (twoPionEvent())
   return  // /*_p_mu_prime_cm; /*/
@@ -284,14 +284,14 @@ void Reaction::AlphaCalc() {
   TLorentzVector _pip_mu_prime_cm_;
   TLorentzVector _pim_mu_prime_cm_;
 
-  double theta_gamma;
-  double phi_gamma;
-  double theta_prot;
-  double phi_prot;
-  double theta_pip;
-  double phi_pip;
-  double theta_pim;
-  double phi_pim;
+  float theta_gamma;
+  float phi_gamma;
+  float theta_prot;
+  float phi_prot;
+  float theta_pip;
+  float phi_pip;
+  float theta_pim;
+  float phi_pim;
 
   //  Float_t m_proton, m_pip, beta;
   Float_t a_gamma, b_gamma, a_beta, b_beta;

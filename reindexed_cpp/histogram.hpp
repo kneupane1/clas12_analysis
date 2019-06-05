@@ -212,9 +212,10 @@ class Histogram {
   void Fill_deltat_pip(int pid, int charge, float dt, float momentum);
   void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
 
-  void Fill_theta_vs_phi_cm(float inv_mass, float theta);
-  void Fill_sf_vs_lv(float inv_mass, float theta);
-  void Fill_sf_vs_lw(float inv_mass, float theta);
+  void Fill_theta_P_inv_mass(float inv_mass, float theta);
+  void Fill_theta_pim_inv_mass(float inv_mass, float theta);
+  void Fill_theta_pip_inv_mass(float inv_mass, float theta);
+
   void Fill_lu_dist(float li);
   void Fill_lv_dist(float li);
   void Fill_lw_dist(float li);

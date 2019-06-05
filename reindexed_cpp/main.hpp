@@ -248,15 +248,15 @@ void datahandeler(std::string fin, std::string fout) {
       } else if (event->twoPionEvent()) {
         hist->Fill_2pion_mm(event->MM(), sector);
         hist->Fill_2pion_mmSQ(event->MM2(), sector);
-        if (event->MM2() < 0.05 && event->MM2() > -0.05) {
+        if (event->MM2() < 0.03 && event->MM2() > -0.03) {
           hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                  event->MM2(), sector);
           hist->Fill_W_2pi_all_sec(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho());
 
-          hist->Fill_theta_vs_phi_cm(event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)));
+          hist->Fill_theta_p_inv_mass(event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)));
 
-          hist->Fill_sf_vs_lv(event->W_delta_pp(), (event->pim_mu_prime_cm().Theta() * (180 / PI)));
-          hist->Fill_sf_vs_lw(event->W_delta_zero(), (event->pip_mu_prime_cm().Theta() * (180 / PI)));
+          hist->Fill_theta_pip_inv_mass(event->W_delta_pp(), (event->pim_mu_prime_cm().Theta() * (180 / PI)));
+          hist->Fill_theta_pip_inv_mass(event->W_delta_zero(), (event->pip_mu_prime_cm().Theta() * (180 / PI)));
 
         } else {
           hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
