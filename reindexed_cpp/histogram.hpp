@@ -69,6 +69,10 @@ class Histogram {
 
   TH1D *W_hist_ep[sec_num];
   TH1D *W_hist_2pi[sec_num];
+  TH1D *W_hist_twopi_all_sec;
+  TH1D *inv_mass_P_pip_all_sec;
+  TH1D *inv_mass_P_pim_all_sec;
+  TH1D *inv_mass_pip_pim_all_sec;
   TH1D *W_hist_delta_pp[sec_num];
   TH1D *W_hist_delta_zero[sec_num];
   TH1D *W_hist_rho[sec_num];
@@ -155,6 +159,7 @@ class Histogram {
   void Fill_MM_wop_pim(double mm_1, int sec_number);
   void Fill_MMSQ_wop_pim(double mm_1, int sec_number);
 
+  void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ);
   // void Fill_WvsQ2_singlePi(double W, double Q2, TLorentzVector *mm);
 
   void makeHists_WvsQ2();

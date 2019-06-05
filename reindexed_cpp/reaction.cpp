@@ -182,6 +182,8 @@ void Reaction::CalcMissMass() {
   TLorentzVector m_dpp;
   TLorentzVector m_d0;
   TLorentzVector m_rho;
+  TLorentzVector w_2pi;
+
   mm = (*_beam - *_elec + *_target);
   if (elecProtEvent()) {
     mm -= *_prot;
@@ -196,17 +198,20 @@ void Reaction::CalcMissMass() {
     _MM = mm.M();
     _MM2 = mm.M2();
     //  if (twoPionEvent()) {
-    _W_2pi = physics::W_calc(*_beam, *_elec);
+    w_2pi = (*_prot);
+    w_2pi += *_pip;
+    w_2pi += *_pim;
+    _W_2pi = w_2pi.M();  // invariant mass pf P' pip pim
     _Q2_2pi = physics::Q2_calc(*_beam, *_elec);
     m_dpp = (*_prot);
     m_dpp += *_pip;
-    _W_delta_pp = m_dpp.M();
+    _W_delta_pp = m_dpp.M();  // invariant mass of P' pip
     m_d0 = (*_prot);
     m_d0 += *_pim;
-    _W_delta_zero = m_d0.M();
+    _W_delta_zero = m_d0.M();  // invariant mass of P' pim
     m_rho = (*_pip);
     m_rho += *_pim;
-    _W_rho = m_rho.M();
+    _W_rho = m_rho.M();  // invariant mass of pip pim
     *_pip_mu_prime_cm = physics::boost_(*_pip, *_beam, *_elec);
     //*_q_cm = physics::boost_((*_beam - *_elec), *_beam, *_elec);
     //*_p_mu_prime_cm = physics::boost_(*_prot, *_beam, *_elec);
