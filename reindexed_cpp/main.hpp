@@ -253,7 +253,7 @@ void datahandeler(std::string fin, std::string fout) {
                                  event->MM2(), sector);
           hist->Fill_W_2pi_all_sec(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho());
 
-          hist->Fill_theta_p_inv_mass(event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)));
+          hist->Fill_theta_P_inv_mass(event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)));
 
           hist->Fill_theta_pip_inv_mass(event->W_delta_pp(), (event->pim_mu_prime_cm().Theta() * (180 / PI)));
           hist->Fill_theta_pip_inv_mass(event->W_delta_zero(), (event->pip_mu_prime_cm().Theta() * (180 / PI)));
