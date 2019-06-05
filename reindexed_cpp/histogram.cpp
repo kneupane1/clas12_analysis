@@ -538,8 +538,8 @@ void Histogram::Write_WvsQ2() {
   }
   W_hist_twopi_all_sec->SetXTitle("W_P_pip_pim (GeV)");
   W_hist_twopi_all_sec->Write();
-  invariant_mass_P_pip_all_sec->SetXTitle("inv_mass_P_pip (GeV)");
-  invariant_mass_P_pip_all_sec->Write();
+  inv_mass_P_pip_all_sec->SetXTitle("inv_mass_P_pip (GeV)");
+  inv_mass_P_pip_all_sec->Write();
   inv_mass_P_pim_all_sec->SetXTitle("inv_mass_P_pim (GeV)");
   inv_mass_P_pim_all_sec->Write();
   inv_mass_pip_pim_all_sec->SetXTitle("inv_mass_pip_pim (GeV)");

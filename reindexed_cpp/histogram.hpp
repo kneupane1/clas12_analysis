@@ -159,7 +159,7 @@ class Histogram {
   void Fill_MM_wop_pim(double mm_1, int sec_number);
   void Fill_MMSQ_wop_pim(double mm_1, int sec_number);
 
-  void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ);
+  void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_);
   // void Fill_WvsQ2_singlePi(double W, double Q2, TLorentzVector *mm);
 
   void makeHists_WvsQ2();
