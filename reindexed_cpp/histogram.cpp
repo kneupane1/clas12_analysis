@@ -200,8 +200,8 @@ void Histogram::makeHists_WvsQ2() {
     hname.clear();
     htitle.clear();
 
-    hname.append("W_#pi+#pi-");
-    htitle.append("W_#pi+#pi-");
+    hname.append("W_P#pi+#pi-");
+    htitle.append("W_P#pi+#pi-");
     hname.append("_");
     htitle.append(" ");
     hname.append(sec_name[i]);

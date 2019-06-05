@@ -257,7 +257,7 @@ void datahandeler(std::string fin, std::string fout) {
         if (event->MM2() < 0.05 && event->MM2() > -0.05) {
           hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                  event->MM2(), sector);
-          hist->Fill_Wv_2pi_all_sec(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho());
+          hist->Fill_W_2pi_all_sec(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho());
 
         } else {
           hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
