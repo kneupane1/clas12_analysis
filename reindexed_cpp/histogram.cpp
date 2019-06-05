@@ -459,11 +459,11 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_theta_vs_phi_cm(float inv_mass, float theta) {
+void Histogram::Fill_theta_P_inv_mass(float inv_mass, float theta) {
   theta_P_vs_mass_pip_pim->Fill(inv_mass, theta);
 }  // correction baki
-void Histogram::Fill_sf_vs_lv(float inv_mass, float theta) { theta_pim_vs_mass_Ppip->Fill(inv_mass, theta); }
-void Histogram::Fill_sf_vs_lw(float inv_mass, float theta) {
+void Histogram::Fill_theta_pim_inv_mass(float inv_mass, float theta) { theta_pim_vs_mass_Ppip->Fill(inv_mass, theta); }
+void Histogram::Fill_theta_pip_inv_mass(float inv_mass, float theta) {
   theta_pip_vs_mass_Ppim->Fill(inv_mass, theta);
 }  // correction on name baki
 void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
