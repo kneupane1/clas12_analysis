@@ -44,6 +44,7 @@ Histogram::Histogram() {
   inv_mass_P_pim_all_sec = new TH1D("invariant_mass_P_pim_all_sec", "invariant_mass_P_pim_all_sec", bins, zero, w_max);
   inv_mass_pip_pim_all_sec =
       new TH1D("invariant_mass_pip_pim_all_sec", "invariant_mass_pip_pim_all_sec", bins, zero, w_max);
+  W_hist_pipX_all_sec = new TH1D("W_Xpip_all_sec", "W_Xpip_all_sec", bins, zero, w_max);
 
   /*
      W_hist_lower = new TH1D("W_lower", "W_lower", bins, zero, w_max);
@@ -336,7 +337,7 @@ void Histogram::Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, d
   inv_mass_P_pim_all_sec->Fill(delta_zero_);
   inv_mass_pip_pim_all_sec->Fill(rho_);
 }
-
+void Histogram::Fill_W_hist_Xpip_all_sec(double W) { W_hist_Xpip_all_sec->Fill(W); }
 void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     W_hist_2pi[sec_number]->Fill(W);
@@ -543,28 +544,30 @@ void Histogram::Write_WvsQ2() {
   inv_mass_P_pim_all_sec->SetXTitle("inv_mass_P_pim (GeV)");
   inv_mass_P_pim_all_sec->Write();
   inv_mass_pip_pim_all_sec->SetXTitle("inv_mass_pip_pim (GeV)");
-  inv_mass_pip_pim_all_sec->Write(); /*
-  W_vs_q2_lower->SetXTitle("W (GeV)");
-  W_vs_q2_lower->SetYTitle("Q^{2} (GeV^{2})");
-  W_vs_q2_lower->SetOption("COLZ");
-  W_vs_q2_lower->Write();
+  inv_mass_pip_pim_all_sec->Write();
+  W_hist_Xpip_all_sec->SetXTitle("W_Xpip_all_sec (GeV)");
+  /*
+ W_vs_q2_lower->SetXTitle("W (GeV)");
+ W_vs_q2_lower->SetYTitle("Q^{2} (GeV^{2})");
+ W_vs_q2_lower->SetOption("COLZ");
+ W_vs_q2_lower->Write();
 
-  W_hist_lower->SetXTitle("W (GeV)");
-  W_hist_lower->Write();
+ W_hist_lower->SetXTitle("W (GeV)");
+ W_hist_lower->Write();
 
-  Q2_hist_lower->SetXTitle("Q^{2} (GeV^{2})");
-  Q2_hist_lower->Write();
+ Q2_hist_lower->SetXTitle("Q^{2} (GeV^{2})");
+ Q2_hist_lower->Write();
 
-  W_vs_q2_upper->SetXTitle("W (GeV)");
-  W_vs_q2_upper->SetYTitle("Q^{2} (GeV^{2})");
-  W_vs_q2_upper->SetOption("COLZ");
-  W_vs_q2_upper->Write();
+ W_vs_q2_upper->SetXTitle("W (GeV)");
+ W_vs_q2_upper->SetYTitle("Q^{2} (GeV^{2})");
+ W_vs_q2_upper->SetOption("COLZ");
+ W_vs_q2_upper->Write();
 
-  W_hist_upper->SetXTitle("W (GeV)");
-  W_hist_upper->Write();
+ W_hist_upper->SetXTitle("W (GeV)");
+ W_hist_upper->Write();
 
-  Q2_hist_upper->SetXTitle("Q^{2} (GeV^{2})");
-  Q2_hist_upper->Write();
+ Q2_hist_upper->SetXTitle("Q^{2} (GeV^{2})");
+ Q2_hist_upper->Write();
 */
   // W_vs_q2_singlePi->SetXTitle("W (GeV)");
   // W_vs_q2_singlePi->SetYTitle("Q^{2} (GeV^{2})");

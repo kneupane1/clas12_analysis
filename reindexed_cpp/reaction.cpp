@@ -202,6 +202,8 @@ void Reaction::CalcMissMass() {
     w_2pi += *_pip;
     w_2pi += *_pim;
     _W_2pi = w_2pi.M();  // invariant mass pf P' pip pim
+
+    //  _W_2pi = physics::W_calc(*_beam, *_elec);
     _Q2_2pi = physics::Q2_calc(*_beam, *_elec);
     m_dpp = (*_prot);
     m_dpp += *_pip;
