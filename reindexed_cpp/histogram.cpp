@@ -32,9 +32,11 @@ Histogram::Histogram() {
 
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
-  theta_vs_phi_cm = new TH2D("theta_vs_phi_cm", "theta_vs_phi_cm", bins, zero, 60, 100, -180, 180);
-  sf_vs_lv_distance_on_v_side = new TH2D("E/p_vs_lv", "E/p_vs_lv", bins, zero, 450, 100, 0.1, 0.40);
-  sf_vs_lw_distance_on_w_side = new TH2D("E/p_vs_lw", "E/p_vs_lw", bins, zero, 450, 100, 0.1, 0.40);
+  theta_vs_phi_cm = new TH2D("theta_p_vs_inv_mass_pip_pim", "theta_p_vs_inv_mass_pip_pim", bins, zero, 4, 100, 0, 180);
+  theta_pim_vs_mass_Ppip =
+      new TH2D("theta_pim_vs_inv_mass_P_pip", "theta_p_vs_inv_mass_P_pip", bins, zero, 5, 100, 0, 180);
+  theta_pip_vs_mass_Ppim =
+      new TH2D("theta_pip_vs_inv_mass_P_pim", "theta_pip_vs_inv_mass_P_pim", bins, zero, 5, 100, 0, 180);
   lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", 50, 0, 400);
   lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", 50, 0, 450);
   lw_side_distribution = new TH1D("lw_side_distribution", "lw_side_distribution", 50, 0, 450);
@@ -44,7 +46,7 @@ Histogram::Histogram() {
   inv_mass_P_pim_all_sec = new TH1D("invariant_mass_P_pim_all_sec", "invariant_mass_P_pim_all_sec", bins, zero, w_max);
   inv_mass_pip_pim_all_sec =
       new TH1D("invariant_mass_pip_pim_all_sec", "invariant_mass_pip_pim_all_sec", bins, zero, w_max);
-  W_hist_pipX_all_sec = new TH1D("W_Xpip_all_sec", "W_Xpip_all_sec", bins, zero, w_max);
+  W_hist_Xpip_all_sec = new TH1D("W_Xpip_all_sec", "W_Xpip_all_sec", bins, zero, w_max);
 
   /*
      W_hist_lower = new TH1D("W_lower", "W_lower", bins, zero, w_max);
@@ -457,9 +459,13 @@ void Histogram::Write_hist_cc() {
   }
 }
 
-void Histogram::Fill_theta_vs_phi_cm(float th_el, float ph_el) { theta_vs_phi_cm->Fill(th_el, ph_el); }
-void Histogram::Fill_sf_vs_lv(float li, float sf_) { sf_vs_lv_distance_on_v_side->Fill(li, sf_); }
-void Histogram::Fill_sf_vs_lw(float li, float sf_) { sf_vs_lw_distance_on_w_side->Fill(li, sf_); }
+void Histogram::Fill_theta_vs_phi_cm(float inv_mass, float theta) {
+  theta_P_vs_mass_pip_pim->Fill(inv_mass, theta);
+}  // correction baki
+void Histogram::Fill_sf_vs_lv(float inv_mass, float theta) { theta_pim_vs_mass_Ppip->Fill(inv_mass, theta); }
+void Histogram::Fill_sf_vs_lw(float inv_mass, float theta) {
+  theta_pip_vs_mass_Ppim->Fill(inv_mass, theta);
+}  // correction on name baki
 void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
 void Histogram::Fill_lv_dist(float li) { lv_side_distribution->Fill(li); }
 void Histogram::Fill_lw_dist(float li) { lw_side_distribution->Fill(li); }
@@ -1026,14 +1032,18 @@ void Histogram::Write_EC() {
   theta_vs_phi_cm->SetYTitle("phi");
   theta_vs_phi_cm->SetOption("COLZ");
   theta_vs_phi_cm->Write();
-  sf_vs_lv_distance_on_v_side->SetXTitle("E/p");
-  sf_vs_lv_distance_on_v_side->SetYTitle("distance_on_V_side");
-  sf_vs_lv_distance_on_v_side->SetOption("COLZ");
-  sf_vs_lv_distance_on_v_side->Write();
-  sf_vs_lw_distance_on_w_side->SetXTitle("E/p");
-  sf_vs_lw_distance_on_w_side->SetYTitle("distance_on_W_side");
-  sf_vs_lw_distance_on_w_side->SetOption("COLZ");
-  sf_vs_lw_distance_on_w_side->Write();
+  theta_pim_vs_mass_Ppip->SetXTitle("Inv_m_P_pi+");
+  theta_pim_vs_mass_Ppip +->SetYTitle("theta_pi-");
+  theta_pim_vs_mass_Ppip->SetOption("COLZ");
+  theta_pim_vs_mass_Ppip->Write();
+  theta_pip_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
+  theta_pip_vs_mass_Ppim->SetYTitle("theta+pi+");
+  theta_pip_vs_mass_Ppim->SetOption("COLZ");
+  theta_pip_vs_mass_Ppim->Write();
+  theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_PI+pi-");
+  theta_P_vs_mass_pip_pim->SetYTitle("theta_P");
+  theta_P_vs_mass_pip_pim->SetOption("COLZ");
+  theta_P_vs_mass_pip_pim->Write();
   lu_side_distribution->SetXTitle("side_U");
   lu_side_distribution->Write();
   lv_side_distribution->SetXTitle("side_V");

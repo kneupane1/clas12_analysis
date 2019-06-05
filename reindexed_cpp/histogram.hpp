@@ -116,8 +116,9 @@ class Histogram {
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
   TH2D *theta_vs_phi_cm;
-  TH2D *sf_vs_lv_distance_on_v_side;
-  TH2D *sf_vs_lw_distance_on_w_side;
+  TH2D *theta_pim_vs_mass_Ppip;
+  TH2D *theta_pip_vs_mass_Ppim;
+  Th2D *theta_P_vs_mass_pip_pim;
 
   TH1D *lu_side_distribution;
   TH1D *lv_side_distribution;

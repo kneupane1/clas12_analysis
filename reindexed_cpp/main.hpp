@@ -209,12 +209,6 @@ void datahandeler(std::string fin, std::string fout) {
     //         //  std::cout << "dt_ctof" << dt->dt_ctof_P() - dt->dt_P() << "    "
     //  << sc_ctof_component->at(part) << '\n';
 
-    hist->Fill_theta_vs_phi_cm(event->e_mu_prime().Theta() * 180 / PI, event->e_mu_prime().Phi() * 180 / PI);
-
-    hist->Fill_sf_vs_lv((ec_ecin_lv->at(0) + ec_ecout_lv->at(0) + ec_pcal_lv->at(0)) / 3,
-                        (ec_tot_energy->at(0) / event->e_mu_prime().P()));
-    hist->Fill_sf_vs_lw((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3,
-                        (ec_tot_energy->at(0) / event->e_mu_prime().P()));
     hist->Fill_lu_dist((ec_ecin_lu->at(0) + ec_ecout_lu->at(0) + ec_pcal_lu->at(0)) / 3);
     hist->Fill_lv_dist((ec_ecin_lv->at(0) + ec_ecout_lv->at(0) + ec_pcal_lv->at(0)) / 3);
     hist->Fill_lw_dist((ec_ecin_lw->at(0) + ec_ecout_lw->at(0) + ec_pcal_lw->at(0)) / 3);
@@ -259,6 +253,11 @@ void datahandeler(std::string fin, std::string fout) {
                                  event->MM2(), sector);
           hist->Fill_W_2pi_all_sec(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho());
 
+          hist->Fill_theta_vs_phi_cm(event->W_rho(), event->p_mu_prime_cm().Theta() * (180 / PI));
+
+          hist->Fill_sf_vs_lv(event->W_delta_pp(), event->pim_mu_prime_cm().Theta() * (180 / PI));
+          hist->Fill_sf_vs_lw(event->W_delta_zero(), event->pip_mu_prime_cm().Theta() * (180 / PI));
+
         } else {
           hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                       event->MM2(), sector);
@@ -292,7 +291,7 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_MMSQ_wop_pim(event->MM2_wop(), sector);
         if (event->MM_wop() < 1.05 && event->MM2_wop() > 0.75) {
           hist->Fill_WvsmmSQ_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
-          hist->Fill_W_hist_Xpip_all_sec(evevt->W_singlepip());
+          hist->Fill_W_hist_Xpip_all_sec(event->W_singlepip());
 
         } else {
           hist->Fill_WvsmmSQ_anti_singlepip(event->W_singlepip(), event->MM2_wop(), sector);
