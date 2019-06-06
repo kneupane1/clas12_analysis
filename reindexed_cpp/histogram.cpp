@@ -32,7 +32,8 @@ Histogram::Histogram() {
 
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
-  theta_vs_phi_cm = new TH2D("theta_p_vs_inv_mass_pip_pim", "theta_p_vs_inv_mass_pip_pim", bins, zero, 4, 100, 0, 180);
+  theta_P_vs_mass_pip_pim =
+      new TH2D("theta_p_vs_inv_mass_pip_pim", "theta_p_vs_inv_mass_pip_pim", bins, zero, 4, 100, 0, 180);
   theta_pim_vs_mass_Ppip =
       new TH2D("theta_pim_vs_inv_mass_P_pip", "theta_p_vs_inv_mass_P_pip", bins, zero, 5, 100, 0, 180);
   theta_pip_vs_mass_Ppim =
@@ -1028,34 +1029,39 @@ void Histogram::Write_EC() {
     PCAL_VS_ECAL[i]->Write();
     delete PCAL_VS_ECAL[i];
   }
-  theta_vs_phi_cm->SetXTitle("theta");
-  theta_vs_phi_cm->SetYTitle("phi");
-  theta_vs_phi_cm->SetOption("COLZ");
-  theta_vs_phi_cm->Write();
-  theta_pim_vs_mass_Ppip->SetXTitle("Inv_m_P_pi+");
-  theta_pim_vs_mass_Ppip->SetYTitle("theta_pi-");
-  theta_pim_vs_mass_Ppip->SetOption("COLZ");
-  theta_pim_vs_mass_Ppip->Write();
-  theta_pip_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
-  theta_pip_vs_mass_Ppim->SetYTitle("theta+pi+");
-  theta_pip_vs_mass_Ppim->SetOption("COLZ");
-  theta_pip_vs_mass_Ppim->Write();
-  theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_PI+pi-");
-  theta_P_vs_mass_pip_pim->SetYTitle("theta_P");
-  theta_P_vs_mass_pip_pim->SetOption("COLZ");
-  theta_P_vs_mass_pip_pim->Write();
-  lu_side_distribution->SetXTitle("side_U");
-  lu_side_distribution->Write();
-  lv_side_distribution->SetXTitle("side_V");
-  lv_side_distribution->Write();
-  lw_side_distribution->SetXTitle("side_W");
-  lw_side_distribution->Write();
+
+  // lu_side_distribution->SetXTitle("side_U");
+  // lu_side_distribution->Write();
+  // lv_side_distribution->SetXTitle("side_V");
+  // lv_side_distribution->Write();
+  // lw_side_distribution->SetXTitle("side_W");
+  // lw_side_distribution->Write();
   for (int j = 0; j < cut_y_n; j++) {
     PCAL_FID_CUT[j]->SetXTitle("x/cm");
     PCAL_FID_CUT[j]->SetYTitle("y/cm");
     PCAL_FID_CUT[j]->SetOption("COLZ");
     PCAL_FID_CUT[j]->Write();
+    delete PCAL_FID_CUT[j];
   }
   vertex_vz->SetXTitle("vertex_vz");
   vertex_vz->Write();
+  delete vertex_vz;
+
+  theta_pim_vs_mass_Ppip->SetXTitle("Inv_m_P_pi+");
+  theta_pim_vs_mass_Ppip->SetYTitle("theta_pi-");
+  theta_pim_vs_mass_Ppip->SetOption("COLZ");
+  theta_pim_vs_mass_Ppip->Write();
+  delete theta_pim_vs_mass_P_pim;
+
+  theta_pip_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
+  theta_pip_vs_mass_Ppim->SetYTitle("theta+pi+");
+  theta_pip_vs_mass_Ppim->SetOption("COLZ");
+  theta_pip_vs_mass_Ppim->Write();
+  delete theta_pip_vs_mass_Ppim;
+
+  theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_PI+pi-");
+  theta_P_vs_mass_pip_pim->SetYTitle("theta_P");
+  theta_P_vs_mass_pip_pim->SetOption("COLZ");
+  theta_P_vs_mass_pip_pim->Write();
+  delete theta_P_vs_mass_pip_pim;
 }
