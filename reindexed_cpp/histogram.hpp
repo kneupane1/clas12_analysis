@@ -80,27 +80,6 @@ class Histogram {
   TH1D *W_hist_singlepip[sec_num];
   TH1D *W_hist_Xpip_all_sec;
 
-  // TH1D *MM_neutron;
-  // TH1D *W_hist_lower;
-  // TH1D *Q2_hist_lower;
-  // TH2D *W_vs_q2_lower;
-  //
-  // TH1D *W_hist_upper;
-  // TH1D *Q2_hist_upper;
-  // TH2D *W_vs_q2_upper;
-  //
-  // TH1D *W_hist_singlePi;
-  // TH1D *Q2_hist_singlePi;
-  // TH2D *W_vs_q2_singlePi;
-  //
-  // TH1D *W_hist_lower_singlePi;
-  // TH1D *Q2_hist_lower_singlePi;
-  // TH2D *W_vs_q2_lower_singlePi;
-  //
-  // TH1D *W_hist_upper_singlePi;
-  // TH1D *Q2_hist_upper_singlePi;
-  // TH2D *W_vs_q2_upper_singlePi;
-
   // EC Sampling Fraction
   TH2D *EC_sampling_fraction[sec_num];
   TH2D *PCAL_VS_ECAL[sec_num];
@@ -115,7 +94,6 @@ class Histogram {
   // Delta T
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
-  TH2D *theta_vs_phi_cm;
   TH2D *theta_pim_vs_mass_Ppip;
   TH2D *theta_pip_vs_mass_Ppim;
   TH2D *theta_P_vs_mass_pip_pim;
@@ -125,14 +103,6 @@ class Histogram {
   TH1D *lw_side_distribution;
 
   TH1D *vertex_vz;
-
-  TH1D *theta_prot;
-  TH1D *theta_pip;
-  TH1D *theta_pim;
-
-  TH1D *Phi_prot;
-  TH1D *Phi_pip;
-  TH1D *Phi_pim;
 
   // Delta T
 

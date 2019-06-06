@@ -1,7 +1,4 @@
-/************************************************************************/
-/*  Created by Nick Tyler*/
-/*	University Of South Carolina*/
-/************************************************************************/
+
 
 #ifndef REACTION_H_GUARD
 #define REACTION_H_GUARD
