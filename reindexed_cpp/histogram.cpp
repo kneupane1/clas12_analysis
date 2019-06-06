@@ -1051,7 +1051,7 @@ void Histogram::Write_EC() {
   theta_pim_vs_mass_Ppip->SetYTitle("theta_pi-");
   theta_pim_vs_mass_Ppip->SetOption("COLZ");
   theta_pim_vs_mass_Ppip->Write();
-  delete theta_pim_vs_mass_Ppim;
+  delete theta_pim_vs_mass_Ppip;
 
   theta_pip_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
   theta_pip_vs_mass_Ppim->SetYTitle("theta+pi+");
