@@ -1003,6 +1003,7 @@ void Histogram::Write_MomVsBeta() {
 
   momentum->SetXTitle("Momentum (GeV)");
   momentum->Write();
+  delete momentum;
   for (size_t p = 0; p < particle_num; p++) {
     for (size_t c = 0; c < charge_num; c++) {
       for (size_t i = 0; i < with_id_num; i++) {
