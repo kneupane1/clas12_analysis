@@ -24,20 +24,21 @@ Histogram::Histogram() {
   vertex_vz = new TH1D("vertex_position", "vertex_position", bins, -40, 40);
 
   theta_P_vs_mass_pip_pim =
-      new TH2D("theta_p_vs_inv_mass_pip_pim", "theta_p_vs_inv_mass_pip_pim", bins, zero, 4, 100, 0, 180);
+      new TH2D("theta_p_vs_inv_mass_pip_pim", "theta_P_vs_inv_mass_pip_pim", bins, 0.2, 2.2, 100, 0, 180);
   theta_pim_vs_mass_Ppip =
-      new TH2D("theta_pim_vs_inv_mass_P_pip", "theta_p_vs_inv_mass_P_pip", bins, zero, 5, 100, 0, 180);
+      new TH2D("theta_pim_vs_inv_mass_P_pip", "theta_pim_vs_inv_mass_P_pip", bins, 1, 3.5, 100, 0, 180);
   theta_pip_vs_mass_Ppim =
-      new TH2D("theta_pip_vs_inv_mass_P_pim", "theta_pip_vs_inv_mass_P_pim", bins, zero, 5, 100, 0, 180);
+      new TH2D("theta_pip_vs_inv_mass_P_pim", "theta_pip_vs_inv_mass_P_pim", bins, 1, 3.5, 100, 0, 180);
   lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", 50, 0, 400);
   lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", 50, 0, 450);
   lw_side_distribution = new TH1D("lw_side_distribution", "lw_side_distribution", 50, 0, 450);
 
-  W_hist_twopi_all_sec = new TH1D("W_twoPions_all_sec", "W_twoPions_all_sec", bins, 1, 3.1);
-  inv_mass_P_pip_all_sec = new TH1D("invariant_mass_P_pip_all_sec", "invariant_mass_P_pip_all_sec", bins, 1, 3.1);
-  inv_mass_P_pim_all_sec = new TH1D("invariant_mass_P_pim_all_sec", "invariant_mass_P_pim_all_sec", bins, 1, 3.1);
-  inv_mass_pip_pim_all_sec = new TH1D("invariant_mass_pip_pim_all_sec", "invariant_mass_pip_pim_all_sec", bins, 0.2, 2);
-  W_hist_Xpip_all_sec = new TH1D("W_Xpip_all_sec", "W_Xpip_all_sec", bins, 0.5, 3.1);
+  W_hist_twopi_all_sec = new TH1D("W_twoPions_all_sec", "W_twoPions_all_sec", bins, 1, 3.5);
+  inv_mass_P_pip_all_sec = new TH1D("invariant_mass_P_pip_all_sec", "invariant_mass_P_pip_all_sec", bins, 1, 2.8);
+  inv_mass_P_pim_all_sec = new TH1D("invariant_mass_P_pim_all_sec", "invariant_mass_P_pim_all_sec", bins, 1, 2.6);
+  inv_mass_pip_pim_all_sec =
+      new TH1D("invariant_mass_pip_pim_all_sec", "invariant_mass_pip_pim_all_sec", bins, 0.2, 1.8);
+  W_hist_Xpip_all_sec = new TH1D("W_Xpip_all_sec", "W_Xpip_all_sec", bins, 0.9, 2.8);
 
   makeHists_deltat();
   // makeHists_MomVsBeta();

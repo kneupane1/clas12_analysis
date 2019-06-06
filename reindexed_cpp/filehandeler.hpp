@@ -8,16 +8,16 @@
 #include <vector>
 #include "TChain.h"
 
-std::vector<int> *run;
-std::vector<int> *event;
-std::vector<float> *torus;
-std::vector<float> *solenoid;
-std::vector<int> *crate;
-std::vector<int> *slot;
-std::vector<int> *channel;
-std::vector<int> *helicity;
-std::vector<int> *quartet;
-std::vector<int> *value;
+// std::vector<int> *run;
+// std::vector<int> *event;
+// std::vector<float> *torus;
+// std::vector<float> *solenoid;
+// std::vector<int> *crate;
+// std::vector<int> *slot;
+// std::vector<int> *channel;
+// std::vector<int> *helicity;
+// std::vector<int> *quartet;
+// std::vector<int> *value;
 std::vector<float> *STTime;
 std::vector<float> *RFTime;
 std::vector<int> *pid;
@@ -29,8 +29,8 @@ std::vector<float> *pz;
 std::vector<float> *vx;
 std::vector<float> *vy;
 std::vector<float> *vz;
-std::vector<float> *mass_pid;
-std::vector<float> *energy_pid;
+// std::vector<float> *mass_pid;
+// std::vector<float> *energy_pid;
 std::vector<int> *charge;
 std::vector<float> *beta;
 std::vector<float> *chi2pid;
@@ -174,16 +174,16 @@ namespace filehandeler {
 void getBranches(TTree *myTree) {
   myTree->SetBranchStatus("*", 0);
 
-  myTree->SetBranchAddress("run", &run);
-  myTree->SetBranchAddress("event", &event);
-  myTree->SetBranchAddress("torus", &torus);
-  myTree->SetBranchAddress("solenoid", &solenoid);
-  myTree->SetBranchAddress("crate", &crate);
-  myTree->SetBranchAddress("slot", &slot);
-  myTree->SetBranchAddress("channel", &channel);
-  myTree->SetBranchAddress("helicity", &helicity);
-  myTree->SetBranchAddress("quartet", &quartet);
-  myTree->SetBranchAddress("value", &value);
+  // myTree->SetBranchAddress("run", &run);
+  // myTree->SetBranchAddress("event", &event);
+  // myTree->SetBranchAddress("torus", &torus);
+  // myTree->SetBranchAddress("solenoid", &solenoid);
+  // myTree->SetBranchAddress("crate", &crate);
+  // myTree->SetBranchAddress("slot", &slot);
+  // myTree->SetBranchAddress("channel", &channel);
+  // myTree->SetBranchAddress("helicity", &helicity);
+  // myTree->SetBranchAddress("quartet", &quartet);
+  // myTree->SetBranchAddress("value", &value);
   myTree->SetBranchAddress("STTime", &STTime);
   myTree->SetBranchAddress("RFTime", &RFTime);
   myTree->SetBranchAddress("pid", &pid);
@@ -195,8 +195,8 @@ void getBranches(TTree *myTree) {
   myTree->SetBranchAddress("vx", &vx);
   myTree->SetBranchAddress("vy", &vy);
   myTree->SetBranchAddress("vz", &vz);
-  myTree->SetBranchAddress("mass_pid", &mass_pid);
-  myTree->SetBranchAddress("energy_pid", &energy_pid);
+  // myTree->SetBranchAddress("mass_pid", &mass_pid);
+  // myTree->SetBranchAddress("energy_pid", &energy_pid);
   myTree->SetBranchAddress("charge", &charge);
   myTree->SetBranchAddress("beta", &beta);
   myTree->SetBranchAddress("chi2pid", &chi2pid);
