@@ -94,10 +94,6 @@ void Histogram::makeHists_pcal_fid_cuts() {
   for (int j = 0; j < cut_y_n; j++) {
     hname.append("PCAL_FID_CUTS");
     htitle.append("PCAL_FID_CUTS");
-    hname.append("_");
-    htitle.append(" ");
-    hname.append(cut_name[j]);
-    htitle.append(cut_name[j]);
     PCAL_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
     hname.clear();
     htitle.clear();
