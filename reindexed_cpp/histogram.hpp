@@ -52,6 +52,8 @@ class Histogram {
   std::string cc_name[cc_num] = {"ele", " pi-", "pi+" /*"total", "htcc", "ltcc"*/};
   static const short cut_y_n = 2;
   std::string cut_name[cut_y_n] = {"with_cut", "with_anti_cut"};
+  static const short pccl_cut_y_n = 2;
+  std::string pcal_cut_name[cut_y_n] = {"with_cut", "with_out_cut"};
   // Kinematics
 
   TH1D *momentum;

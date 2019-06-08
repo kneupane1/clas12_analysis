@@ -94,6 +94,11 @@ void Histogram::makeHists_pcal_fid_cuts() {
   for (int j = 0; j < cut_y_n; j++) {
     hname.append("PCAL_FID_CUTS");
     htitle.append("PCAL_FID_CUTS");
+    hname.append("_");
+    htitle.append("_");
+    hname.append(pcal_cut_name[j]);
+    htitle.append(pcal_cut_name[j]);
+
     PCAL_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
     hname.clear();
     htitle.clear();
@@ -913,7 +918,7 @@ void Histogram::Write_EC() {
   theta_pip_vs_mass_Ppim->Write();
   // delete theta_pip_vs_mass_Ppim;
 
-  theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_PI+pi-");
+  theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_Pi+pi-");
   theta_P_vs_mass_pip_pim->SetYTitle("theta_P");
   theta_P_vs_mass_pip_pim->SetOption("COLZ");
   theta_P_vs_mass_pip_pim->Write();
