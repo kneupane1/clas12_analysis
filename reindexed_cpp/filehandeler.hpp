@@ -73,6 +73,14 @@ std::vector<float> *dc_pz;
 std::vector<float> *dc_vx;
 std::vector<float> *dc_vy;
 std::vector<float> *dc_vz;
+
+std::vector<float> *dc_r1_x;
+std::vector<float> *dc_r1_y;
+std::vector<float> *dc_r2_x;
+std::vector<float> *dc_r2_y;
+std::vector<float> *dc_r3_x;
+std::vector<float> *dc_r3_y;
+
 std::vector<float> *cvt_px;
 std::vector<float> *cvt_py;
 std::vector<float> *cvt_pz;
@@ -239,6 +247,14 @@ void getBranches(TTree *myTree) {
   myTree->SetBranchAddress("dc_vx", &dc_vx);
   myTree->SetBranchAddress("dc_vy", &dc_vy);
   myTree->SetBranchAddress("dc_vz", &dc_vz);
+
+  myTree->SetBranchAddress("dc_r1_x", &dc_r1_x);
+  myTree->SetBranchAddress("dc_r1_y", &dc_r1_y);
+  myTree->SetBranchAddress("dc_r2_x", &dc_r2_x);
+  myTree->SetBranchAddress("dc_r2_y", &dc_r2_y);
+  myTree->SetBranchAddress("dc_r3_x", &dc_r3_x);
+  myTree->SetBranchAddress("dc_r3_y", &dc_r3_y);
+
   myTree->SetBranchAddress("cvt_px", &cvt_px);
   myTree->SetBranchAddress("cvt_py", &cvt_py);
   myTree->SetBranchAddress("cvt_pz", &cvt_pz);
