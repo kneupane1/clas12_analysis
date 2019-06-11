@@ -136,14 +136,12 @@ void Histogram::makeHists_pcal_fid_cuts() {
 
 void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL); }
 void Histogram::Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL); }
-void Histogram::Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
-{
+void Histogram::Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y) {
   DCr1_FID_CUT[0]->Fill(R1X, R1Y);
   DCr2_FID_CUT[0]->Fill(R2X, R2Y);
   DCr3_FID_CUT[0]->Fill(R3X, R3Y);
 }
-void Histogram::Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
-{
+void Histogram::Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y) {
   DCr1_FID_CUT[1]->Fill(R1X, R1Y);
   DCr2_FID_CUT[1]->Fill(R2X, R2Y);
   DCr3_FID_CUT[1]->Fill(R3X, R3Y);

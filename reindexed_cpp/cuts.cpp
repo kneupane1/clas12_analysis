@@ -42,21 +42,21 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
                 float dcR2_height = 47;
                 float dcR3_height = 53;
 
-                float x1_rot = dc_r1x * sin(sec * 60.0 * Pival / 180) + dc_r1x * cos(sec * 60.0 * Pival / 180);
-                float y1_rot = dc_r1y * cos(sec * 60.0 * Pival / 180) - dc_r1y * sin(sec * 60.0 * Pival / 180);
-                float x2_rot = dc_r2x * sin(sec * 60.0 * Pival / 180) + dc_r2x * cos(sec * 60.0 * Pival / 180);
-                float y2_rot = dc_r2y * cos(sec * 60.0 * Pival / 180) - dc_r2y * sin(sec * 60.0 * Pival / 180);
-                float x3_rot = dc_r3x * sin(sec * 60.0 * Pival / 180) + dc_r3x * cos(sec * 60.0 * Pival / 180);
-                float y3_rot = dc_r3y * cos(sec * 60.0 * Pival / 180) - dc_r3y * sin(sec * 60.0 * Pival / 180);
+                float x1_rot = dc_r1x * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
+                float y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1y * sin(sec * 60.0 * PI / 180);
+                float x2_rot = dc_r2x * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
+                float y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2y * sin(sec * 60.0 * PI / 180);
+                float x3_rot = dc_r3x * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
+                float y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3y * sin(sec * 60.0 * PI / 180);
 
-                float slope = 1 / tan(0.5 * dc_angle * Pival / 180);
+                float slope = 1 / tan(0.5 * dc_angle * PI / 180);
 
-                float left_r1 = (height - slope * y1_rot);
-                float right_r1 = (height + slope * y1_rot);
-                float left_r2 = (height - slope * y2_rot);
-                float right_r2 = (height + slope * y2_rot);
-                float left_r3 = (height - slope * y3_rot);
-                float right_r3 = (height + slope * y3_rot);
+                float left_r1 = (dcR1_height - slope * y1_rot);
+                float right_r1 = (dcR1_height + slope * y1_rot);
+                float left_r2 = (dcR2_height - slope * y2_rot);
+                float right_r2 = (dcR2_height + slope * y2_rot);
+                float left_r3 = (dcR3_height - slope * y3_rot);
+                float right_r3 = (dcR3_height + slope * y3_rot);
 
                 float radius2_DCr1 = pow(32, 2) - pow(y1_rot, 2);
                 float radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2);

@@ -86,9 +86,9 @@ class Histogram {
   TH2D *EC_sampling_fraction[sec_num];
   TH2D *PCAL_VS_ECAL[sec_num];
   TH2D *PCAL_FID_CUT[cut_y_n];
-  TH2D *DCR1_FID_CUT[cut_y_n];
-  TH2D *DCR2_FID_CUT[cut_y_n];
-  TH2D *DCR3_FID_CUT[cut_y_n];
+  TH2D *DCr1_FID_CUT[cut_y_n];
+  TH2D *DCr2_FID_CUT[cut_y_n];
+  TH2D *DCr3_FID_CUT[cut_y_n];
   // EC Sampling Fraction
 
   // Mom vs Beta
