@@ -74,12 +74,15 @@ void datahandeler(std::string fin, std::string fout) {
       // ec_tot_en = ec_tot_energy->at(0);
     }
     hist->Fill_hist_PCAL_without_FID_CUT(ec_pcal_x->at(0), ec_pcal_y->at(0));
+    hist->Fill_hist_DC_without_FID_CUT(dc_r1_x->at(0), dc_r1_y->at(0), dc_r2_x->at(0), dc_r2_y->at(0), dc_r3_x->at(0),
+                                       dc_r3_y->at(0));
 
     Cuts *e_cuts = new Cuts();
-    good_e =
-        e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()), vz->at(0),
-                              chi2pid->at(0), event->e_mu_prime().P(), event->e_mu_prime().Theta() * 180 / PI,
-                              event->e_mu_prime().Phi() * 180 / PI, sector, ec_pcal_x->at(0), ec_pcal_y->at(0));
+    good_e = e_cuts->electron_cuts(status->at(0), charge->at(0), (ec_tot_energy->at(0) / event->e_mu_prime().P()),
+                                   vz->at(0), chi2pid->at(0), event->e_mu_prime().P(),
+                                   event->e_mu_prime().Theta() * 180 / PI, event->e_mu_prime().Phi() * 180 / PI, sector,
+                                   ec_pcal_x->at(0), ec_pcal_y->at(0), dc_r1_x->at(0), dc_r1_y->at(0), dc_r2_x->at(0),
+                                   dc_r2_y->at(0), dc_r3_x->at(0), dc_r3_y->at(0));
 
     if (good_e == false) continue;
 
@@ -88,6 +91,8 @@ void datahandeler(std::string fin, std::string fout) {
                                       sector);
       hist->Fill_PCAL_VS_ECAL(ec_pcal_energy->at(0), (ec_ecin_energy->at(0) + ec_ecout_energy->at(0)), sector);
       hist->Fill_hist_PCAL_FID_CUT(ec_pcal_x->at(0), ec_pcal_y->at(0));
+      hist->Fill_hist_DC_FID_CUT(dc_r1_x->at(0), dc_r1_y->at(0), dc_r2_x->at(0), dc_r2_y->at(0), dc_r3_x->at(0),
+                                 dc_r3_y->at(0));
     }
     Delta_T *dt = new Delta_T(sc_ftof_1b_time->at(0), sc_ftof_1b_path->at(0), sc_ftof_1a_time->at(0),
                               sc_ftof_1a_path->at(0), sc_ftof_2_time->at(0), sc_ftof_2_path->at(0));
@@ -170,7 +175,7 @@ void datahandeler(std::string fin, std::string fout) {
             hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
           }
           if (((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) && (pid->at(part) == PROTON) /*&&
-                                                                                                                                                  (abs(dt->dt_Pi()) > 0.5)*/) {
+                                                                                                                                                                                (abs(dt->dt_Pi()) > 0.5)*/) {
             event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
             good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                          chi2pid->at(part));

@@ -86,6 +86,9 @@ class Histogram {
   TH2D *EC_sampling_fraction[sec_num];
   TH2D *PCAL_VS_ECAL[sec_num];
   TH2D *PCAL_FID_CUT[cut_y_n];
+  TH2D *DCR1_FID_CUT[cut_y_n];
+  TH2D *DCR2_FID_CUT[cut_y_n];
+  TH2D *DCR3_FID_CUT[cut_y_n];
   // EC Sampling Fraction
 
   // Mom vs Beta
@@ -199,7 +202,8 @@ class Histogram {
   void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number);
   void Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL);
   void Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL);
-
+  void Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
+  void Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
   void Write_EC();
 };
 

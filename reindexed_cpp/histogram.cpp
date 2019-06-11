@@ -98,14 +98,56 @@ void Histogram::makeHists_pcal_fid_cuts() {
     htitle.append("_");
     hname.append(pcal_cut_name[j]);
     htitle.append(pcal_cut_name[j]);
-
     PCAL_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("DCr1_FID_CUTS");
+    htitle.append("DCr1_FID_CUTS");
+    hname.append("_");
+    htitle.append("_");
+    hname.append(pcal_cut_name[j]);
+    htitle.append(pcal_cut_name[j]);
+    DCr1_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("DCr2_FID_CUTS");
+    htitle.append("DCr2_FID_CUTS");
+    hname.append("_");
+    htitle.append("_");
+    hname.append(pcal_cut_name[j]);
+    htitle.append(pcal_cut_name[j]);
+    DCr2_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
+    hname.clear();
+    htitle.clear();
+
+    hname.append("DCr3_FID_CUTS");
+    htitle.append("DCr3_FID_CUTS");
+    hname.append("_");
+    htitle.append("_");
+    hname.append(pcal_cut_name[j]);
+    htitle.append(pcal_cut_name[j]);
+    DCr3_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
     hname.clear();
     htitle.clear();
   }
 }
-void Histogram::Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL); }
+
 void Histogram::Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[0]->Fill(x_PCAL, y_PCAL); }
+void Histogram::Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL) { PCAL_FID_CUT[1]->Fill(x_PCAL, y_PCAL); }
+void Histogram::Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
+{
+  DCr1_FID_CUT[0]->Fill(R1X, R1Y);
+  DCr2_FID_CUT[0]->Fill(R2X, R2Y);
+  DCr3_FID_CUT[0]->Fill(R3X, R3Y);
+}
+void Histogram::Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
+{
+  DCr1_FID_CUT[1]->Fill(R1X, R1Y);
+  DCr2_FID_CUT[1]->Fill(R2X, R2Y);
+  DCr3_FID_CUT[1]->Fill(R3X, R3Y);
+}
 
 void Histogram::makeHists_EC_sf() {
   for (int i = 0; i < sec_num; i++) {
@@ -901,6 +943,21 @@ void Histogram::Write_EC() {
     PCAL_FID_CUT[j]->SetOption("COLZ");
     PCAL_FID_CUT[j]->Write();
     delete PCAL_FID_CUT[j];
+    DCr1_FID_CUT[j]->SetXTitle("x/cm");
+    DCr1_FID_CUT[j]->SetYTitle("y/cm");
+    DCr1_FID_CUT[j]->SetOption("COLZ");
+    DCr1_FID_CUT[j]->Write();
+    delete DCr1_FID_CUT[j];
+    DCr2_FID_CUT[j]->SetXTitle("x/cm");
+    DCr2_FID_CUT[j]->SetYTitle("y/cm");
+    DCr2_FID_CUT[j]->SetOption("COLZ");
+    DCr2_FID_CUT[j]->Write();
+    delete DCr2_FID_CUT[j];
+    DCr3_FID_CUT[j]->SetXTitle("x/cm");
+    DCr3_FID_CUT[j]->SetYTitle("y/cm");
+    DCr3_FID_CUT[j]->SetOption("COLZ");
+    DCr3_FID_CUT[j]->Write();
+    delete DCr3_FID_CUT[j];
   }
   vertex_vz->SetXTitle("vertex_vz");
   vertex_vz->Write();
