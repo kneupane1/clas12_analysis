@@ -247,7 +247,6 @@ void getBranches(TTree *myTree) {
   myTree->SetBranchAddress("dc_vx", &dc_vx);
   myTree->SetBranchAddress("dc_vy", &dc_vy);
   myTree->SetBranchAddress("dc_vz", &dc_vz);
-
   myTree->SetBranchAddress("dc_r1_x", &dc_r1_x);
   myTree->SetBranchAddress("dc_r1_y", &dc_r1_y);
   myTree->SetBranchAddress("dc_r2_x", &dc_r2_x);
