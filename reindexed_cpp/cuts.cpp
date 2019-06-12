@@ -66,6 +66,8 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
                   //  if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
                   //  if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
                   _good_e = true;
+                  //}
+                  //}
                 }
               }
             }
@@ -74,9 +76,7 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
       }
     }
   }
-}
-}
-return _good_e;
+  return _good_e;
 }
 bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
   if (2000 <= status && status < 6000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
