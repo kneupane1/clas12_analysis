@@ -18,8 +18,8 @@ Cuts::~Cuts() {}
 Histogram *hist1 = new Histogram();
 
 bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, float chi_sq, float mom_el, float th_el,
-                         float ph_el, int sec, float x_PCAL, float y_PCAL, float dc_r1x, float dc_r1y, float dc_r2x,
-                         float dc_r2y, float dc_r3x, float dc_r3y) {
+                         float ph_el, int sec, float x_PCAL, float y_PCAL, float dc_r1x, float dc_r1y/*, float dc_r2x,
+                         float dc_r2y, float dc_r3x, float dc_r3y*/) {
   if (2000 <= status && status < 4000) {
     if (charge == -1) {
       if (mom_el > 0.30) {
@@ -39,35 +39,33 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
                   x_PCAL_rot < 372) {
                 float dc_angle = 60;
                 float dcR1_height = 31;
-                float dcR2_height = 47;
-                float dcR3_height = 53;
+                // float dcR2_height = 47;
+                // float dcR3_height = 53;
 
                 float x1_rot = dc_r1x * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
                 float y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1y * sin(sec * 60.0 * PI / 180);
-                float x2_rot = dc_r2x * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
-                float y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2y * sin(sec * 60.0 * PI / 180);
-                float x3_rot = dc_r3x * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
-                float y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3y * sin(sec * 60.0 * PI / 180);
+                // float x2_rot = dc_r2x * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
+                //  float y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2y * sin(sec * 60.0 * PI / 180);
+                // float x3_rot = dc_r3x * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
+                // float y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3y * sin(sec * 60.0 * PI / 180);
 
                 float slope = 1 / tan(0.5 * dc_angle * PI / 180);
 
                 float left_r1 = (dcR1_height - slope * y1_rot);
                 float right_r1 = (dcR1_height + slope * y1_rot);
-                float left_r2 = (dcR2_height - slope * y2_rot);
-                float right_r2 = (dcR2_height + slope * y2_rot);
-                float left_r3 = (dcR3_height - slope * y3_rot);
-                float right_r3 = (dcR3_height + slope * y3_rot);
+                // float left_r2 = (dcR2_height - slope * y2_rot);
+                // float right_r2 = (dcR2_height + slope * y2_rot);
+                // float left_r3 = (dcR3_height - slope * y3_rot);
+                // float right_r3 = (dcR3_height + slope * y3_rot);
 
                 float radius2_DCr1 = pow(32, 2) - pow(y1_rot, 2);
-                float radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2);
-                float radius2_DCr3 = pow(54, 2) - pow(y3_rot, 2);
+                // float radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2);
+                // float radius2_DCr3 = pow(54, 2) - pow(y3_rot, 2);
 
                 if (x1_rot > left_r1 && x1_rot > right_r1 && pow(x1_rot, 2) > radius2_DCr1) {
-                  if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
-                    if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
-                      _good_e = true;
-                    }
-                  }
+                  //  if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
+                  //  if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
+                  _good_e = true;
                 }
               }
             }
@@ -76,7 +74,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
       }
     }
   }
-  return _good_e;
+}
+}
+return _good_e;
 }
 bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
   if (2000 <= status && status < 6000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
