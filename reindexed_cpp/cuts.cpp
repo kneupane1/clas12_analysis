@@ -1,73 +1,68 @@
 
 #include "cuts.hpp"
-using namespace std;
+
 Cuts::Cuts() {
   _good_e = false;
   _good_p = false;
   _good_pip = false;
   _good_pim = false;
-  th_min = std::nan("-99");
-  th_max = std::nan("-99");
-  par1 = std::nan("-99");
-  par2 = std::nan("-99");
-  par3 = std::nan("-99");
-  fid_a = std::nan("-99");
-  fid_b = std::nan("-99");
+  float x_PCAL_rot, y_PCAL_rot, angle, height_PCAL, slope_PCAL, left_PCAL, right_PCAL, radius2_PCAL, dcR1_height,
+      dcR2_height, dcR3_height, x1_rot, y1_rot, x2_rot, y2_rot, x3_rot, y3_rot, slope, left_r1, right_r1, left_r2,
+      right_r2, left_r3, right_r3, radius2_DCr1, radius2_DCr2, radius2_DCr3;
 }
 Cuts::~Cuts() {}
-Histogram *hist1 = new Histogram();
 
 bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, float chi_sq, float mom_el, float th_el,
-                         float ph_el, int sec, float x_PCAL, float y_PCAL, float dc_r1x, float dc_r1y/*, float dc_r2x,
-                         float dc_r2y, float dc_r3x, float dc_r3y*/) {
+                         float ph_el, int sec, float x_PCAL, float y_PCAL, float dc_r1x, float dc_r1y, float dc_r2x,
+                         float dc_r2y, float dc_r3x, float dc_r3y) {
   if (2000 <= status && status < 4000) {
     if (charge == -1) {
       if (mom_el > 0.30) {
         if (sf > 0.18 && sf < 0.28) {
           if (-10.0 < vertex_pos && vertex_pos < 5.0) {
             if (-2000 < chi_sq && chi_sq < 2000) {
-              float x_PCAL_rot = y_PCAL * sin(sec * 60.0 * PI / 180) + x_PCAL * cos(sec * 60.0 * PI / 180);
-              float y_PCAL_rot = y_PCAL * cos(sec * 60.0 * PI / 180) - x_PCAL * sin(sec * 60.0 * PI / 180);
-              float angle_PCAL = 60;
-              float height_PCAL = 45;
-              float slope_PCAL = 1 / tan(0.5 * angle_PCAL * PI / 180);
-              float left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
-              float right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
-              float radius2_PCAL = pow(height_PCAL + 6, 2) - pow(y_PCAL_rot, 2);
+              x_PCAL_rot = y_PCAL * sin(sec * 60.0 * PI / 180) + x_PCAL * cos(sec * 60.0 * PI / 180);
+              y_PCAL_rot = y_PCAL * cos(sec * 60.0 * PI / 180) - x_PCAL * sin(sec * 60.0 * PI / 180);
+              angle = 60;
+              height_PCAL = 45;
+              slope_PCAL = 1 / tan(0.5 * angle * PI / 180);
+              left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
+              right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
+              radius2_PCAL = pow(height_PCAL + 6, 2) - pow(y_PCAL_rot, 2);
 
               if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
                   x_PCAL_rot < 372) {
-                float dc_angle = 60;
-                float dcR1_height = 31;
-                // float dcR2_height = 47;
-                // float dcR3_height = 53;
+                angle = 60;
+                dcR1_height = 31;
+                dcR2_height = 47;
+                dcR3_height = 53;
 
-                float x1_rot = dc_r1x * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
-                float y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1y * sin(sec * 60.0 * PI / 180);
-                // float x2_rot = dc_r2x * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
-                //  float y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2y * sin(sec * 60.0 * PI / 180);
-                // float x3_rot = dc_r3x * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
-                // float y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3y * sin(sec * 60.0 * PI / 180);
+                x1_rot = dc_r1y * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
+                y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1x * sin(sec * 60.0 * PI / 180);
+                x2_rot = dc_r2y * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
+                y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2x * sin(sec * 60.0 * PI / 180);
+                x3_rot = dc_r3y * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
+                y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3x * sin(sec * 60.0 * PI / 180);
 
-                float slope = 1 / tan(0.5 * dc_angle * PI / 180);
+                slope = 1 / tan(0.5 * angle * PI / 180);
 
-                float left_r1 = (dcR1_height - slope * y1_rot);
-                float right_r1 = (dcR1_height + slope * y1_rot);
-                // float left_r2 = (dcR2_height - slope * y2_rot);
-                // float right_r2 = (dcR2_height + slope * y2_rot);
-                // float left_r3 = (dcR3_height - slope * y3_rot);
-                // float right_r3 = (dcR3_height + slope * y3_rot);
+                left_r1 = (dcR1_height - slope * y1_rot);
+                right_r1 = (dcR1_height + slope * y1_rot);
+                left_r2 = (dcR2_height - slope * y2_rot);
+                right_r2 = (dcR2_height + slope * y2_rot);
+                left_r3 = (dcR3_height - slope * y3_rot);
+                right_r3 = (dcR3_height + slope * y3_rot);
 
-                float radius2_DCr1 = pow(32, 2) - pow(y1_rot, 2);
-                // float radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2);
-                // float radius2_DCr3 = pow(54, 2) - pow(y3_rot, 2);
+                radius2_DCr1 = pow(32, 2) - pow(y1_rot, 2);
+                radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2);
+                radius2_DCr3 = pow(54, 2) - pow(y3_rot, 2);
 
                 if (x1_rot > left_r1 && x1_rot > right_r1 && pow(x1_rot, 2) > radius2_DCr1) {
-                  //  if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
-                  //  if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
-                  _good_e = true;
-                  //}
-                  //}
+                  if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
+                    if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
+                      _good_e = true;
+                    }
+                  }
                 }
               }
             }
