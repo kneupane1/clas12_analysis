@@ -15,7 +15,7 @@
 // std::vector<int> *crate;
 // std::vector<int> *slot;
 // std::vector<int> *channel;
-std::vector<int> *helicity;
+// std::vector<int> *helicity;
 // std::vector<int> *quartet;
 // std::vector<int> *value;
 std::vector<float> *STTime;
