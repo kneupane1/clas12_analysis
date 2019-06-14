@@ -17,7 +17,7 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
                          float dc_r2y, float dc_r3x, float dc_r3y) {
   if (2000 <= status && status < 4000) {
     if (charge == -1) {
-      if (mom_el > 0.30) {
+      if (mom_el > 0.20) {
         if (sf > 0.18 && sf < 0.28) {
           if (-10.0 < vertex_pos && vertex_pos < 5.0) {
             if (-2000 < chi_sq && chi_sq < 2000) {
