@@ -6,6 +6,8 @@ Cuts::Cuts() {
   _good_p = false;
   _good_pip = false;
   _good_pim = false;
+  _good_hadron = false;
+
   float x_PCAL_rot, y_PCAL_rot, angle, height_PCAL, slope_PCAL, left_PCAL, right_PCAL, radius2_PCAL, dcR1_height,
       dcR2_height, dcR3_height, x1_rot, y1_rot, x2_rot, y2_rot, x3_rot, y3_rot, slope, left_r1, right_r1, left_r2,
       right_r2, left_r3, right_r3, radius2_DCr1, radius2_DCr2, radius2_DCr3;
@@ -73,10 +75,24 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
   }
   return _good_e;
 }
-bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
-  if (2000 <= status && status < 6000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
+bool Cuts::hadron_cuts_ctof(int status, int charge, float mom, int pid, float chi_sq) {
+  if (4000 <= status) {
     if (charge != 0) {
-      if (min_mom > 0.20) {
+      if (mom > 0.20 && mom < 3.0) {
+        if (pid == 2212 || pid == 211 || pid == -211) {
+          if (-2000 < chi_sq && chi_sq < 2000) {
+            _good_hadron = true;
+          }
+        }
+      }
+    }
+  }
+  return _good_p;
+}
+bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
+  if (2000 <= status && status < 4000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
+    if (charge != 0) {
+      if (min_mom > 0.30) {
         if (pid == 2212) {
           if (-2000 < chi_sq && chi_sq < 2000) {
             _good_p = true;
@@ -87,10 +103,11 @@ bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi
   }
   return _good_p;
 }
+
 bool Cuts::pip_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
-  if (2000 <= status && status < 6000) {
+  if (2000 <= status && status < 4000) {
     if (charge != 0) {
-      if (min_mom > 0.20) {
+      if (min_mom > 0.30) {
         if (pid == 211) {
           if (-2000 < chi_sq && chi_sq < 2000) {
             _good_pip = true;
@@ -102,9 +119,9 @@ bool Cuts::pip_cuts(int status, int charge, float min_mom, int pid, float chi_sq
   return _good_pip;
 }
 bool Cuts::pim_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
-  if (2000 <= status && status < 6000) {
+  if (2000 <= status && status < 4000) {
     if (charge != 0) {
-      if (min_mom > 0.20) {
+      if (min_mom > 0.30) {
         if (pid == -211) {
           if (-2000 < chi_sq && chi_sq < 2000) {
             _good_pim = true;

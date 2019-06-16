@@ -45,6 +45,7 @@ void datahandeler(std::string fin, std::string fout) {
   bool good_p = false;
   bool good_pip = false;
   bool good_pim = false;
+  bool good_hadron_ctof = false;
   int sector;
   // float cc_tot;
   // float cc_ltcc;
@@ -107,12 +108,14 @@ void datahandeler(std::string fin, std::string fout) {
       // }
 
       for (int part = 1; part < pid->size(); part++) {
-        if (beta->at(part) < 0.02 || p->at(part) < 0.02) continue;  // cut # 4
+        if (beta->at(part) < 0.02 || p->at(part) < 0.02) continue;  // cut # 3
 
         dt->dt_calc(p->at(part), sc_ftof_1b_time->at(part), sc_ftof_1b_path->at(part), sc_ftof_1a_time->at(part),
                     sc_ftof_1a_path->at(part), sc_ftof_2_time->at(part), sc_ftof_2_path->at(part),
                     sc_ctof_time->at(part), sc_ctof_path->at(part));
-        //
+
+        dt_ctof->dt_calc_1(p->at(part), sc_ctof_time->at(part), sc_ctof_path->at(part));
+
         // hist->Fill_MomVsBeta_vertex(pid->at(part), charge->at(part), p->at(part), beta->at(part));
         //
         // hist->Fill_MomVsBeta(pid->at(part), charge->at(part), p->at(part), beta->at(part));
@@ -120,18 +123,28 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_deltat_vertex(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
 
         if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {  // cut # 5
-          if (charge->at(part) == -1) {                                                                // cut # 7
-            if (abs(dt->dt_E()) < 10.1) {                                                              // cut # 8
-              hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
+          good_hadron_ctof = e_cuts->hadron_cuts_ctof(status->at(part), charge->at(part), p->at(part), pid->at(part),
+                                                      chi2pid->at(part));
+          if (charge->at(part) == -1) {    // cut # 6
+            if (abs(dt->dt_E()) < 10.1) {  // cut # 7
+              if (abs(dt_ctof->dt_ctof_E()) < 10.1) {
+                hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
+              }
             }
-            if (abs(dt->dt_Pi()) < 10.1) {  // cut # 8
-              hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
+            if (abs(dt->dt_Pi()) < 10.1) {  // cut # 7
+              if (abs(dt_ctof->dt_ctof_Pi()) < 10.1) {
+                hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
+              }
             }
-            if (abs(dt->dt_K()) < 10.1) {  //// cut # 8
-              hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
+            if (abs(dt->dt_K()) < 10.1) {  //// cut # 7
+              if (abs(dt_ctof->dt_ctof_K()) < 10.1) {
+                hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
+              }
             }
-            if ((abs(dt->dt_Pi()) < 0.5) ||
-                (dt->dt_Pi() > -4.5 && dt->dt_Pi() < -3.5) && (pid->at(part) == PIM)) {  // cut # 9
+            if (((abs(dt->dt_Pi()) < 0.5) || ((abs(dt_ctof->dt_ctof_Pi()) < 0.5) ||
+                                              (dt_ctof->dt_ctof_Pi() > -4.5 && dt_ctof->dt_ctof_Pi() < -3.5))) &&
+                (pid->at(part) == PIM)) {  // cut # 8
+
               event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pim = e_cuts->pim_cuts(status->at(part), charge->at(part), event->pim_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
@@ -150,24 +163,27 @@ void datahandeler(std::string fin, std::string fout) {
               //   }
               // }
             }
-          } else if (charge->at(part) == 1) {  // cut # 7
-            if (abs(dt->dt_P()) < 10.1) {
+          } else if (charge->at(part) == 1) {                                  // cut # 6
+            if (abs(dt->dt_P()) < 10.1 && abs(dt_ctof->dt_ctof_P()) < 10.0) {  // cut # 7
               hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), p->at(part));
             }
-            if (abs(dt->dt_Pi()) < 10.1) {
+            if (abs(dt->dt_Pi()) < 10.1 && abs(dt_ctof->dt_ctof_Pi()) < 10.0) {  // cut # 7
               hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
             }
-            if (abs(dt->dt_K()) < 10.1) {
+            if (abs(dt->dt_K()) < 10.1 && abs(dt_ctof->dt_ctof_K()) < 10.0) {  // cut # 7
               hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
             }
-            if (((abs(dt->dt_P()) < 0.5) || (dt->dt_P() > -4.5 && dt->dt_P() < -3.7)) && (pid->at(part) == PROTON) /*&&
-                                                                                                                                                                                                                      (abs(dt->dt_Pi()) > 0.5)*/) {
+            if (((abs(dt->dt_P()) < 0.5) ||
+                 (abs(dt_ctof->dt_ctof_P()) < 0.5 || (dt_ctof->dt_ctof_P() > -4.5 && dt_ctof->dt_ctof_P() < -3.7))) &&
+                (pid->at(part) == PROTON)) {  // cut 9
               event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
               good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                            chi2pid->at(part));
             } else if ((((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
-                        ((dt->dt_Pi() > -4.25 && dt->dt_Pi() < -3.7) && event->pip_mu_prime().P() < 0.7)) &&
-                       (pid->at(part) == PIP) /*&& ((dt->dt_P() < -0.10) && (dt->dt_P() > 0.50))*/) {
+                        ((dt_ctof->dt_ctof_Pi() < 0.5 && dt_ctof->dt_ctof_Pi() > -0.10) ||
+                         (dt_ctof->dt_ctof_Pi() > -4.5 && dt_ctof->dt_ctof_Pi() < -3.5 &&
+                          event->pip_mu_prime().P() < 0.7))) &&
+                       (pid->at(part) == PIP)) {  // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
@@ -187,7 +203,7 @@ void datahandeler(std::string fin, std::string fout) {
               //   }
               // }
             }
-          } else
+          } else  // cut # 6
             event->SetOther(px->at(part), py->at(part), pz->at(part), MASS_N, pid->at(part));
         }
       }
@@ -213,7 +229,7 @@ void datahandeler(std::string fin, std::string fout) {
       //}
       delete dt;
       if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0 && good_p == true &&
-          good_pip == true && good_pim == true) {  // cut # 10 11 12
+          good_pip == true && good_pim == true && good_hadron_ctof) {  // cut # 10 11 12
         event->CalcMissMass();
         event->AlphaCalc();
         // if (event->twoPionEvent()) {
