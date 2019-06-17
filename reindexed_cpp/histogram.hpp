@@ -52,8 +52,8 @@ class Histogram {
   std::string cc_name[cc_num] = {"ele", " pi-", "pi+" /*"total", "htcc", "ltcc"*/};
   static const short cut_y_n = 2;
   std::string cut_name[cut_y_n] = {"with_cut", "with_anti_cut"};
-  static const short pccl_cut_y_n = 2;
-  std::string pcal_cut_name[cut_y_n] = {"with_cut", "with_out_cut"};
+  static const short cut_without_cut_num = 2;
+  std::string cut_without_cut_name[cut_y_n] = {"with_cut", "with_out_cut"};
   // Kinematics
 
   TH1D *momentum;
@@ -99,6 +99,8 @@ class Histogram {
   // Delta T
   TH2D *delta_t_hist[particle_num][charge_num][with_id_num];
   TH2D *delta_t_vertex[with_id_num];
+  TH2D *delta_t_hist_ctof[particle_num][charge_num][cut_without_cut_num];
+
   TH2D *theta_pim_vs_mass_Ppip;
   TH2D *theta_pip_vs_mass_Ppim;
   TH2D *theta_P_vs_mass_pip_pim;
@@ -182,10 +184,14 @@ class Histogram {
   // Delta T
   void makeHists_deltat();
   void Fill_deltat_vertex(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_elect(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_prot(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_pip(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
+  void Fill_deltat_elect(int pid, int charge, float dt, float dt_ctof, float momentum);
+  void Fill_deltat_prot(int pid, int charge, float dt, float dt_ctof, float momentum);
+  void Fill_deltat_pip(int pid, int charge, float dt, float dt_ctof, float momentum);
+  void Fill_deltat_kp(int pid, int charge, float dt, float dt_ctof, float momentum);
+
+  void Fill_ctof_P_with_cut_hist(float dt_ctof, float momentum);
+  void Fill_ctof_pip_with_cut_hist(float dt_ctof, float momentum);
+  void Fill_ctof_pim_with_cut_hist(float dt_ctof, float momentum);
 
   void Fill_theta_P_inv_mass(float inv_mass, float theta);
   void Fill_theta_pim_inv_mass(float inv_mass, float theta);

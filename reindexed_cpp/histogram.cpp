@@ -97,8 +97,8 @@ void Histogram::makeHists_pcal_fid_cuts() {
                 htitle.append("PCAL_FID_CUTS");
                 hname.append("_");
                 htitle.append("_");
-                hname.append(pcal_cut_name[j]);
-                htitle.append(pcal_cut_name[j]);
+                hname.append(cut_without_cut_name[j]);
+                htitle.append(cut_without_cut_name[j]);
                 PCAL_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -400, 400, bins, -400, 400);
                 hname.clear();
                 htitle.clear();
@@ -107,8 +107,8 @@ void Histogram::makeHists_pcal_fid_cuts() {
                 htitle.append("DCr1_FID_CUTS");
                 hname.append("_");
                 htitle.append("_");
-                hname.append(pcal_cut_name[j]);
-                htitle.append(pcal_cut_name[j]);
+                hname.append(cut_without_cut_name[j]);
+                htitle.append(cut_without_cut_name[j]);
                 DCr1_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -155, 155, bins, -155, 155);
                 hname.clear();
                 htitle.clear();
@@ -117,8 +117,8 @@ void Histogram::makeHists_pcal_fid_cuts() {
                 htitle.append("DCr2_FID_CUTS");
                 hname.append("_");
                 htitle.append("_");
-                hname.append(pcal_cut_name[j]);
-                htitle.append(pcal_cut_name[j]);
+                hname.append(cut_without_cut_name[j]);
+                htitle.append(cut_without_cut_name[j]);
                 DCr2_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -200, 200, bins, -200, 200);
                 hname.clear();
                 htitle.clear();
@@ -127,8 +127,8 @@ void Histogram::makeHists_pcal_fid_cuts() {
                 htitle.append("DCr3_FID_CUTS");
                 hname.append("_");
                 htitle.append("_");
-                hname.append(pcal_cut_name[j]);
-                htitle.append(pcal_cut_name[j]);
+                hname.append(cut_without_cut_name[j]);
+                htitle.append(cut_without_cut_name[j]);
                 DCr3_FID_CUT[j] = new TH2D(hname.c_str(), htitle.c_str(), bins, -300, 300, bins, -300, 300);
                 hname.clear();
                 htitle.clear();
@@ -680,20 +680,27 @@ void Histogram::makeHists_deltat() {
                         }
                 }
         }
-        // for (size_t p = 0; p < particle_num; p++) {
-        //   hname.append("delta_t_");
-        //   htitle.append("#Deltat ");
-        //   hname.append(particle_name[p]);
-        //   htitle.append(particle_name[p]);
-        //   hname.append("_ctof");
-        //   htitle.append(" ctof");
-        //   delta_t_hist_ctof[p] = new TH2D(hname.c_str(), htitle.c_str(),
-        //   bins,
-        //   p_min,
-        //                                   p_max, bins, Dt_min, Dt_max);
-        //   hname.clear();
-        //   htitle.clear();
-        // }
+        for (size_t p = 0; p < particle_num; p++) {
+                for (size_t c = 0; c < charge_num; c++) {
+                        for (size_t ct = 0; ct < cut_without_cut_num; ct++) {
+                                hname.append("delta_t_");
+                                htitle.append("#Deltat ");
+                                hname.append(particle_name[p]);
+                                htitle.append(particle_name[p]);
+                                hname.append("_ctof_");
+                                htitle.append(" ctof ");
+                                hname.append(charge_name[c]);
+                                htitle.append(charge_name[c]);
+                                hname.append("_");
+                                htitle.append(" ");
+                                hname.append(cut_without_cut_name[ct]);
+                                htitle.append(cut_without_cut_name[ct]);
+                                delta_t_hist_ctof[p][c][ct] = new TH2D(hname.c_str(), htitle.c_str(), bins, p_min, p_max, bins, Dt_min, Dt_max);
+                                hname.clear();
+                                htitle.clear();
+                        }
+                }
+        }
 }
 
 void Histogram::Fill_deltat_vertex(int pid, int charge, float dt, float momentum) {
@@ -704,9 +711,11 @@ void Histogram::Fill_deltat_vertex(int pid, int charge, float dt, float momentum
                 delta_t_vertex[2]->Fill(momentum, dt);
         }
 }
-void Histogram::Fill_deltat_elect(int pid, int charge, float dt, float momentum) {
+void Histogram::Fill_deltat_elect(int pid, int charge, float dt, float dt_ctof, float momentum) {
         if (charge == -1) {
                 delta_t_hist[0][1][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[0][1][1] -> Fill(momentum, dt_ctof);
+
                 if (pid == ELECTRON) {
                         delta_t_hist[0][1][1] -> Fill(momentum, dt);
                 } else {
@@ -714,6 +723,8 @@ void Histogram::Fill_deltat_elect(int pid, int charge, float dt, float momentum)
                 }
         } else if (charge == 1) {
                 delta_t_hist[0][0][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[0][0][1] -> Fill(momentum, dt_ctof);
+
                 if (pid == -ELECTRON) {
                         delta_t_hist[0][0][1] -> Fill(momentum, dt);
                 } else {
@@ -722,17 +733,22 @@ void Histogram::Fill_deltat_elect(int pid, int charge, float dt, float momentum)
         }
 }
 
-void Histogram::Fill_deltat_prot(int pid, int charge, float dt, float momentum) {
+void Histogram::Fill_deltat_prot(int pid, int charge, float dt, float dt_ctof, float momentum) {
         //  for (size_t i = 0; i < with_id_num; i++) {
         if (charge == 1) {
                 delta_t_hist[2][0][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[2][0][1] -> Fill(momentum, dt_ctof); // 0-e 1-Pi 2-P 3-K
+
                 if (pid == PROTON) {
                         delta_t_hist[2][0][1] -> Fill(momentum, dt);
+
                 } else {
                         delta_t_hist[2][0][2] -> Fill(momentum, dt);
                 }
         } else if (charge == -1) {
                 delta_t_hist[2][1][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[2][1][1] -> Fill(momentum, dt_ctof);
+
                 if (pid == -PROTON) {
                         delta_t_hist[2][1][1] -> Fill(momentum, dt);
                 } else {
@@ -740,17 +756,20 @@ void Histogram::Fill_deltat_prot(int pid, int charge, float dt, float momentum) 
                 }
         }
 }
-void Histogram::Fill_deltat_pip(int pid, int charge, float dt, float momentum) {
+void Histogram::Fill_deltat_pip(int pid, int charge, float dt, float dt_ctof, float momentum) {
         //  for (size_t c = 0; c < charge_num; c++) {
         //  for (size_t i = 0; i < with_id_num; i++) {
         if (charge == 1) {
                 delta_t_hist[1][0][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[1][0][1] -> Fill(momentum, dt_ctof);
                 if (pid == PIP) {
                         delta_t_hist[1][0][1] -> Fill(momentum, dt);
                 } else {
                         delta_t_hist[1][0][2] -> Fill(momentum, dt);
                 }
         } else if (charge == -1) {
+                delta_t_hist_ctof[2][1][1] -> Fill(momentum, dt_ctof); // pi, -ve, without
+
                 delta_t_hist[1][1][0] -> Fill(momentum, dt);
                 if (pid == PIM) {
                         delta_t_hist[1][1][1] -> Fill(momentum, dt);
@@ -760,10 +779,11 @@ void Histogram::Fill_deltat_pip(int pid, int charge, float dt, float momentum) {
 
         //}
 }
-void Histogram::Fill_deltat_kp(int pid, int charge, float dt, float momentum) {
+void Histogram::Fill_deltat_kp(int pid, int charge, float dt, float dt_ctof, float momentum) {
         //  for (size_t c = 0; c < charge_num; c++) {
         //  for (size_t i = 0; i < with_id_num; i++) {
         if (charge == 1) {
+                delta_t_hist_ctof[3][0][1] -> Fill(momentum, dt_ctof);
                 delta_t_hist[3][0][0] -> Fill(momentum, dt);
                 if (pid == KP) {
                         delta_t_hist[3][0][1] -> Fill(momentum, dt);
@@ -772,6 +792,8 @@ void Histogram::Fill_deltat_kp(int pid, int charge, float dt, float momentum) {
                 }
         } else if (charge == -1) {
                 delta_t_hist[3][1][0] -> Fill(momentum, dt);
+                delta_t_hist_ctof[3][1][1] -> Fill(momentum, dt_ctof);
+
                 if (pid == KM) {
                         delta_t_hist[3][1][1] -> Fill(momentum, dt);
                 } else
@@ -779,6 +801,15 @@ void Histogram::Fill_deltat_kp(int pid, int charge, float dt, float momentum) {
         }
 
         //}
+}
+void ::Histogram::Fill_ctof_P_with_cut_hist(float dt_ctof, float momentum) {
+        delta_t_hist_ctof[2][0][0] -> Fill(momentum, dt_ctof);
+}
+void ::Histogram::Fill_ctof_pip_with_cut_hist(float dt_ctof, float momentum) {
+        delta_t_hist_ctof[1][0][0] -> Fill(momentum, dt_ctof);
+}
+void ::Histogram::Fill_ctof_pim_with_cut_hist(float dt_ctof, float momentum) {
+        delta_t_hist_ctof[1][0][0] -> Fill(momentum, dt_ctof);
 }
 void Histogram::Write_deltat() {
         for (size_t i = 0; i < with_id_num; i ++) {
@@ -797,6 +828,17 @@ void Histogram::Write_deltat() {
                                 delta_t_hist[p][c][i]->SetOption("COLZ");
                                 delta_t_hist[p][c][i]->Write();
                                 delete delta_t_hist[p][c][i];
+                        }
+                }
+        }
+        for (size_t p = 0; p < particle_num; p++) {
+                for (size_t c = 0; c < charge_num; c++) {
+                        for (size_t ct = 0; ct < cut_without_cut_num; ct++) {
+                                delta_t_hist_ctof[p][c][ct]->SetXTitle("Momentum (GeV)");
+                                delta_t_hist_ctof[p][c][ct]->SetYTitle("#Deltat_ctof");
+                                delta_t_hist_ctof[p][c][ct]->SetOption("COLZ");
+                                delta_t_hist_ctof[p][c][ct]->Write();
+                                delete delta_t_hist_ctof[p][c][ct];
                         }
                 }
         }
