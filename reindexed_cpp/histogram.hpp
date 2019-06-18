@@ -184,14 +184,24 @@ class Histogram {
   // Delta T
   void makeHists_deltat();
   void Fill_deltat_vertex(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_elect(int pid, int charge, float dt, float dt_ctof, float momentum);
-  void Fill_deltat_prot(int pid, int charge, float dt, float dt_ctof, float momentum);
-  void Fill_deltat_pip(int pid, int charge, float dt, float dt_ctof, float momentum);
-  void Fill_deltat_kp(int pid, int charge, float dt, float dt_ctof, float momentum);
+  void Fill_deltat_elect(int pid, int charge, float dt, float momentum);
+  void Fill_deltat_prot(int pid, int charge, float dt, float momentum);
+  void Fill_deltat_pip(int pid, int charge, float dt, float momentum);
+  void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
 
-  void Fill_ctof_P_with_cut_hist(float dt_ctof, float momentum);
-  void Fill_ctof_pip_with_cut_hist(float dt_ctof, float momentum);
-  void Fill_ctof_pim_with_cut_hist(float dt_ctof, float momentum);
+  void Fill_ctof_e_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_P_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_pip_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_pim_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_kp_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_km_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+
+  void Fill_ctof_e_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_P_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_pip_with_cut_hist((int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_pim_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_kp_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_km_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
 
   void Fill_theta_P_inv_mass(float inv_mass, float theta);
   void Fill_theta_pim_inv_mass(float inv_mass, float theta);
