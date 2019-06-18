@@ -198,7 +198,7 @@ class Histogram {
 
   void Fill_ctof_e_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
   void Fill_ctof_P_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_pip_with_cut_hist((int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_pip_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
   void Fill_ctof_pim_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
   void Fill_ctof_kp_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
   void Fill_ctof_km_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);

@@ -173,17 +173,17 @@ void datahandeler(std::string fin, std::string fout) {
             }
           } else if (charge->at(part) == 1) {  // cut # 6
             if (abs(dt->dt_P()) < 10.1) {      // cut # 7
-              hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), dt->dt_ctof_P(), p->at(part));
+              hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), p->at(part));
             } else if (abs(dt->dt_ctof_P()) < 10.1) {
               hist->Fill_ctof_P_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
             }
             if (abs(dt->dt_Pi()) < 10.1) {  // cut # 7
-              hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), dt->dt_ctof_Pi(), p->at(part));
+              hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
             } else if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
-              hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), dt->dt_ctof_K(), p->at(part));
+              hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
             } else if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_kp_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
             }
