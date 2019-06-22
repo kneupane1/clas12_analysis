@@ -76,7 +76,7 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
   return _good_e;
 }
 bool Cuts::hadron_cuts_ctof(int status, int charge, float mom, int pid, float chi_sq) {
-  if (4000 <= status) {
+  if (4000 <= status && status < 6000) {
     if (charge != 0) {
       if (mom > 0.20 && mom < 3.0) {
         if (pid == 2212 || pid == 211 || pid == -211) {

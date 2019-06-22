@@ -144,9 +144,9 @@ void datahandeler(std::string fin, std::string fout) {
               hist->Fill_ctof_km_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
             }
 
-            if (((abs(dt->dt_Pi()) < 0.5) ||
-                 ((abs(dt->dt_ctof_Pi()) < 0.5) || (dt->dt_ctof_Pi() > -4.5 && dt->dt_ctof_Pi() < -3.5))) &&
-                (pid->at(part) == PIM)) {  // cut # 8
+            if ((dt->dt_ctof_Pi() > -4.5 && dt->dt_ctof_Pi() < -3.5) || abs(dt->dt_ctof_Pi()) < 0.5 ||
+                abs(dt->dt_Pi()) < 0.5)
+            /*&&(pid->at(part) == PIM))*/ {  // cut # 8
               event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               hist->Fill_ctof_pim_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
               good_pim = e_cuts->pim_cuts(status->at(part), charge->at(part), event->pim_mu_prime().P(), pid->at(part),
@@ -187,24 +187,26 @@ void datahandeler(std::string fin, std::string fout) {
             } else if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_kp_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
             }
-            if (((abs(dt->dt_P()) < 0.5) ||
-                 (abs(dt->dt_ctof_P()) < 0.5 || (dt->dt_ctof_P() > -4.5 && dt->dt_ctof_P() < -3.7))) &&
-                (pid->at(part) == PROTON)) {  // cut 9
+            if ((dt->dt_ctof_P() > -4.5 && dt->dt_ctof_P() < -3.7) || abs(dt->dt_ctof_P()) < 0.5 ||
+                abs(dt->dt_P()) < 0.5)
+
+            /*&&(pid->at(part) == PROTON))*/ {  // cut 9
               event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
               hist->Fill_ctof_P_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
               good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                            chi2pid->at(part));
-            } else if ((((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
-                        ((dt->dt_ctof_Pi() < 0.5 && dt->dt_ctof_Pi() > -0.10) ||
-                         (dt->dt_ctof_Pi() > -4.5 && dt->dt_ctof_Pi() < -3.5 && event->pip_mu_prime().P() < 0.7))) &&
-                       (pid->at(part) == PIP)) {  // cut 9
+            } else if ((dt->dt_ctof_Pi() > -4.5 && dt->dt_ctof_Pi() < -3.5 && event->pip_mu_prime().P() < 0.7) ||
+                       (dt->dt_ctof_Pi() < 0.5 && dt->dt_ctof_Pi() > -0.10) ||
+                       (dt->dt_Pi() > -0.10 && dt->dt_Pi() < 0.50)) /*&&(pid->at(part) == PIP)) */
+
+            {  // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
 
               good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
-            } else if ((((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
-                        (dt->dt_ctof_Pi() < 0.5 && dt->dt_ctof_Pi() > -0.10)) &&
+            } else if ((((dt->dt_K() > -0.10) && (dt->dt_K() < 0.50)) ||
+                        (dt->dt_ctof_K() < 0.5 && dt->dt_ctof_K() > -0.10)) &&
                        (pid->at(part) == KP)) {
               hist->Fill_ctof_kp_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
 
