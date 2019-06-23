@@ -130,7 +130,7 @@ void datahandeler(std::string fin, std::string fout) {
               hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
             } else if (abs(dt->dt_ctof_E()) < 10.1) {
               hist->Fill_ctof_e_without_cut_hist(pid->at(0), charge->at(0), dt->dt_ctof_E(), p->at(0));
-              if (abs->dt_ctof_E() < 0.5 || (dt->dt_ctof_E() > -4.5 && dt->dt_ctof_E() < -3.5))
+              if (abs(dt->dt_ctof_E()) < 0.5 || (dt->dt_ctof_E() > -4.5 && dt->dt_ctof_E() < -3.5))
                 hist->Fill_ctof_e_with_cut_hist(pid->at(0), charge->at(0), dt->dt_ctof_E(), p->at(0));
             } else if (abs(dt->dt_Pi()) < 10.1) {  // cut # 7
               hist->Fill_deltat_pip(pid->at(part), charge->at(part), dt->dt_Pi(), p->at(part));
@@ -142,9 +142,9 @@ void datahandeler(std::string fin, std::string fout) {
               hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
             } else if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_km_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
-              if (abs(dt->dt_ctof_K()) < 0.5) || (dt->dt_ctof_K() > -4.5 && dt->dt_ctof_K() < -3.5)){
-                  hist->Fill_ctof_km_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
-                }
+              if ((abs(dt->dt_ctof_K()) < 0.5) || (dt->dt_ctof_K() > -4.5 && dt->dt_ctof_K() < -3.5)) {
+                hist->Fill_ctof_km_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
+              }
             }
             if ((dt->dt_ctof_Pi() > -4.5 && dt->dt_ctof_Pi() < -3.5) || abs(dt->dt_ctof_Pi()) < 0.5 ||
                 abs(dt->dt_Pi()) < 0.5)
