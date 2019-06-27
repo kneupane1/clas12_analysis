@@ -45,7 +45,10 @@ void datahandeler(std::string fin, std::string fout) {
   bool good_p = false;
   bool good_pip = false;
   bool good_pim = false;
-  bool good_hadron_ctof = false;
+  bool good_hadron_ctof_pim = false;
+  bool good_hadron_ctof_pip = false;
+  bool good_hadron_ctof_P = false;
+
   int sector;
   // float cc_tot;
   // float cc_ltcc;
@@ -123,8 +126,7 @@ void datahandeler(std::string fin, std::string fout) {
         hist->Fill_deltat_vertex(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
 
         if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {  // cut # 5
-          good_hadron_ctof = e_cuts->hadron_cuts_ctof(status->at(part), charge->at(part), p->at(part), pid->at(part),
-                                                      chi2pid->at(part));
+
           if (charge->at(part) == -1) {  // cut # 6
             if ((abs(dt->dt_Pi()) < 0.5) ||
                 (((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)) || (abs(dt->dt_ctof_Pi()) < 0.5)))
@@ -132,7 +134,8 @@ void datahandeler(std::string fin, std::string fout) {
               event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pim = e_cuts->pim_cuts(status->at(part), charge->at(part), event->pim_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
-              hist->Fill_ctof_pim_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
+              good_hadron_ctof_pim = e_cuts->hadron_cuts_ctof(
+                  status->at(part), charge->at(part), event->pim_mu_prime().P(), pid->at(part), chi2pid->at(part));
             }
             if (abs(dt->dt_E()) < 10.1) {  // cut # 7
               hist->Fill_deltat_elect(pid->at(0), charge->at(0), dt->dt_E(), p->at(0));
@@ -150,8 +153,8 @@ void datahandeler(std::string fin, std::string fout) {
             }
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pim_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
-              // if ((abs(dt->dt_ctof_Pi()) < 0.5) || ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)))
-              //  hist->Fill_ctof_pim_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
+              if ((abs(dt->dt_ctof_Pi()) < 0.5) || ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)))
+                hist->Fill_ctof_pim_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_km_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
@@ -180,6 +183,7 @@ void datahandeler(std::string fin, std::string fout) {
             //         }
 
           } else if (charge->at(part) == 1) {  // cut # 6
+
             if ((abs(dt->dt_P()) < 0.5) || (abs(dt->dt_ctof_P()) < 0.5) ||
                 (dt->dt_ctof_P() > -4.5) && (dt->dt_ctof_P() < -3.7))
 
@@ -187,7 +191,8 @@ void datahandeler(std::string fin, std::string fout) {
               event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
               good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
                                            chi2pid->at(part));
-              hist->Fill_ctof_P_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
+              good_hadron_ctof_P = e_cuts->hadron_cuts_ctof(status->at(part), charge->at(part), event->p_mu_prime().P(),
+                                                            pid->at(part), chi2pid->at(part));
 
             } else if (((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
                        ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
@@ -199,6 +204,8 @@ void datahandeler(std::string fin, std::string fout) {
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
+              good_hadron_ctof_pip = e_cuts->hadron_cuts_ctof(
+                  status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part), chi2pid->at(part));
               hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_P()) < 10.1) {  // cut # 7
@@ -209,14 +216,14 @@ void datahandeler(std::string fin, std::string fout) {
             }
             if (abs(dt->dt_ctof_P()) < 10.1) {
               hist->Fill_ctof_P_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
-              //  if (((dt->dt_ctof_P() > -4.5) && (dt->dt_ctof_P() < -3.7)) || (abs(dt->dt_ctof_P()) < 0.5))
-              //        hist->Fill_ctof_P_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
+              if (((dt->dt_ctof_P() > -4.5) && (dt->dt_ctof_P() < -3.7)) || (abs(dt->dt_ctof_P()) < 0.5))
+                hist->Fill_ctof_P_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
             }
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
-              // if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) || ((dt->dt_ctof_Pi() > -4.5) &&
-              // (dt->dt_ctof_Pi() < -3.5)))
-              //  hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
+              if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
+                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)))
+                hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
               hist->Fill_deltat_kp(pid->at(part), charge->at(part), dt->dt_K(), p->at(part));
@@ -266,20 +273,11 @@ void datahandeler(std::string fin, std::string fout) {
       //}
       //}
       delete dt;
-      if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0 && good_p == true &&
-          good_pip == true && good_pim == true && good_hadron_ctof == true) {  // cut # 10 11 12
+      if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0 &&
+          (good_p == true || good_hadron_ctof_P == true) && (good_pip == true || good_hadron_ctof_pip == true) &&
+          (good_pim == true || good_hadron_ctof_pim == true)) {  // cut # 10 11 12
         event->CalcMissMass();
         event->AlphaCalc();
-        // if (event->twoPionEvent()) {
-        // if (event->p_mu_prime_cm().Theta() > 0) {
-        //   hist->Fill_theta_P(event->p_mu_prime_cm().Theta() * (180 / PI), event->pip_mu_prime_cm().Theta() * (180 /
-        //   PI),
-        //                      event->pim_mu_prime_cm().Theta() * (180 / PI));
-        // }
-
-        //   hist->Fill_Phi_cm(event->p_mu_prime_cm().Phi() * (180 / PI), event->pip_mu_prime_cm().Phi() * (180 / PI),
-        //                     event->pim_mu_prime_cm().Phi() * (180 / PI));
-        // }
         if (event->elecProtEvent()) {
           hist->Fill_ep_mm(event->MM(), sector);
           hist->Fill_ep_mmSQ(event->MM2(), sector);
