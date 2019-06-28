@@ -35,9 +35,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
                   x_PCAL_rot < 372) {
                 angle = 60;
-                dcR1_height = 15;  // 31
-                dcR2_height = 25;  // 47
-                dcR3_height = 35;  // 53
+                dcR1_height = 20;  // 31
+                dcR2_height = 30;  // 47
+                dcR3_height = 40;  // 53
 
                 x1_rot = dc_r1y * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
                 y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1x * sin(sec * 60.0 * PI / 180);
@@ -55,14 +55,14 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
                 left_r3 = (dcR3_height - slope * y3_rot);
                 right_r3 = (dcR3_height + slope * y3_rot);
 
-                radius2_DCr1 = pow(15, 2) - pow(y1_rot, 2);  // 32 stafen
-                radius2_DCr2 = pow(20, 2) - pow(y2_rot, 2);  // 49
-                radius2_DCr3 = pow(25, 2) - pow(y3_rot, 2);  // 54
+                radius2_DCr1 = pow(20, 2) - pow(y1_rot, 2);  // 32 stafen
+                radius2_DCr2 = pow(30, 2) - pow(y2_rot, 2);  // 49
+                radius2_DCr3 = pow(40, 2) - pow(y3_rot, 2);  // 54
 
                 if (x1_rot > left_r1 && x1_rot > right_r1 && pow(x1_rot, 2) > radius2_DCr1) {
                   if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
                     if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
-                      _good_e = true;
+                      return true;
                     }
                   }
                 }
@@ -73,7 +73,7 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
       }
     }
   }
-  return _good_e;
+  return false;
 }
 bool Cuts::hadron_cuts_ctof(int status, int charge, float mom, int pid, float chi_sq) {
   if (4000 <= status && status <= 6000) {
@@ -81,13 +81,13 @@ bool Cuts::hadron_cuts_ctof(int status, int charge, float mom, int pid, float ch
       if (mom > 0.20 && mom < 3.0) {
         // if (pid == 2212 || pid == 211 || pid == -211) {
         if (-2000 < chi_sq && chi_sq < 2000) {
-          _good_hadron = true;
+          return true;
         }
         //}
       }
     }
   }
-  return _good_hadron;
+  return false;
 }
 bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
   if (2000 <= status && status <= 4000) {  // forward ko lagi 2000 to 4000 and central ko lagi >= 4000
@@ -95,13 +95,13 @@ bool Cuts::proton_cuts(int status, int charge, float min_mom, int pid, float chi
       if (min_mom > 0.30) {
         if (pid == 2212) {
           if (-2000 < chi_sq && chi_sq < 2000) {
-            _good_p = true;
+            return true;
           }
         }
       }
     }
   }
-  return _good_p;
+  return false;
 }
 
 bool Cuts::pip_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
@@ -110,13 +110,13 @@ bool Cuts::pip_cuts(int status, int charge, float min_mom, int pid, float chi_sq
       if (min_mom > 0.30) {
         if (pid == 211) {
           if (-2000 < chi_sq && chi_sq < 2000) {
-            _good_pip = true;
+            return true;
           }
         }
       }
     }
   }
-  return _good_pip;
+  return false;
 }
 bool Cuts::pim_cuts(int status, int charge, float min_mom, int pid, float chi_sq) {
   if (2000 <= status && status <= 4000) {
@@ -124,11 +124,11 @@ bool Cuts::pim_cuts(int status, int charge, float min_mom, int pid, float chi_sq
       if (min_mom > 0.30) {
         if (pid == -211) {
           if (-2000 < chi_sq && chi_sq < 2000) {
-            _good_pim = true;
+            return true;
           }
         }
       }
     }
   }
-  return _good_pim;
+  return false;
 }

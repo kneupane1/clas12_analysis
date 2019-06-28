@@ -196,9 +196,8 @@ void datahandeler(std::string fin, std::string fout) {
 
             } else if (((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
                        ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                       ((dt->dt_ctof_Pi() > -4.5) &&
-                        (dt->dt_ctof_Pi() < -3.5))) /*&& (event->pip_mu_prime().P() < 0.7)*/
-                                                    /*&&(pid->at(part) == PIP)) */
+                       ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
+                        (dt->dt_ctof_Pi() > (0.67 * event->pip_mu_prime().P() - 5.5))))
 
             {  // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
@@ -206,7 +205,6 @@ void datahandeler(std::string fin, std::string fout) {
                                           chi2pid->at(part));
               good_hadron_ctof_pip = e_cuts->hadron_cuts_ctof(
                   status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part), chi2pid->at(part));
-              hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_P()) < 10.1) {  // cut # 7
               hist->Fill_deltat_prot(pid->at(part), charge->at(part), dt->dt_P(), p->at(part));
@@ -222,7 +220,8 @@ void datahandeler(std::string fin, std::string fout) {
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
               if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)))
+                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
+                   (dt->dt_ctof_Pi() > (0.67 * event->pip_mu_prime().P() - 5.5))))
                 hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
@@ -274,7 +273,7 @@ void datahandeler(std::string fin, std::string fout) {
       //}
       delete dt;
       if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0 &&
-          (good_p == true || good_hadron_ctof_P == true) && (good_pip == true || good_hadron_ctof_pip == true) &&
+          (good_p || good_hadron_ctof_P) && (good_pip == true || good_hadron_ctof_pip == true) &&
           (good_pim == true || good_hadron_ctof_pim == true)) {  // cut # 10 11 12
         event->CalcMissMass();
         event->AlphaCalc();
