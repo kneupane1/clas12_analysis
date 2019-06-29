@@ -197,7 +197,7 @@ void datahandeler(std::string fin, std::string fout) {
             } else if (((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
                        ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
                        ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
-                        (dt->dt_ctof_Pi() > (0.67 * event->pip_mu_prime().P() - 5.5))))
+                        (dt->dt_ctof_Pi() > (0.67 * p->at(part) - 4.5))))
 
             {  // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
@@ -221,7 +221,7 @@ void datahandeler(std::string fin, std::string fout) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
               if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
                   ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
-                   (dt->dt_ctof_Pi() > (0.67 * event->pip_mu_prime().P() - 5.5))))
+                   (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))))
                 hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
