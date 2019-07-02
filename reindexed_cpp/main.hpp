@@ -64,7 +64,7 @@ void datahandeler(std::string fin, std::string fout) {
 
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     chain->GetEntry(current_event);
-    //  if (pid->size() == 0 || pid->at(0) != ELECTRON /* charge->at(0) >= 0*/) continue;// cut # 1
+    if (pid->size() == 0 || pid->at(0) != ELECTRON /* charge->at(0) >= 0*/) continue;  // cut # 1
 
     per = ((double)current_event / (double)num_of_events);
     if (current_event % 1000 == 0) std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
