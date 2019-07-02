@@ -33,40 +33,40 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               radius2_PCAL =
                   pow(height_PCAL + 4, 2) - pow(y_PCAL_rot, 2);  // circle radius r^2 = x^2 + y^2 , r = 45 + 6 in stafen
 
-              //  if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
-              //    x_PCAL_rot < 372) {
-              angle = 60;
-              dcR1_height = 31;  // 31 //20
-              dcR2_height = 47;  // 47 // 30
-              dcR3_height = 53;  // 53 // 40 in my analysis
+              if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
+                  x_PCAL_rot < 372) {
+                angle = 60;
+                dcR1_height = 31;  // 31 //20
+                dcR2_height = 47;  // 47 // 30
+                dcR3_height = 53;  // 53 // 40 in my analysis
 
-              x1_rot = dc_r1y * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
-              y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1x * sin(sec * 60.0 * PI / 180);
-              x2_rot = dc_r2y * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
-              y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2x * sin(sec * 60.0 * PI / 180);
-              x3_rot = dc_r3y * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
-              y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3x * sin(sec * 60.0 * PI / 180);
+                x1_rot = dc_r1y * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
+                y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1x * sin(sec * 60.0 * PI / 180);
+                x2_rot = dc_r2y * sin(sec * 60.0 * PI / 180) + dc_r2x * cos(sec * 60.0 * PI / 180);
+                y2_rot = dc_r2y * cos(sec * 60.0 * PI / 180) - dc_r2x * sin(sec * 60.0 * PI / 180);
+                x3_rot = dc_r3y * sin(sec * 60.0 * PI / 180) + dc_r3x * cos(sec * 60.0 * PI / 180);
+                y3_rot = dc_r3y * cos(sec * 60.0 * PI / 180) - dc_r3x * sin(sec * 60.0 * PI / 180);
 
-              slope = 1 / tan(0.5 * angle * PI / 180);
+                slope = 1 / tan(0.5 * angle * PI / 180);
 
-              left_r1 = (dcR1_height - slope * y1_rot);
-              right_r1 = (dcR1_height + slope * y1_rot);
-              left_r2 = (dcR2_height - slope * y2_rot);
-              right_r2 = (dcR2_height + slope * y2_rot);
-              left_r3 = (dcR3_height - slope * y3_rot);
-              right_r3 = (dcR3_height + slope * y3_rot);
+                left_r1 = (dcR1_height - slope * y1_rot);
+                right_r1 = (dcR1_height + slope * y1_rot);
+                left_r2 = (dcR2_height - slope * y2_rot);
+                right_r2 = (dcR2_height + slope * y2_rot);
+                left_r3 = (dcR3_height - slope * y3_rot);
+                right_r3 = (dcR3_height + slope * y3_rot);
 
-              radius2_DCr1 = pow(23.2, 2) - pow(y1_rot, 2);  // 32 stafen // 21
-              radius2_DCr2 = pow(38, 2) - pow(y2_rot, 2);    // 49 // 30
-              radius2_DCr3 = pow(65, 2) - pow(y3_rot, 2);    // 54  // 40
+                radius2_DCr1 = pow(23.2, 2) - pow(y1_rot, 2);  // 32 stafen // 21
+                radius2_DCr2 = pow(38, 2) - pow(y2_rot, 2);    // 49 // 30
+                radius2_DCr3 = pow(65, 2) - pow(y3_rot, 2);    // 54  // 40
 
-              if (x1_rot > left_r1 && x1_rot > right_r1 && pow(x1_rot, 2) > radius2_DCr1) {
-                if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
-                  if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
-                    return true;
-                  }
-                }
+                // if (x1_rot > left_r1 && x1_rot > right_r1 && pow(x1_rot, 2) > radius2_DCr1) {
+                //   if (x2_rot > left_r2 && x2_rot > right_r2 && pow(x2_rot, 2) > radius2_DCr2) {
+                //     if (x3_rot > left_r3 && x3_rot > right_r3 && pow(x3_rot, 2) > radius2_DCr3) {
+                return true;
               }
+              //}
+              //  }
               //}
             }
           }

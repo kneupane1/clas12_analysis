@@ -220,8 +220,8 @@ void datahandeler(std::string fin, std::string fout) {
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
               if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
-                   (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))))
+                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)/* &&
+                   (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))*/))
                 hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
