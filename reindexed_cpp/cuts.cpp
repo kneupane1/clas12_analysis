@@ -36,9 +36,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos, flo
               if (x_PCAL_rot > left_PCAL && x_PCAL_rot > right_PCAL && pow(x_PCAL_rot, 2) > radius2_PCAL &&
                   x_PCAL_rot < 372) {
                 angle = 60;
-                dcR1_height = 31;  // 31 //20
-                dcR2_height = 47;  // 47 // 30
-                dcR3_height = 53;  // 53 // 40 in my analysis
+                dcR1_height = 22;  // 31 //20
+                dcR2_height = 37;  // 47 // 30
+                dcR3_height = 64;  // 53 // 40 in my analysis
 
                 x1_rot = dc_r1y * sin(sec * 60.0 * PI / 180) + dc_r1x * cos(sec * 60.0 * PI / 180);
                 y1_rot = dc_r1y * cos(sec * 60.0 * PI / 180) - dc_r1x * sin(sec * 60.0 * PI / 180);
