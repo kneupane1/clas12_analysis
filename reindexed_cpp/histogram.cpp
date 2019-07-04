@@ -29,6 +29,13 @@ Histogram::Histogram() {
       new TH2D("theta_pim_vs_inv_mass_P_pip", "theta_pim_vs_inv_mass_P_pip", bins, 1, 3.5, 100, 0, 180);
   theta_pip_vs_mass_Ppim =
       new TH2D("theta_pip_vs_inv_mass_P_pim", "theta_pip_vs_inv_mass_P_pim", bins, 1, 3.5, 100, 0, 180);
+
+  theta_P_lab_vs_mass_pip_pim =
+      new TH2D("theta_P_lab_vs_inv_mass_pip_pim", "theta_P_lab_vs_inv_mass_pip_pim", bins, 0.2, 2.2, 100, 0, 75);
+  theta_pim_lab_vs_mass_Ppip =
+      new TH2D("theta_pim_lab_vs_inv_mass_P_pip", "theta_pim_lab_vs_inv_mass_P_pip", bins, 1, 3.5, 100, 0, 125);
+  theta_pip_lab_vs_mass_Ppim =
+      new TH2D("theta_pip_lab_vs_inv_mass_P_pim", "theta_pip_lab_vs_inv_mass_P_pim", bins, 1, 3.5, 100, 0, 125);
   lu_side_distribution = new TH1D("lu_side_distribution", "lu_side_distribution", 50, 0, 400);
   lv_side_distribution = new TH1D("lv_side_distribution", "lv_side_distribution", 50, 0, 450);
   lw_side_distribution = new TH1D("lw_side_distribution", "lw_side_distribution", 50, 0, 450);
@@ -425,13 +432,18 @@ void Histogram::Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_numbe
 //   }
 // }
 
-void Histogram::Fill_theta_P_inv_mass(float inv_mass, float theta) {
-  theta_P_vs_mass_pip_pim->Fill(inv_mass, theta);
-}  // correction baki
+void Histogram::Fill_theta_P_inv_mass(float inv_mass, float theta) { theta_P_vs_mass_pip_pim->Fill(inv_mass, theta); }
 void Histogram::Fill_theta_pim_inv_mass(float inv_mass, float theta) { theta_pim_vs_mass_Ppip->Fill(inv_mass, theta); }
-void Histogram::Fill_theta_pip_inv_mass(float inv_mass, float theta) {
-  theta_pip_vs_mass_Ppim->Fill(inv_mass, theta);
-}  // correction on name baki
+void Histogram::Fill_theta_pip_inv_mass(float inv_mass, float theta) { theta_pip_vs_mass_Ppim->Fill(inv_mass, theta); }
+void Histogram::Fill_theta_P_lab_inv_mass(float inv_mass, float theta_lab) {
+  theta_P_lab_vs_mass_pip_pim->Fill(inv_mass, theta_lab);
+}
+void Histogram::Fill_theta_pim_lab_inv_mass(float inv_mass, float theta_lab) {
+  theta_pim_lab_vs_mass_Ppip->Fill(inv_mass, theta_lab);
+}
+void Histogram::Fill_theta_pip_lab_inv_mass(float inv_mass, float theta_lab) {
+  theta_pip_lab_vs_mass_Ppim->Fill(inv_mass, theta_lab);
+}
 void Histogram::Fill_lu_dist(float li) { lu_side_distribution->Fill(li); }
 void Histogram::Fill_lv_dist(float li) { lv_side_distribution->Fill(li); }
 void Histogram::Fill_lw_dist(float li) { lw_side_distribution->Fill(li); }
@@ -1023,20 +1035,37 @@ void Histogram::Write_EC() {
   // delete vertex_vz;
 
   theta_pim_vs_mass_Ppip->SetXTitle("Inv_m_P_pi+");
-  theta_pim_vs_mass_Ppip->SetYTitle("theta_pi-");
+  theta_pim_vs_mass_Ppip->SetYTitle("theta_pi_cm");
   theta_pim_vs_mass_Ppip->SetOption("COLZ");
   theta_pim_vs_mass_Ppip->Write();
   // delete theta_pim_vs_mass_Ppip;
 
   theta_pip_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
-  theta_pip_vs_mass_Ppim->SetYTitle("theta_pi+");
+  theta_pip_vs_mass_Ppim->SetYTitle("theta_pi+_cm");
   theta_pip_vs_mass_Ppim->SetOption("COLZ");
   theta_pip_vs_mass_Ppim->Write();
   // delete theta_pip_vs_mass_Ppim;
 
   theta_P_vs_mass_pip_pim->SetXTitle("Inv_m_Pi+pi-");
-  theta_P_vs_mass_pip_pim->SetYTitle("theta_P");
+  theta_P_vs_mass_pip_pim->SetYTitle("theta_P_cm");
   theta_P_vs_mass_pip_pim->SetOption("COLZ");
   theta_P_vs_mass_pip_pim->Write();
   // delete theta_P_vs_mass_pip_pim;
+
+  theta_pim_lab_vs_mass_Ppip->SetXTitle("Inv_m_P_pi+");
+  theta_pim_lab_vs_mass_Ppip->SetYTitle("theta_pi-_lab");
+  theta_pim_lab_vs_mass_Ppip->SetOption("COLZ");
+  theta_pim_lab_vs_mass_Ppip->Write();
+  // delete theta_pim_lab_vs_mass_Ppip;
+
+  theta_pip_lab_vs_mass_Ppim->SetXTitle("Inv_m_P-pi-");
+  theta_pip_lab_vs_mass_Ppim->SetYTitle("theta_pi+_lab");
+  theta_pip_lab_vs_mass_Ppim->SetOption("COLZ");
+  theta_pip_lab_vs_mass_Ppim->Write();
+  // delete theta_pip_lab_vs_mass_Ppim;
+
+  theta_P_lab_vs_mass_pip_pim->SetXTitle("Inv_m_Pi+pi-");
+  theta_P_lab_vs_mass_pip_pim->SetYTitle("theta_P_lab");
+  theta_P_lab_vs_mass_pip_pim->SetOption("COLZ");
+  theta_P_lab_vs_mass_pip_pim->Write();
 }

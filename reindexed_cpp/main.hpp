@@ -195,11 +195,11 @@ void datahandeler(std::string fin, std::string fout) {
                                                             pid->at(part), chi2pid->at(part));
 
             } else if (((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
-                       ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                       ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5) &&
-                        (dt->dt_ctof_Pi() > (0.67 * p->at(part) - 4.5))))
+                                                           ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
+                                                           ((dt->dt_ctof_Pi() > -4.15) && (dt->dt_ctof_Pi() < -3.5)/* &&
+                                                                                                                      (dt->dt_ctof_Pi() > (0.67 * p->at(part) - 4.5))*/))
 
-            {  // cut 9
+                                                { // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
@@ -220,8 +220,8 @@ void datahandeler(std::string fin, std::string fout) {
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
               if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                  ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)/* &&
-                   (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))*/))
+                                                            ((dt->dt_ctof_Pi() > -4.15) && (dt->dt_ctof_Pi() < -3.5)/* &&
+                                                                                                                       (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))*/))
                 hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
@@ -276,7 +276,7 @@ void datahandeler(std::string fin, std::string fout) {
           (good_p || good_hadron_ctof_P) && (good_pip == true || good_hadron_ctof_pip == true) &&
           (good_pim == true || good_hadron_ctof_pim == true)) {  // cut # 10 11 12
         event->CalcMissMass();
-        event->AlphaCalc();
+        // event->AlphaCalc();      // for now i am not using alpha function from reaction class
         if (event->elecProtEvent()) {
           hist->Fill_ep_mm(event->MM(), sector);
           hist->Fill_ep_mmSQ(event->MM2(), sector);
@@ -299,6 +299,9 @@ void datahandeler(std::string fin, std::string fout) {
             hist->Fill_theta_pim_inv_mass(event->W_delta_pp(), (event->pim_mu_prime_cm().Theta() * (180 / PI)));
             hist->Fill_theta_pip_inv_mass(event->W_delta_zero(), (event->pip_mu_prime_cm().Theta() * (180 / PI)));
 
+            hist->Fill_theta_P_lab_inv_mass(event->W_rho(), (event->p_mu_prime().Theta() * (180 / PI)));
+            hist->Fill_theta_pim_lab_inv_mass(event->W_delta_pp(), (event->pim_mu_prime().Theta() * (180 / PI)));
+            hist->Fill_theta_pip_lab_inv_mass(event->W_delta_zero(), (event->pip_mu_prime().Theta() * (180 / PI)));
           } else {
             hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                         event->MM2(), sector);
