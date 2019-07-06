@@ -128,8 +128,7 @@ void datahandeler(std::string fin, std::string fout) {
         if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 && event->Q2() > 0.0) {  // cut # 5
 
           if (charge->at(part) == -1) {  // cut # 6
-            if ((abs(dt->dt_Pi()) < 0.5) ||
-                (((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)) || (abs(dt->dt_ctof_Pi()) < 0.5)))
+            if (abs(dt->dt_Pi()) < 0.5 || abs(dt->dt_ctof_Pi()) < 0.5)
             /*&&(pid->at(part) == PIM))*/ {  // cut # 8
               event->SetPim(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pim = e_cuts->pim_cuts(status->at(part), charge->at(part), event->pim_mu_prime().P(), pid->at(part),
@@ -148,17 +147,17 @@ void datahandeler(std::string fin, std::string fout) {
             }
             if (abs(dt->dt_ctof_E()) < 10.1) {
               hist->Fill_ctof_e_without_cut_hist(pid->at(0), charge->at(0), dt->dt_ctof_E(), p->at(0));
-              if ((abs(dt->dt_ctof_E()) < 0.5) || ((dt->dt_ctof_E() > -4.5) && (dt->dt_ctof_E() < -3.5)))
+              if (abs(dt->dt_ctof_E()) < 0.5)
                 hist->Fill_ctof_e_with_cut_hist(pid->at(0), charge->at(0), dt->dt_ctof_E(), p->at(0));
             }
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pim_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
-              if ((abs(dt->dt_ctof_Pi()) < 0.5) || ((dt->dt_ctof_Pi() > -4.5) && (dt->dt_ctof_Pi() < -3.5)))
+              if (abs(dt->dt_ctof_Pi()) < 0.5)
                 hist->Fill_ctof_pim_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_km_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
-              if ((abs(dt->dt_ctof_K()) < 0.5) || ((dt->dt_ctof_K() > -4.5) && (dt->dt_ctof_K() < -3.5))) {
+              if (abs(dt->dt_ctof_K()) < 0.5) {
                 hist->Fill_ctof_km_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
               }
             }
@@ -184,9 +183,7 @@ void datahandeler(std::string fin, std::string fout) {
 
           } else if (charge->at(part) == 1) {  // cut # 6
 
-            if ((abs(dt->dt_P()) < 0.5) || (abs(dt->dt_ctof_P()) < 0.5) ||
-                (dt->dt_ctof_P() > -4.5) && (dt->dt_ctof_P() < -3.7))
-
+            if ((abs(dt->dt_P()) < 0.5) || (abs(dt->dt_ctof_P()) < 0.5))
             /*&&(pid->at(part) == PROTON))*/ {  // cut 9
               event->SetProton(px->at(part), py->at(part), pz->at(part), MASS_P);
               good_p = e_cuts->proton_cuts(status->at(part), charge->at(part), event->p_mu_prime().P(), pid->at(part),
@@ -194,12 +191,9 @@ void datahandeler(std::string fin, std::string fout) {
               good_hadron_ctof_P = e_cuts->hadron_cuts_ctof(status->at(part), charge->at(part), event->p_mu_prime().P(),
                                                             pid->at(part), chi2pid->at(part));
 
-            } else if (((dt->dt_Pi() > -0.10) && (dt->dt_Pi() < 0.50)) ||
-                                                           ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                                                           ((dt->dt_ctof_Pi() > -4.15) && (dt->dt_ctof_Pi() < -3.5)/* &&
-                                                                                                                      (dt->dt_ctof_Pi() > (0.67 * p->at(part) - 4.5))*/))
-
-                                                { // cut 9
+            } else if (abs(dt->dt_Pi()) < 0.50 || (dt->dt_ctof_Pi() < 0.5 && dt->dt_ctof_Pi() > -0.3))
+            //(dt->dt_ctof_Pi() > (0.67 * p->at(part) - 4.5))*/
+            {  // cut 9
               event->SetPip(px->at(part), py->at(part), pz->at(part), MASS_PIP);
               good_pip = e_cuts->pip_cuts(status->at(part), charge->at(part), event->pip_mu_prime().P(), pid->at(part),
                                           chi2pid->at(part));
@@ -214,14 +208,13 @@ void datahandeler(std::string fin, std::string fout) {
             }
             if (abs(dt->dt_ctof_P()) < 10.1) {
               hist->Fill_ctof_P_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
-              if (((dt->dt_ctof_P() > -4.5) && (dt->dt_ctof_P() < -3.7)) || (abs(dt->dt_ctof_P()) < 0.5))
+              if (abs(dt->dt_ctof_P()) < 0.5)
                 hist->Fill_ctof_P_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_P(), p->at(part));
             }
             if (abs(dt->dt_ctof_Pi()) < 10.1) {
               hist->Fill_ctof_pip_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
-              if (((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.10)) ||
-                                                            ((dt->dt_ctof_Pi() > -4.15) && (dt->dt_ctof_Pi() < -3.5)/* &&
-                                                                                                                       (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))*/))
+              if ((dt->dt_ctof_Pi() < 0.5) && (dt->dt_ctof_Pi() > -0.30))
+                //  (dt->dt_ctof_Pi() >= (0.67 * p->at(part) - 4.5))*/))
                 hist->Fill_ctof_pip_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_Pi(), p->at(part));
             }
             if (abs(dt->dt_K()) < 10.1) {  // cut # 7
@@ -229,8 +222,8 @@ void datahandeler(std::string fin, std::string fout) {
             }
             if (abs(dt->dt_ctof_K()) < 10.1) {
               hist->Fill_ctof_kp_without_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
-              if ((((dt->dt_K() > -0.10) && (dt->dt_K() < 0.50)) ||
-                                                             (dt->dt_ctof_K() < 0.5 && dt->dt_ctof_K() > -0.10)) /*&&
+              if ((((dt->dt_K() > -0.50) && (dt->dt_K() < 0.50)) ||
+                                                             (dt->dt_ctof_K() < 0.5 && dt->dt_ctof_K() > -0.5)) /*&&
                                                                                                                     (pid->at(part) == KP)*/) {
                 hist->Fill_ctof_kp_with_cut_hist(pid->at(part), charge->at(part), dt->dt_ctof_K(), p->at(part));
               }
