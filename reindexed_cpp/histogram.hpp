@@ -125,25 +125,25 @@ float mm_lim_max(int mm_number, int mm_events_number);
 float mm_lim_min(int mm_number, int mm_events_number);
 
 // W and Q^2
-void Fill_ep_mm(double mm, int sec_number);
-void Fill_ep_mmSQ(double mm, int sec_number);
-void Fill_2pion_mm(double mm, int sec_number);
-void Fill_2pion_mmSQ(double mm, int sec_number);
-void Fill_pip_mm(double mm, int sec_number);
-void Fill_pip_mmSQ(double mm, int sec_number);
-void Fill_pim_mm(double mm, int sec_number);
-void Fill_pim_mmSQ(double mm, int sec_number);
+void Fill_ep_mm(double mm, int sec_number, float weight);
+void Fill_ep_mmSQ(double mm, int sec_number, float weight);
+void Fill_2pion_mm(double mm, int sec_number, float weight);
+void Fill_2pion_mmSQ(double mm, int sec_number, float weight);
+void Fill_pip_mm(double mm, int sec_number, float weight);
+void Fill_pip_mmSQ(double mm, int sec_number, float weight);
+void Fill_pim_mm(double mm, int sec_number, float weight);
+void Fill_pim_mmSQ(double mm, int sec_number, float weight);
 
-void Fill_MM_wop_e_prime(double mm_1, int sec_number);
-void Fill_MMSQ_wop_e_prime(double mm_1, int sec_number);
-void Fill_MM_wop_2pion(double mm_1, int sec_number);
-void Fill_MMSQ_wop_2pion(double mm_1, int sec_number);
-void Fill_MM_wop_pip(double mm_1, int sec_number);
-void Fill_MMSQ_wop_pip(double mm_1, int sec_number);
-void Fill_MM_wop_pim(double mm_1, int sec_number);
-void Fill_MMSQ_wop_pim(double mm_1, int sec_number);
+void Fill_MM_wop_e_prime(double mm_1, int sec_number, float weight);
+void Fill_MMSQ_wop_e_prime(double mm_1, int sec_number, float weight);
+void Fill_MM_wop_2pion(double mm_1, int sec_number, float weight);
+void Fill_MMSQ_wop_2pion(double mm_1, int sec_number, float weight);
+void Fill_MM_wop_pip(double mm_1, int sec_number, float weight);
+void Fill_MMSQ_wop_pip(double mm_1, int sec_number, float weight);
+void Fill_MM_wop_pim(double mm_1, int sec_number, float weight);
+void Fill_MMSQ_wop_pim(double mm_1, int sec_number, float weight);
 
-void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_);
+void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_, float weight);
 void Fill_W_hist_Xpip_all_sec(double W);
 
 void makeHists_WvsQ2();
@@ -152,15 +152,14 @@ void makeHists_EC_sf();
 void makeHists_pcal_fid_cuts();
 
 //  void makeHists_Q2();
-void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number);
-void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number);
-void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number);
-void Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number);
-void Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number);
-void Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_number);
-void Fill_WvsQ2(double W, double Q2, int sec_number);
-void Fill_PCAL_VS_ECAL(float pcal, float ecal, int sec_number);
-void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number);
+void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number, float weight);
+void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number, float weight);
+void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number, float weight);
+void Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number, float weight);
+void Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number, float weight);
+void Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_number, float weight);
+void Fill_WvsQ2(double W, double Q2, int sec_number, float weight);
+void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number, float weight);
 
 void Write_WvsQ2();
 void Write_MM_hist();
@@ -208,13 +207,13 @@ void Fill_ctof_pim_with_cut_hist(int pid, int charge, float dt_ctof, float momen
 void Fill_ctof_kp_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
 void Fill_ctof_km_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
 
-void Fill_theta_P_inv_mass(float inv_mass, float theta);
-void Fill_theta_pim_inv_mass(float inv_mass, float theta);
-void Fill_theta_pip_inv_mass(float inv_mass, float theta);
+void Fill_theta_P_inv_mass(float inv_mass, float theta, float wt);
+void Fill_theta_pim_inv_mass(float inv_mass, float theta, float wt);
+void Fill_theta_pip_inv_mass(float inv_mass, float theta, float wt);
 
-void Fill_theta_P_lab_inv_mass(float inv_mass, float theta_lab);
-void Fill_theta_pim_lab_inv_mass(float inv_mass, float theta_lab);
-void Fill_theta_pip_lab_inv_mass(float inv_mass, float theta_lab);
+void Fill_theta_P_lab_inv_mass(float inv_mass, float theta_lab, float wt);
+void Fill_theta_pim_lab_inv_mass(float inv_mass, float theta_lab, float wt);
+void Fill_theta_pip_lab_inv_mass(float inv_mass, float theta_lab, float wt);
 
 void Fill_lu_dist(float li);
 void Fill_lv_dist(float li);
@@ -224,7 +223,8 @@ void Fill_vertex_vz(float vz);
 void Write_deltat();
 
 // EC Sampling Fraction
-void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number);
+void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number, float weight);
+void Fill_PCAL_VS_ECAL(float pcal, float ecal, int sec_number, float weight);
 void Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL);
 void Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL);
 void Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
