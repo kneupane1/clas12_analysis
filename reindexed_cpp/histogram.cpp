@@ -20,6 +20,13 @@ Histogram::Histogram() {
 
   // Kinematics
   momentum = new TH1D("mom", "mom", bins, p_min, p_max);
+  W_vs_Q2_all_sec = new TH2D("W_vs_Q2", "W_vs_Q2", bins, p_min, w_max, bins, p_min, q2_max);
+  Prot_mass_w_vs_Q2 = new TH2D("Prot_mass_w_vs_Q2", "Prot_mass_w_vs_Q2", bins, p_min, p_max, bins, p_min, q2_max);
+  Prot_theta_lab_vs_W = new TH2D("theta_P_lab_vs_w", "theta_P_lab_vs_w", bins, p_min, p_max, 100, 0, 75);
+  Pip_mass_w_vs_Q2 = new TH2D("Pip_mass_w_vs_Q2", "Pip_mass_w_vs_Q2", bins, p_min, p_max, bins, p_min, q2_max);
+  Pip_theta_lab_vs_W = new TH2D("theta_Pip_lab_vs_w", "theta_Pip_lab_vs_w", bins, p_min, p_max, 100, 0, 120);
+  Pim_theta_lab_vs_W = new TH2D("theta_Pim_lab_vs_w", "theta_Pim_lab_vs_w", bins, p_min, p_max, 100, 0, 120);
+
   pid_size1 = new TH1D("pid_size", "pid_size", bins, -1, 10);
   pid_check = new TH1D("pid", "pid", bins, -350, 2300);
   mom_diff_e_pim = new TH1D("mom_diff_e_pim", "mom_diff_e_pim", bins, -2.2, 7.8);
@@ -79,13 +86,13 @@ Histogram::~Histogram() {}
 
 float Histogram::mm_lim_min(int mm_number, int mm_events_number) {
   if (mm_number == 0 && mm_events_number < 4) {
-    return -2.50;
+    return -0.25;
   } else if (mm_number == 0 && mm_events_number > 4) {
     return -2.0;
   } else if (mm_number == 0 && mm_events_number == 4) {
     return 0;
   } else if (mm_number == 1 && mm_events_number < 4 && mm_events_number != 1) {
-    return -1;
+    return -0.05;
   } else if (mm_number == 1 && mm_events_number > 4) {
     return -2;
   } else if (mm_number == 1 && mm_events_number == 1) {
@@ -98,13 +105,13 @@ float Histogram::mm_lim_min(int mm_number, int mm_events_number) {
 }
 float Histogram::mm_lim_max(int mm_number, int mm_events_number) {
   if (mm_number == 0 && mm_events_number < 4) {
-    return 4.50;
+    return 0.25;
   } else if (mm_number == 0 && mm_events_number > 4) {
     return 6.50;
   } else if (mm_number == 0 && mm_events_number == 4) {
     return 6.0;
   } else if (mm_number == 1 && mm_events_number < 4 && mm_events_number != 1) {
-    return 3.7;
+    return 0.05;
   } else if (mm_number == 1 && mm_events_number == 1) {
     return 0.20;
   } else if (mm_number == 1 && mm_events_number > 4) {
@@ -380,11 +387,11 @@ void Histogram::Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, dou
 //                 W_vs_mmSQ_singlepip[sec_number][0] -> Fill(W, mmSQ, wt);
 //         }
 // }
-// void Histogram::Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number, float wt) {
-//         if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
-//                 W_vs_mmSQ_ep[sec_number][1] -> Fill(W, mmSQ, wt);
-//         }
-// }
+void Histogram::Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number, float wt) {
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    W_vs_mmSQ_ep[sec_number][1]->Fill(W, mmSQ, wt);
+  }
+}
 void Histogram::Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ,
                                       int sec_number, float wt) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
@@ -518,7 +525,46 @@ void Histogram::Fill_mom_pim(float mom, float mom_z) {
 //         Phi_pim->Fill(Phi_pim_);
 // }
 
+void Histogram::Fill_W_vs_Q2_all_sec(double w, double q2, double wt) { W_vs_Q2_all_sec->Fill(w, q2, wt); }
+void Histogram::Fill_hist_mass_vs_q2_prot(double w, double m_p, double th_pr_lab, double q2, double wt) {
+  Prot_theta_lab_vs_W->Fill(w, th_pr_lab, wt);
+  Prot_mass_w_vs_Q2->Fill(m_p, q2, wt);
+}
+void Histogram::Fill_hist_mass_vs_q2_pip(double w, double m_pip, double th_pip_lab, double q2, double wt) {
+  Pip_mass_w_vs_Q2->Fill(m_pip, q2, wt);
+  Pip_theta_lab_vs_W->Fill(w, th_pip_lab, wt);
+}
+void Histogram::Fill_hist_mass_vs_q2_pim(double w, double m_pim, double th_pim_lab, double q2, double wt) {
+  Pim_theta_lab_vs_W->Fill(w, th_pim_lab, wt);
+}
+
 void Histogram::Write_WvsQ2() {
+  W_vs_Q2_all_sec->SetXTitle("W (GeV)");
+  W_vs_Q2_all_sec->SetYTitle("Q2");
+  W_vs_Q2_all_sec->SetOption("COLZ");
+  W_vs_Q2_all_sec->Write();
+  Prot_mass_w_vs_Q2->SetXTitle("prot_mass (GeV)");
+  Prot_mass_w_vs_Q2->SetYTitle("Q2");
+  Prot_mass_w_vs_Q2->SetOption("COLZ");
+  Prot_mass_w_vs_Q2->Write();
+  Pip_mass_w_vs_Q2->SetXTitle("pip_mass (GeV)");
+  Pip_mass_w_vs_Q2->SetYTitle("Q2");
+  Pip_mass_w_vs_Q2->SetOption("COLZ");
+  Pip_mass_w_vs_Q2->Write();
+
+  Prot_theta_lab_vs_W->SetXTitle("W (GeV)");
+  Prot_theta_lab_vs_W->SetYTitle("prot_theta_lab");
+  Prot_theta_lab_vs_W->SetOption("COLZ");
+  Prot_theta_lab_vs_W->Write();
+  Pip_theta_lab_vs_W->SetXTitle("W (GeV)");
+  Pip_theta_lab_vs_W->SetYTitle("pip_theta_lab");
+  Pip_theta_lab_vs_W->SetOption("COLZ");
+  Pip_theta_lab_vs_W->Write();
+  Pim_theta_lab_vs_W->SetXTitle("W (GeV)");
+  Pim_theta_lab_vs_W->SetYTitle("pim_theta_lab");
+  Pim_theta_lab_vs_W->SetOption("COLZ");
+  Pim_theta_lab_vs_W->Write();
+
   for (int i = 0; i < sec_num; i++) {
     W_vs_Q2[i]->SetXTitle("W (GeV)");
     W_vs_Q2[i]->SetYTitle("Q^{2} (GeV^{2})");
@@ -596,7 +642,7 @@ void Histogram::Write_WvsQ2() {
 }
 void Histogram::makeHists_MM() {
   for (size_t m = 0; m < mm_num; m++) {
-    for (size_t e = 1; e < 2; e++) {  // from 0 to mm_event_num samma tyo
+    for (size_t e = 0; e < 2; e++) {  // from 0 to mm_event_num samma tyo
       for (int i = 0; i < sec_num; i++) {
         hname.append(mm_name[m]);
         htitle.append(mm_name[m]);
@@ -617,16 +663,16 @@ void Histogram::makeHists_MM() {
   }
 }
 
-// void Histogram::Fill_ep_mm(double mm, int sec_number) {
-//   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
-//     MM_hist[0][0][sec_number]->Fill(mm);
-//   }
-// }
-// void Histogram::Fill_ep_mmSQ(double mm, int sec_number) {
-//   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
-//     MM_hist[1][0][sec_number]->Fill(mm);
-//   }
-// }
+void Histogram::Fill_ep_mm(double mm, int sec_number, float wt) {
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    MM_hist[0][0][sec_number]->Fill(mm, wt);
+  }
+}
+void Histogram::Fill_ep_mmSQ(double mm, int sec_number, float wt) {
+  if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
+    MM_hist[1][0][sec_number]->Fill(mm, wt);
+  }
+}
 void Histogram::Fill_2pion_mm(double mm, int sec_number, float wt) {
   if (sec_number == sec_number && sec_number >= 0 && sec_number < 7) {
     MM_hist[0][1][sec_number]->Fill(mm, wt);
@@ -700,7 +746,7 @@ void Histogram::Fill_2pion_mmSQ(double mm, int sec_number, float wt) {
 
 void Histogram::Write_MM_hist() {
   for (size_t m = 0; m < mm_num; m++) {
-    for (size_t e = 1; e < 2; e++) {  // from 0 to mm_event_num samma tyo
+    for (size_t e = 0; e < 2; e++) {  // from 0 to mm_event_num samma tyo
       for (int i = 0; i < sec_num; i++) {
         // if (m == 1 && e == 1) {
         //   MM_hist[m][e][i]->Fit("gaus", "", "", -0.05, 0.05);

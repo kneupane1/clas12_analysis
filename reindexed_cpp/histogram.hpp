@@ -81,6 +81,13 @@ class Histogram {
   TH1D *cherenkov_ltcc[cc_num];
   TH1D *cherenkov_htcc[cc_num];
 
+  TH2D *W_vs_Q2_all_sec;
+  TH2D *Prot_mass_w_vs_Q2;
+  TH2D *Prot_theta_lab_vs_W;
+  TH2D *Pip_mass_w_vs_Q2;
+  TH2D *Pip_theta_lab_vs_W;
+  TH2D *Pim_theta_lab_vs_W;
+
   TH2D *W_vs_Q2[sec_num];
   TH1D *W_hist[sec_num];
   TH1D *Q2_hist[sec_num];
@@ -169,6 +176,11 @@ class Histogram {
   void makeHists_MM();
   void makeHists_EC_sf();
   void makeHists_pcal_fid_cuts();
+
+  void Fill_W_vs_Q2_all_sec(double w, double q2, double wt);
+  void Fill_hist_mass_vs_q2_prot(double w, double m_p, double th_pr_lab, double q2, double wt);
+  void Fill_hist_mass_vs_q2_pip(double w, double m_pip, double th_pip_lab, double q2, double wt);
+  void Fill_hist_mass_vs_q2_pim(double w, double m_pim, double th_pim_lab, double q2, double wt);
 
   //  void makeHists_Q2();
   void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number, float weight);
