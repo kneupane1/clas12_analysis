@@ -20,12 +20,12 @@ Histogram::Histogram() {
 
   // Kinematics
   momentum = new TH1D("mom", "mom", bins, p_min, p_max);
-  W_vs_Q2_all_sec = new TH2D("W_vs_Q2", "W_vs_Q2", bins, p_min, w_max, bins, p_min, q2_max);
-  Prot_mass_w_vs_Q2 = new TH2D("Prot_mass_w_vs_Q2", "Prot_mass_w_vs_Q2", bins, p_min, p_max, bins, p_min, q2_max);
-  Prot_theta_lab_vs_W = new TH2D("theta_P_lab_vs_w", "theta_P_lab_vs_w", bins, p_min, p_max, 100, 0, 75);
-  Pip_mass_w_vs_Q2 = new TH2D("Pip_mass_w_vs_Q2", "Pip_mass_w_vs_Q2", bins, p_min, p_max, bins, p_min, q2_max);
-  Pip_theta_lab_vs_W = new TH2D("theta_Pip_lab_vs_w", "theta_Pip_lab_vs_w", bins, p_min, p_max, 100, 0, 120);
-  Pim_theta_lab_vs_W = new TH2D("theta_Pim_lab_vs_w", "theta_Pim_lab_vs_w", bins, p_min, p_max, 100, 0, 120);
+  W_vs_Q2_all_sec = new TH2D("W_vs_Q2", "W_vs_Q2", bins, p_min, 5, bins, p_min, q2_max);
+  Prot_mass_w_vs_Q2 = new TH2D("Prot_mass_w_vs_Q2", "Prot_mass_w_vs_Q2", bins, p_min, 2, bins, p_min, q2_max);
+  Prot_theta_lab_vs_W = new TH2D("theta_P_lab_vs_w", "theta_P_lab_vs_w", bins, p_min, 5, 100, 0, 75);
+  Pip_mass_w_vs_Q2 = new TH2D("Pip_mass_w_vs_Q2", "Pip_mass_w_vs_Q2", bins, p_min, 1, bins, p_min, q2_max);
+  Pip_theta_lab_vs_W = new TH2D("theta_Pip_lab_vs_w", "theta_Pip_lab_vs_w", bins, p_min, 5, 100, 0, 120);
+  Pim_theta_lab_vs_W = new TH2D("theta_Pim_lab_vs_w", "theta_Pim_lab_vs_w", bins, p_min, 5, 100, 0, 120);
 
   pid_size1 = new TH1D("pid_size", "pid_size", bins, -1, 10);
   pid_check = new TH1D("pid", "pid", bins, -350, 2300);

@@ -383,14 +383,15 @@ void datahandeler(std::string fin, std::string fout) {
       hist->Fill_WvsQ2(event->W(), event->Q2(), sector, mc_weight);
 
       hist->Fill_W_vs_Q2_all_sec(event->W(), event->Q2(), mc_weight);
-      //  if (good_pip || good_hadron_ctof_pip)
-      hist->Fill_hist_mass_vs_q2_pip(event->W(), event->pip_mu_prime().M(), event->pip_mu_prime().Theta() * (180 / PI),
-                                     event->Q2(), mc_weight);
-      // if (good_pim || good_hadron_ctof_pim)
-      hist->Fill_hist_mass_vs_q2_prot(event->W(), event->pim_mu_prime().M(), event->pim_mu_prime().Theta() * (180 / PI),
-                                      event->Q2(), mc_weight);
-      hist->Fill_hist_mass_vs_q2_prot(event->W(), event->p_mu_prime().M(), event->p_mu_prime().Theta() * (180 / PI),
-                                      event->Q2(), mc_weight);
+      if ((good_pip || good_hadron_ctof_pip) && event->pip_mu_prime().Theta() != 0 && event->pip_mu_prime().P() != 0)
+        hist->Fill_hist_mass_vs_q2_pip(event->W(), event->pip_mu_prime().Mag(),
+                                       (event->pip_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
+      if ((good_pim || good_hadron_ctof_pim) && event->pim_mu_prime().Theta() != 0 && event->pip_mu_prime().P() != 0)
+        hist->Fill_hist_mass_vs_q2_pim(event->W(), event->pim_mu_prime().Mag(),
+                                       (event->pim_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
+      if ((good_p || good_hadron_ctof_P) && event->p_mu_prime().Theta() != 0 && event->pip_mu_prime().P() != 0)
+        hist->Fill_hist_mass_vs_q2_prot(event->W(), event->p_mu_prime().Mag(),
+                                        (event->p_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
       //}
       //}
       delete dt;
