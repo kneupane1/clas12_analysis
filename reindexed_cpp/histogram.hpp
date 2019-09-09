@@ -2,11 +2,6 @@
 /*  Created by Nick Tyler*/
 /*	University Of South Carolina*/
 /************************************************************************/
-/*  2019-01-31. plot w and mmSq
-   make different hist for
-   ctof and ftof
-   forwardtagger vs forward detector
-   cut at 2 gev and look */
 
 #ifndef HIST_H_GUARD
 #define HIST_H_GUARD
@@ -20,7 +15,7 @@
 #include "reaction.hpp"
 
 class Histogram {
- private:
+private:
   int bins = 500;
   double p_min = 0.0;
   double p_max = 11.0;
@@ -33,23 +28,31 @@ class Histogram {
   std::string hname;
   std::string htitle;
 
-  static const short particle_num = 4;  // 0-e 1-Pi 2-P 3-K
+  static const short particle_num = 4; // 0-e 1-Pi 2-P 3-K
   std::string particle_name[particle_num] = {"e", "pi", "P", "K"};
-  static const short charge_num = 2;  // 0-un 1-pos 2-neg
-  std::string charge_name[charge_num] = {/*"neutral", */ "positive", "negative"};
-  static const short with_id_num = 3;  // 0-without 1-with 2-anti
+  static const short charge_num = 2; // 0-un 1-pos 2-neg
+  std::string charge_name[charge_num] = {/*"neutral", */ "positive",
+                                         "negative"};
+  static const short with_id_num = 3; // 0-without 1-with 2-anti
   std::string id_name[with_id_num] = {"withoutID", "withID", "antiID"};
-  static const short sec_num = 6;  // 0-without 1-with 2-anti
-  std::string sec_name[sec_num] = {"sec_1", "sec_2", "sec_3", "sec_4", "sec_5", "sec_6"};
-  static const short mm_num = 2;  // 0 mm 1 mm square
+  static const short sec_num = 6; // 0-without 1-with 2-anti
+  std::string sec_name[sec_num] = {"sec_1", "sec_2", "sec_3",
+                                   "sec_4", "sec_5", "sec_6"};
+  static const short mm_num = 2; // 0 mm 1 mm square
   std::string mm_name[mm_num] = {"mm", "mmSQ"};
-  static const short mm_events_num = 8;  // 0-ep event 1 2pion ...
-  std::string mm_events_name[mm_events_num] = {
-      "e(p,p'X)e'",     "e(p,p'pi+pi-X)e'", "e(p,p'pi-X)e'", "e(p,p'pi+X)e'", "e(p,X)e'" /*inclusive*/,
-      "e(p,pi+pi-X)e'", "e(p,pi-X)e'",      "e(p,pi+X)e'"};
+  static const short mm_events_num = 8; // 0-ep event 1 2pion ...
+  std::string mm_events_name[mm_events_num] = {"e(p,p'X)e'",
+                                               "e(p,p'pi+pi-X)e'",
+                                               "e(p,p'pi-X)e'",
+                                               "e(p,p'pi+X)e'",
+                                               "e(p,X)e'" /*inclusive*/,
+                                               "e(p,pi+pi-X)e'",
+                                               "e(p,pi-X)e'",
+                                               "e(p,pi+X)e'"};
 
-  static const short cc_num = 3;  // 0-without 1-with 2-anti
-  std::string cc_name[cc_num] = {"ele", " pi-", "pi+" /*"total", "htcc", "ltcc"*/};
+  static const short cc_num = 3; // 0-without 1-with 2-anti
+  std::string cc_name[cc_num] = {"ele", " pi-",
+                                 "pi+" /*"total", "htcc", "ltcc"*/};
   static const short cut_y_n = 2;
   std::string cut_name[cut_y_n] = {"with_cut", "with_anti_cut"};
   static const short cut_without_cut_num = 2;
@@ -80,6 +83,18 @@ class Histogram {
   TH1D *cherenkov_total[cc_num];
   TH1D *cherenkov_ltcc[cc_num];
   TH1D *cherenkov_htcc[cc_num];
+
+  TH2D *Deltat_P_after_mmsq_cut;
+  TH2D *Deltat_pip_after_mmsq_cut;
+
+  TH2D *Deltat_ctof_P_after_mmsq_cut;
+  TH2D *Deltat_ctof_pip_after_mmsq_cut;
+
+  TH2D *Deltat_P_after_mmsq_cut_singlepip;
+  TH2D *Deltat_pip_after_mmsq_cut_singlepip;
+
+  TH2D *Deltat_ctof_P_after_mmsq_cut_singlepip;
+  TH2D *Deltat_ctof_pip_after_mmsq_cut_singlepip;
 
   TH2D *W_vs_Q2_all_sec;
   TH2D *Prot_mass_w_vs_Q2;
@@ -144,7 +159,7 @@ class Histogram {
 
   // Delta T
 
- public:
+public:
   Histogram();
   ~Histogram();
   float mm_lim_max(int mm_number, int mm_events_number);
@@ -169,8 +184,9 @@ class Histogram {
   void Fill_MM_wop_pim(double mm_1, int sec_number, float weight);
   void Fill_MMSQ_wop_pim(double mm_1, int sec_number, float weight);
 
-  void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_, double rho_, float weight);
-  void Fill_W_hist_Xpip_all_sec(double W);
+  void Fill_W_2pi_all_sec(double W, double W_dpp, double delta_zero_,
+                          double rho_, float weight);
+  void Fill_W_hist_Xpip_all_sec(double W, float weight);
 
   void makeHists_WvsQ2();
   void makeHists_MM();
@@ -178,21 +194,29 @@ class Histogram {
   void makeHists_pcal_fid_cuts();
 
   void Fill_W_vs_Q2_all_sec(double w, double q2, double wt);
-  void Fill_hist_mass_vs_q2_prot(double w, double m_p, double th_pr_lab, double q2, double wt);
-  void Fill_hist_mass_vs_q2_pip(double w, double m_pip, double th_pip_lab, double q2, double wt);
-  void Fill_hist_mass_vs_q2_pim(double w, double m_pim, double th_pim_lab, double q2, double wt);
+  void Fill_hist_mass_vs_q2_prot(double w, double m_p, double th_pr_lab,
+                                 double q2, double wt);
+  void Fill_hist_mass_vs_q2_pip(double w, double m_pip, double th_pip_lab,
+                                double q2, double wt);
+  void Fill_hist_mass_vs_q2_pim(double w, double m_pim, double th_pim_lab,
+                                double q2, double wt);
 
   //  void makeHists_Q2();
   void Fill_WvsmmSQ_ep(double W, double mmSQ, int sec_number, float weight);
-  void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number,
-                        float weight);
-  void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number, float weight);
-  void Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number, float weight);
-  void Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_, double rho_, double mmSQ, int sec_number,
+  void Fill_WvsmmSQ_2pi(double W, double W_dpp, double delta_zero_, double rho_,
+                        double mmSQ, int sec_number, float weight);
+  void Fill_WvsmmSQ_singlepip(double W, double mmSQ, int sec_number,
+                              float weight);
+  void Fill_WvsmmSQ_anti_ep(double W, double mmSQ, int sec_number,
+                            float weight);
+  void Fill_WvsmmSQ_anti_2pi(double W, double W_dpp, double delta_zero_,
+                             double rho_, double mmSQ, int sec_number,
                              float weight);
-  void Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_number, float weight);
+  void Fill_WvsmmSQ_anti_singlepip(double W, double mmSQ, int sec_number,
+                                   float weight);
   void Fill_WvsQ2(double W, double Q2, int sec_number, float weight);
-  void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number, float weight);
+  void Fill_MM_hist(double mm, size_t m, size_t e, int sec_number,
+                    float weight);
 
   void Write_WvsQ2();
   void Write_MM_hist();
@@ -223,22 +247,44 @@ class Histogram {
   void Fill_deltat_vertex(int pid, int charge, float dt, float momentum);
   void Fill_deltat_elect(int pid, int charge, float dt, float momentum);
   void Fill_deltat_prot(int pid, int charge, float dt, float momentum);
-  void Fill_deltat_pip(int pid, int charge, float dt, float momentum);
+  void Fill_deltat_pion(int pid, int charge, float dt, float momentum);
   void Fill_deltat_kp(int pid, int charge, float dt, float momentum);
 
-  void Fill_ctof_e_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_P_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_pip_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_pim_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_kp_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_km_without_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_e_without_cut_hist(int pid, int charge, float dt_ctof,
+                                    float momentum);
+  void Fill_ctof_P_without_cut_hist(int pid, int charge, float dt_ctof,
+                                    float momentum);
+  void Fill_ctof_pip_without_cut_hist(int pid, int charge, float dt_ctof,
+                                      float momentum);
+  void Fill_ctof_pim_without_cut_hist(int pid, int charge, float dt_ctof,
+                                      float momentum);
+  void Fill_ctof_kp_without_cut_hist(int pid, int charge, float dt_ctof,
+                                     float momentum);
+  void Fill_ctof_km_without_cut_hist(int pid, int charge, float dt_ctof,
+                                     float momentum);
 
-  void Fill_ctof_e_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_P_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_pip_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_pim_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_kp_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
-  void Fill_ctof_km_with_cut_hist(int pid, int charge, float dt_ctof, float momentum);
+  void Fill_ctof_e_with_cut_hist(int pid, int charge, float dt_ctof,
+                                 float momentum);
+  void Fill_ctof_P_with_cut_hist(int pid, int charge, float dt_ctof,
+                                 float momentum);
+  void Fill_ctof_pip_with_cut_hist(int pid, int charge, float dt_ctof,
+                                   float momentum);
+  void Fill_ctof_pim_with_cut_hist(int pid, int charge, float dt_ctof,
+                                   float momentum);
+  void Fill_ctof_kp_with_cut_hist(int pid, int charge, float dt_ctof,
+                                  float momentum);
+  void Fill_ctof_km_with_cut_hist(int pid, int charge, float dt_ctof,
+                                  float momentum);
+
+  void Fill_deltat_prot_after(int pid, int charge, float dt_p, float dt_pip,
+                              float momentum);
+  void Fill_deltat_ctof_prot_after(int pid, int charge, float dt_ctof_p,
+                                   float dt_ctof_pip, float momentum);
+  void Fill_deltat_after_mmsq_cut_Xpip(int pid, int charge, float dt_p,
+                                       float dt_pip, float momentum);
+  void Fill_deltat_ctof_after_mmsq_cut_Xpip(int pid, int charge,
+                                            float dt_ctof_p, float dt_ctof_pip,
+                                            float momentum);
 
   void Fill_theta_P_inv_mass(float inv_mass, float theta, float wt);
   void Fill_theta_pim_inv_mass(float inv_mass, float theta, float wt);
@@ -258,17 +304,22 @@ class Histogram {
   void Fill_mom_p(float mom, float mom_z);
   void Fill_mom_pip(float mom, float mom_z);
   void Fill_mom_pim(float mom, float mom_z);
-  void Fill_mom_diff_e_pim(float mom_diff, float mom_diff_x, float mom_diff_y, float mom_diff_z);
-  void Fill_mom_diff_p_pip(float mom_diff, float mom_diff_x, float mom_diff_y, float mom_diff_z);
+  void Fill_mom_diff_e_pim(float mom_diff, float mom_diff_x, float mom_diff_y,
+                           float mom_diff_z);
+  void Fill_mom_diff_p_pip(float mom_diff, float mom_diff_x, float mom_diff_y,
+                           float mom_diff_z);
   void Write_deltat();
 
   // EC Sampling Fraction
-  void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number, float weight);
+  void Fill_EC_sampling_fraction(double momentum, double sf, int sec_number,
+                                 float weight);
   void Fill_PCAL_VS_ECAL(float pcal, float ecal, int sec_number, float weight);
   void Fill_hist_PCAL_FID_CUT(float x_PCAL, float y_PCAL);
   void Fill_hist_PCAL_without_FID_CUT(float x_PCAL, float y_PCAL);
-  void Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
-  void Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y, float R3X, float R3Y);
+  void Fill_hist_DC_FID_CUT(float R1X, float R1Y, float R2X, float R2Y,
+                            float R3X, float R3Y);
+  void Fill_hist_DC_without_FID_CUT(float R1X, float R1Y, float R2X, float R2Y,
+                                    float R3X, float R3Y);
   void Write_EC();
 };
 
