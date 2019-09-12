@@ -6,7 +6,7 @@
 #ifndef CONSTANTS_H_GUARD
 #define CONSTANTS_H_GUARD
 #include "TMath.h"
-static const float mc_weight = 1.0;
+
 static const double CLAS12_E = 7.54;
 const double c_special_units = 29.9792458;
 static const int MAX_PARTS = 100;

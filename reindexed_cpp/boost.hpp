@@ -24,19 +24,10 @@ private:
   bool _hasPip;
   bool _hasPim;
 
-  float _theta_gamma = std::nan("-99");
-  float _phi_gamma = std::nan("-99");
-  float _theta_prot = std::nan("-99");
-  float _phi_prot = std::nan("-99");
-  float _theta_pip = std::nan("-99");
-  float _phi_pip = std::nan("-99");
-  float _theta_pim = std::nan("-99");
-  float _phi_pim = std::nan("-99");
-
 public:
-  Boost_cm();
-  Boost_cm(TLorentzVector *beam);
-  ~Boost_cm();
+  Reaction();
+  Reaction(TLorentzVector *beam);
+  ~Reaction();
 
   TLorentzVector e_mu_prime(); // maile thapeko
   TLorentzVector p_mu_prime();
