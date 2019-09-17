@@ -32,7 +32,7 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos,
                                                         y_PCAL_rot = y_PCAL * cos(sec * 60.0 * PI / 180) -
                                                                      x_PCAL * sin(sec * 60.0 * PI / 180);
                                                         angle = 60;
-                                                        height_PCAL = 75; // stafen 45
+                                                        height_PCAL = 45; // stafen 45
                                                         slope_PCAL = 1 / tan(0.5 * angle * PI / 180);
                                                         left_PCAL = (height_PCAL - slope_PCAL * y_PCAL_rot);
                                                         right_PCAL = (height_PCAL + slope_PCAL * y_PCAL_rot);
@@ -70,9 +70,9 @@ bool Cuts::electron_cuts(int status, int charge, float sf, float vertex_pos,
                                                                 left_r3 = (dcR3_height - slope * y3_rot);
                                                                 right_r3 = (dcR3_height + slope * y3_rot);
 
-                                                                radius2_DCr1 = pow(23.5, 2) - pow(y1_rot, 2); // 32 stafen // 21
-                                                                radius2_DCr2 = pow(37, 2) - pow(y2_rot, 2); // 49 // 30
-                                                                radius2_DCr3 = pow(66, 2) - pow(y3_rot, 2); // 54  // 40
+                                                                radius2_DCr1 = pow(32, 2) - pow(y1_rot, 2); // 32 stafen // 21
+                                                                radius2_DCr2 = pow(49, 2) - pow(y2_rot, 2); // 49 // 30
+                                                                radius2_DCr3 = pow(54, 2) - pow(y3_rot, 2); // 54  // 40
                                                                 //
                                                                 if (x1_rot > left_r1 && x1_rot > right_r1 &&
                                                                     pow(x1_rot, 2) > radius2_DCr1) {

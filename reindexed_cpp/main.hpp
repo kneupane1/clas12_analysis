@@ -20,13 +20,13 @@
 #include <vector>
 
 void datahandeler(std::string fin, std::string fout) {
-        double energy = CLAS12_E;
+        float energy = CLAS12_E;
         if (getenv("CLAS12_E") != NULL)
                 energy = atof(getenv("CLAS12_E"));
         TLorentzVector *e_mu = new TLorentzVector(0.0, 0.0, energy, energy);
 
         TFile *out = new TFile(fout.c_str(), "RECREATE");
-        double P;
+        float P;
         bool electron_cuts;
         // Load chain from branch h10
         TChain *chain = filehandeler::addFiles(fin);
@@ -47,13 +47,13 @@ void datahandeler(std::string fin, std::string fout) {
         float p_pip_mom_diff_x = 0;
         float p_pip_mom_diff_y = 0;
         float p_pip_mom_diff_z = 0;
-        double tot_energy_ec = 0;
+        float tot_energy_ec = 0;
 
         int sc_d = 0;
-        double W = 0;
-        double Q2 = 0;
-        double sf = 0;
-        double per = 0;
+        float W = 0;
+        float Q2 = 0;
+        float sf = 0;
+        float per = 0;
         int index = 0;
         int num_pip = 0;
         bool good_e = false;
@@ -83,7 +83,7 @@ void datahandeler(std::string fin, std::string fout) {
                 if (pid->size() == 0 || pid->at(0) != ELECTRON /* charge->at(0) >= 0*/)
                         continue; // cut # 1
 
-                per = ((double)current_event / (double)num_of_events);
+                per = ((float)current_event / (float)num_of_events);
                 if (current_event % 1000 == 0)
                         std::cerr << "\t\t" << std::floor(100 * per) << "%\r\r" << std::flush;
                 Reaction *event = new Reaction(e_mu);
@@ -92,44 +92,51 @@ void datahandeler(std::string fin, std::string fout) {
                         sector = dc_sec->at(0) - 1;
                 }
                 event->SetElec_thrown(mc_px->at(0), mc_py->at(0), mc_pz->at(0), MASS_E);
-                hist->Fill_W_vs_Q2_thrown(event->W_thrown(), event->Q2_thrown(), mc_weight);
+                hist->Fill_W_vs_Q2_thrown(event->W_thrown(), event->Q2_thrown(),
+                                          mc_weight);
 
 
                 for (int part = 1; part < mc_pid->size(); part++) {
                         if (mc_pid->at(part) == PROTON)
-                                event->SetProt_thrown(mc_px->at(part), mc_py->at(part), mc_pz->at(part), MASS_P);
+                                event->SetProt_thrown(mc_px->at(part), mc_py->at(part),
+                                                      mc_pz->at(part), MASS_P);
 
                         if (mc_pid->at(part) == PIP)
-                                event->SetPip_thrown(mc_px->at(part), mc_py->at(part), mc_pz->at(part), MASS_PIP);
+                                event->SetPip_thrown(mc_px->at(part), mc_py->at(part),
+                                                     mc_pz->at(part), MASS_PIP);
                         if (mc_pid->at(part) == PIM)
-                                event->SetPim_thrown(mc_px->at(part), mc_py->at(part), mc_pz->at(part), MASS_PIM);
+                                event->SetPim_thrown(mc_px->at(part), mc_py->at(part),
+                                                     mc_pz->at(part), MASS_PIM);
                 }
                 event->thrownCalc();
                 //std::cout << event->W_2pi_thrown()<<'\n';
-                hist->Fill_W_2pi_thrown(event->W_2pi_thrown(), event->W_delta_pp_thrown(),
-                                        event->W_delta_zero_thrown(), event->W_rho_thrown(),
-                                        mc_weight);
+                hist->Fill_W_2pi_thrown(event->W(), event->W_2pi_thrown(),
+                                        event->W_delta_pp_thrown(),
+                                        event->W_delta_zero_thrown(),
+                                        event->W_rho_thrown(), mc_weight);
 
-                hist->Fill_theta_P_inv_mass_thrown(
-                        event->W_rho_thrown(), (event->p_mu_prime_cm_thrown().Theta() * (180 / PI)),
-                        mc_weight);
+                hist->Fill_theta_P_inv_mass_thrown(event->W(),
+                                                   event->W_rho_thrown(), (event->p_mu_prime_cm_thrown().Theta() *
+                                                                           (180 / PI)), mc_weight);
 
-                hist->Fill_theta_pim_inv_mass_thrown(
-                        event->W_delta_pp_thrown(),
-                        (event->pim_mu_prime_cm_thrown().Theta() * (180 / PI)), mc_weight);
-                hist->Fill_theta_pip_inv_mass_thrown(
-                        event->W_delta_zero_thrown(),
-                        (event->pip_mu_prime_cm_thrown().Theta() * (180 / PI)), mc_weight);
+                hist->Fill_theta_pim_inv_mass_thrown(event->W(),
+                                                     event->W_delta_pp_thrown(),
+                                                     (event->pim_mu_prime_cm_thrown().Theta() * (180 / PI)),
+                                                     mc_weight);
+                hist->Fill_theta_pip_inv_mass_thrown(event->W(),
+                                                     event->W_delta_zero_thrown(),
+                                                     (event->pip_mu_prime_cm_thrown().Theta() * (180 / PI)),
+                                                     mc_weight);
 
-                hist->Fill_theta_P_lab_inv_mass_thrown(
-                        event->W_rho_thrown(), (event->p_mu_prime_thrown().Theta() * (180 / PI)),
-                        mc_weight);
-                hist->Fill_theta_pim_lab_inv_mass_thrown(
-                        event->W_delta_pp_thrown(),
-                        (event->pim_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
-                hist->Fill_theta_pip_lab_inv_mass_thrown(
-                        event->W_delta_zero_thrown(),
-                        (event->pip_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
+                hist->Fill_theta_P_lab_inv_mass_thrown(event->W(),
+                                                       event->W_rho_thrown(), (event->p_mu_prime_thrown().Theta() * (180
+                                                                                                                     / PI)), mc_weight);
+                hist->Fill_theta_pim_lab_inv_mass_thrown(event->W(),
+                                                         event->W_delta_pp_thrown(),
+                                                         (event->pim_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
+                hist->Fill_theta_pip_lab_inv_mass_thrown(event->W(),
+                                                         event->W_delta_zero_thrown(),
+                                                         (event->pip_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
 
 
 
@@ -153,8 +160,113 @@ void datahandeler(std::string fin, std::string fout) {
                         if (event->e_mu_prime().P() != 0) {
                                 hist->Fill_EC_sampling_fraction(
                                         event->e_mu_prime().P(),
-                                        (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                        (ec_tot_energy->at(0) / event->e_mu_prime().P()), dc_sec->at(0),
                                         mc_weight);
+                                if (event->e_mu_prime().P() > 1.0 && event->e_mu_prime().P() < 1.3)
+                                        hist->Fill_1d_sampling_fraction_1(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+
+                                if (event->e_mu_prime().P() > 1.3 && event->e_mu_prime().P() < 1.6)
+                                        hist->Fill_1d_sampling_fraction_2(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 1.6 && event->e_mu_prime().P() < 1.9)
+                                        hist->Fill_1d_sampling_fraction_3(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 1.9 && event->e_mu_prime().P() < 2.2)
+                                        hist->Fill_1d_sampling_fraction_4(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 2.2 && event->e_mu_prime().P() < 2.5)
+                                        hist->Fill_1d_sampling_fraction_5(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 2.5 && event->e_mu_prime().P() < 2.8)
+                                        hist->Fill_1d_sampling_fraction_6(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 2.8 && event->e_mu_prime().P() < 3.1)
+                                        hist->Fill_1d_sampling_fraction_7(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 3.1 && event->e_mu_prime().P() < 3.4)
+                                        hist->Fill_1d_sampling_fraction_8(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 3.4 && event->e_mu_prime().P() < 3.7)
+                                        hist->Fill_1d_sampling_fraction_9(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 3.7 && event->e_mu_prime().P() < 4.0)
+                                        hist->Fill_1d_sampling_fraction_10(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 4.0 && event->e_mu_prime().P() < 4.3)
+                                        hist->Fill_1d_sampling_fraction_11(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 4.3 && event->e_mu_prime().P() < 4.6)
+                                        hist->Fill_1d_sampling_fraction_12(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+
+                                if (event->e_mu_prime().P() > 4.6 && event->e_mu_prime().P() < 4.9)
+                                        hist->Fill_1d_sampling_fraction_13(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+
+                                if (event->e_mu_prime().P() > 4.9 && event->e_mu_prime().P() < 5.2)
+                                        hist->Fill_1d_sampling_fraction_14(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 5.2 && event->e_mu_prime().P() < 5.5)
+                                        hist->Fill_1d_sampling_fraction_15(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 5.5 && event->e_mu_prime().P() < 5.8)
+                                        hist->Fill_1d_sampling_fraction_16(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+
+                                if (event->e_mu_prime().P() > 5.8 && event->e_mu_prime().P() < 6.1)
+                                        hist->Fill_1d_sampling_fraction_17(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 6.1 && event->e_mu_prime().P() < 6.4)
+                                        hist->Fill_1d_sampling_fraction_18(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 6.4 && event->e_mu_prime().P() < 6.7)
+                                        hist->Fill_1d_sampling_fraction_19(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+                                if (event->e_mu_prime().P() > 6.7 && event->e_mu_prime().P() < 7.0)
+                                        hist->Fill_1d_sampling_fraction_20(
+                                                event->e_mu_prime().P(),
+                                                (ec_tot_energy->at(0) / event->e_mu_prime().P()), sector,
+                                                mc_weight);
+
                                 hist->Fill_PCAL_VS_ECAL(
                                         ec_pcal_energy->at(0),
                                         (ec_ecin_energy->at(0) + ec_ecout_energy->at(0)), sector,
@@ -395,70 +507,74 @@ void datahandeler(std::string fin, std::string fout) {
                         // if (event->p_mu_prime().P() != 0) {
                         hist->Fill_WvsQ2(event->W(), event->Q2(), sector, mc_weight);
 
+                        hist->Fill_WvsQ2_range(event->W(), event->Q2(), mc_weight);
                         hist->Fill_W_vs_Q2_all_sec(event->W(), event->Q2(), mc_weight);
-                        if ((good_pip || good_hadron_ctof_pip) &&
-                            event->pip_mu_prime().Theta() != 0 &&
-                            event->pip_mu_prime().P() != 0) {
-
-                                hist->Fill_hist_mass_vs_q2_pip(
-                                        event->W(), event->pip_mu_prime().Mag(),
-                                        (event->pip_mu_prime().Theta() * (180 / PI)), event->Q2(),
-                                        mc_weight);
-
-                                hist->Fill_mom_pip(event->pip_mu_prime().P(),
-                                                   event->pip_mu_prime().Pz());
-                        }
-                        if ((good_pim || good_hadron_ctof_pim) &&
-                            event->pim_mu_prime().Theta() != 0 &&
-                            event->pim_mu_prime().P() != 0) {
-                                hist->Fill_hist_mass_vs_q2_pim(
-                                        event->W(), event->pim_mu_prime().Mag(),
-                                        (event->pim_mu_prime().Theta() * (180 / PI)), event->Q2(),
-                                        mc_weight);
-
-                                hist->Fill_mom_pim(event->pim_mu_prime().P(),
-                                                   event->pim_mu_prime().Pz());
-                        }
-
-                        if ((good_p || good_hadron_ctof_P) && event->p_mu_prime().Theta() != 0 &&
-                            event->p_mu_prime().P() != 0) {
-
-                                hist->Fill_hist_mass_vs_q2_prot(
-                                        event->W(), event->p_mu_prime().Mag(),
-                                        (event->p_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
-                                hist->Fill_mom_p(event->p_mu_prime().P(), event->p_mu_prime().Pz());
-                        }
-
-                        if (event->elecPimEvent() && good_pim) {
-
-                                e_pim_mom_diff = event->e_mu_prime().P() - event->pim_mu_prime().P();
-                                e_pim_mom_diff_x =
-                                        event->e_mu_prime().Px() - event->pim_mu_prime().Px();
-                                e_pim_mom_diff_y =
-                                        event->e_mu_prime().Py() - event->pim_mu_prime().Py();
-                                e_pim_mom_diff_z =
-                                        event->e_mu_prime().Pz() - event->pim_mu_prime().Pz();
-                                hist->Fill_mom_diff_e_pim(e_pim_mom_diff, e_pim_mom_diff_x,
-                                                          e_pim_mom_diff_y, e_pim_mom_diff_z);
-
-                                //}
-                        }
-                        if (event->ProtonPipEvent() && (good_p || good_hadron_ctof_P) &&
-                            (good_pip || good_hadron_ctof_pip)) {
-                                p_pip_mom_diff = event->p_mu_prime().P() - event->pip_mu_prime().P();
-                                p_pip_mom_diff_x =
-                                        event->p_mu_prime().Px() - event->pip_mu_prime().Px();
-                                p_pip_mom_diff_y =
-                                        event->p_mu_prime().Py() - event->pip_mu_prime().Py();
-                                p_pip_mom_diff_z =
-                                        event->p_mu_prime().Pz() - event->pip_mu_prime().Pz();
-                                hist->Fill_mom_diff_p_pip(p_pip_mom_diff, p_pip_mom_diff_x,
-                                                          p_pip_mom_diff_y, p_pip_mom_diff_z);
-                        }
-                        if (/*event->W() < 1.40 &&  event->W() > 1.20 &&*/ event->Q2() < 15.0 &&
-                                                                           event->Q2() > 0.0 && (good_p || good_hadron_ctof_P) &&
-                                                                           (good_pip || good_hadron_ctof_pip) &&
-                                                                           (good_pim || good_hadron_ctof_pim)) { // cut # 10 11 12
+                        // if ((good_pip || good_hadron_ctof_pip) &&
+                        //     event->pip_mu_prime().Theta() != 0 &&
+                        //     event->pip_mu_prime().P() != 0) {
+                        //
+                        //         hist->Fill_hist_mass_vs_q2_pip(
+                        //                 event->W(), event->pip_mu_prime().Mag(),
+                        //                 (event->pip_mu_prime().Theta() * (180 / PI)),
+                        //                 event->Q2(), mc_weight);
+                        //
+                        //         hist->Fill_mom_pip(event->pip_mu_prime().P(),
+                        //                            event->pip_mu_prime().Pz());
+                        // }
+                        // if ((good_pim || good_hadron_ctof_pim) &&
+                        //     event->pim_mu_prime().Theta() != 0 &&
+                        //     event->pim_mu_prime().P() != 0) {
+                        //         hist->Fill_hist_mass_vs_q2_pim(
+                        //                 event->W(), event->pim_mu_prime().Mag(),
+                        //                 (event->pim_mu_prime().Theta() * (180 / PI)),
+                        //                 event->Q2(), mc_weight);
+                        //
+                        //         hist->Fill_mom_pim(event->pim_mu_prime().P(),
+                        //                            event->pim_mu_prime().Pz());
+                        // }
+                        //
+                        // if ((good_p || good_hadron_ctof_P) && event->p_mu_prime().Theta() != 0
+                        //     &&
+                        //     event->p_mu_prime().P() != 0) {
+                        //
+                        //         hist->Fill_hist_mass_vs_q2_prot(
+                        //                 event->W(), event->p_mu_prime().Mag(),
+                        //                 (event->p_mu_prime().Theta() * (180 / PI)),
+                        //                 event->Q2(), mc_weight);
+                        //         hist->Fill_mom_p(event->p_mu_prime().P(),
+                        //                          event->p_mu_prime().Pz());
+                        // }
+                        //
+                        // if (event->elecPimEvent() && good_pim) {
+                        //
+                        //         e_pim_mom_diff = event->e_mu_prime().P() -
+                        //                          event->pim_mu_prime().P(); e_pim_mom_diff_x =
+                        //                 event->e_mu_prime().Px() - event->pim_mu_prime().Px();
+                        //         e_pim_mom_diff_y =
+                        //                 event->e_mu_prime().Py() - event->pim_mu_prime().Py();
+                        //         e_pim_mom_diff_z =
+                        //                 event->e_mu_prime().Pz() - event->pim_mu_prime().Pz();
+                        //         hist->Fill_mom_diff_e_pim(e_pim_mom_diff, e_pim_mom_diff_x,
+                        //                                   e_pim_mom_diff_y, e_pim_mom_diff_z);
+                        //
+                        //         //}
+                        // }
+                        // if (event->ProtonPipEvent() && (good_p || good_hadron_ctof_P) &&
+                        //     (good_pip || good_hadron_ctof_pip)) {
+                        //         p_pip_mom_diff = event->p_mu_prime().P() -
+                        //                          event->pip_mu_prime().P(); p_pip_mom_diff_x =
+                        //                 event->p_mu_prime().Px() - event->pip_mu_prime().Px();
+                        //         p_pip_mom_diff_y =
+                        //                 event->p_mu_prime().Py() - event->pip_mu_prime().Py();
+                        //         p_pip_mom_diff_z =
+                        //                 event->p_mu_prime().Pz() - event->pip_mu_prime().Pz();
+                        //         hist->Fill_mom_diff_p_pip(p_pip_mom_diff, p_pip_mom_diff_x,
+                        //                                   p_pip_mom_diff_y, p_pip_mom_diff_z);
+                        // }
+                        if (event->W() < 3.50 && event->W() > 0.0 && event->Q2() < 15.0 &&
+                            event->Q2() > 0.0 && (good_p || good_hadron_ctof_P) &&
+                            (good_pip || good_hadron_ctof_pip) &&
+                            (good_pim || good_hadron_ctof_pim)) { // cut # 10 11 12
                                 event->CalcMissMass();
                                 // event->AlphaCalc();      // for now i am not using alpha
                                 // function from reaction class
@@ -475,9 +591,10 @@ void datahandeler(std::string fin, std::string fout) {
                                                                            mc_weight);
                                         }
                                         //}
-                                } else if (event->twoPionEvent() /* && (good_p || good_hadron_ctof_P) &&
-                                                                    (good_pip == true || good_hadron_ctof_pip == true) &&
-                                                                    (good_pim == true || good_hadron_ctof_pim == true)*/) { //
+                                } else if (event->twoPionEvent()// && (good_p || good_hadron_ctof_P) &&
+                                           //  (good_pip == true || good_hadron_ctof_pip == true) &&
+                                           //(good_pim == true || good_hadron_ctof_pim == true)
+                                           ) { //
                                         //     cut # 13
 
                                         hist->Fill_2pion_mm(event->MM(), sector, mc_weight);
@@ -501,29 +618,29 @@ void datahandeler(std::string fin, std::string fout) {
                                                 hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(),
                                                                        event->W_delta_zero(), event->W_rho(),
                                                                        event->MM2(), sector, mc_weight);
-                                                hist->Fill_W_2pi_all_sec(event->W_2pi(), event->W_delta_pp(),
-                                                                         event->W_delta_zero(), event->W_rho(),
-                                                                         mc_weight);
+                                                hist->Fill_W_2pi_all_sec(event->W(), event->W_2pi(),
+                                                                         event->W_delta_pp(), event->W_delta_zero(),
+                                                                         event->W_rho(), mc_weight);
 
                                                 hist->Fill_theta_P_inv_mass(
-                                                        event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)),
-                                                        mc_weight);
+                                                        event->W(), event->W_rho(),
+                                                        (event->p_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
 
                                                 hist->Fill_theta_pim_inv_mass(
-                                                        event->W_delta_pp(),
+                                                        event->W(), event->W_delta_pp(),
                                                         (event->pim_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
                                                 hist->Fill_theta_pip_inv_mass(
-                                                        event->W_delta_zero(),
+                                                        event->W(), event->W_delta_zero(),
                                                         (event->pip_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
 
                                                 hist->Fill_theta_P_lab_inv_mass(
-                                                        event->W_rho(), (event->p_mu_prime().Theta() * (180 / PI)),
-                                                        mc_weight);
+                                                        event->W(), event->W_rho(),
+                                                        (event->p_mu_prime().Theta() * (180 / PI)), mc_weight);
                                                 hist->Fill_theta_pim_lab_inv_mass(
-                                                        event->W_delta_pp(),
+                                                        event->W(), event->W_delta_pp(),
                                                         (event->pim_mu_prime().Theta() * (180 / PI)), mc_weight);
                                                 hist->Fill_theta_pip_lab_inv_mass(
-                                                        event->W_delta_zero(),
+                                                        event->W(), event->W_delta_zero(),
                                                         (event->pip_mu_prime().Theta() * (180 / PI)), mc_weight);
                                         } else {
                                                 hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(),
@@ -574,7 +691,7 @@ void datahandeler(std::string fin, std::string fout) {
                         }
 
                         //}
-                        //}
+                        //        }
                         delete dt;
 
                 } // cut # 2
