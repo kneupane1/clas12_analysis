@@ -97,22 +97,22 @@ void datahandeler(std::string fin, std::string fout) {
       }
       event->thrownCalc();
       // std::cout << event->W_2pi_thrown()<<'\n';
-      hist->Fill_W_2pi_thrown(event->W(), event->W_2pi_thrown(), event->W_delta_pp_thrown(),
+      hist->Fill_W_2pi_thrown(event->W(), event->Q2(), event->W_2pi_thrown(), event->W_delta_pp_thrown(),
                               event->W_delta_zero_thrown(), event->W_rho_thrown(), mc_weight);
 
-      hist->Fill_theta_P_inv_mass_thrown(event->W(), event->W_rho_thrown(),
+      hist->Fill_theta_P_inv_mass_thrown(event->W(), event->Q2(), event->W_rho_thrown(),
                                          (event->p_mu_prime_cm_thrown().Theta() * (180 / PI)), mc_weight);
 
-      hist->Fill_theta_pim_inv_mass_thrown(event->W(), event->W_delta_pp_thrown(),
+      hist->Fill_theta_pim_inv_mass_thrown(event->W(), event->Q2(), event->W_delta_pp_thrown(),
                                            (event->pim_mu_prime_cm_thrown().Theta() * (180 / PI)), mc_weight);
-      hist->Fill_theta_pip_inv_mass_thrown(event->W(), event->W_delta_zero_thrown(),
+      hist->Fill_theta_pip_inv_mass_thrown(event->W(), event->Q2(), event->W_delta_zero_thrown(),
                                            (event->pip_mu_prime_cm_thrown().Theta() * (180 / PI)), mc_weight);
 
-      hist->Fill_theta_P_lab_inv_mass_thrown(event->W(), event->W_rho_thrown(),
+      hist->Fill_theta_P_lab_inv_mass_thrown(event->W(), event->Q2(), event->W_rho_thrown(),
                                              (event->p_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
-      hist->Fill_theta_pim_lab_inv_mass_thrown(event->W(), event->W_delta_pp_thrown(),
+      hist->Fill_theta_pim_lab_inv_mass_thrown(event->W(), event->Q2(), event->W_delta_pp_thrown(),
                                                (event->pim_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
-      hist->Fill_theta_pip_lab_inv_mass_thrown(event->W(), event->W_delta_zero_thrown(),
+      hist->Fill_theta_pip_lab_inv_mass_thrown(event->W(), event->Q2(), event->W_delta_zero_thrown(),
                                                (event->pip_mu_prime_thrown().Theta() * (180 / PI)), mc_weight);
     }
     if (pid->size() == 0 || pid->at(0) != ELECTRON /* charge->at(0) >= 0*/) continue;  // cut # 1
@@ -397,69 +397,42 @@ void datahandeler(std::string fin, std::string fout) {
       // if (event->p_mu_prime().P() != 0) {
       hist->Fill_WvsQ2(event->W(), event->Q2(), sector, mc_weight);
 
-      hist->Fill_WvsQ2_range(event->W(), event->Q2(), mc_weight);
+      //  hist->Fill_WvsQ2_range(event->W(), event->Q2(), mc_weight);
       hist->Fill_W_vs_Q2_all_sec(event->W(), event->Q2(), mc_weight);
-      // if ((good_pip || good_hadron_ctof_pip) &&
-      //     event->pip_mu_prime().Theta() != 0 &&
-      //     event->pip_mu_prime().P() != 0) {
-      //
-      //         hist->Fill_hist_mass_vs_q2_pip(
-      //                 event->W(), event->pip_mu_prime().Mag(),
-      //                 (event->pip_mu_prime().Theta() * (180 / PI)),
-      //                 event->Q2(), mc_weight);
-      //
-      //         hist->Fill_mom_pip(event->pip_mu_prime().P(),
-      //                            event->pip_mu_prime().Pz());
-      // }
-      // if ((good_pim || good_hadron_ctof_pim) &&
-      //     event->pim_mu_prime().Theta() != 0 &&
-      //     event->pim_mu_prime().P() != 0) {
-      //         hist->Fill_hist_mass_vs_q2_pim(
-      //                 event->W(), event->pim_mu_prime().Mag(),
-      //                 (event->pim_mu_prime().Theta() * (180 / PI)),
-      //                 event->Q2(), mc_weight);
-      //
-      //         hist->Fill_mom_pim(event->pim_mu_prime().P(),
-      //                            event->pim_mu_prime().Pz());
-      // }
-      //
-      // if ((good_p || good_hadron_ctof_P) && event->p_mu_prime().Theta() != 0
-      //     &&
-      //     event->p_mu_prime().P() != 0) {
-      //
-      //         hist->Fill_hist_mass_vs_q2_prot(
-      //                 event->W(), event->p_mu_prime().Mag(),
-      //                 (event->p_mu_prime().Theta() * (180 / PI)),
-      //                 event->Q2(), mc_weight);
-      //         hist->Fill_mom_p(event->p_mu_prime().P(),
-      //                          event->p_mu_prime().Pz());
-      // }
-      //
+      if ((good_pip || good_hadron_ctof_pip) && event->pip_mu_prime().Theta() != 0 && event->pip_mu_prime().P() != 0) {
+        hist->Fill_hist_mass_vs_q2_pip(event->W(), event->pip_mu_prime().Mag(),
+                                       (event->pip_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
+
+        hist->Fill_mom_pip(event->pip_mu_prime().P(), event->pip_mu_prime().Pz());
+      }
+      if ((good_pim || good_hadron_ctof_pim) && event->pim_mu_prime().Theta() != 0 && event->pim_mu_prime().P() != 0) {
+        hist->Fill_hist_mass_vs_q2_pim(event->W(), event->pim_mu_prime().Mag(),
+                                       (event->pim_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
+
+        hist->Fill_mom_pim(event->pim_mu_prime().P(), event->pim_mu_prime().Pz());
+      }
+
+      if ((good_p || good_hadron_ctof_P) && event->p_mu_prime().Theta() != 0 && event->p_mu_prime().P() != 0) {
+        hist->Fill_hist_mass_vs_q2_prot(event->W(), event->p_mu_prime().Mag(),
+                                        (event->p_mu_prime().Theta() * (180 / PI)), event->Q2(), mc_weight);
+        hist->Fill_mom_p(event->p_mu_prime().P(), event->p_mu_prime().Pz());
+      }
+
       // if (event->elecPimEvent() && good_pim) {
+      //   e_pim_mom_diff = event->e_mu_prime().P() - event->pim_mu_prime().P();
+      //   e_pim_mom_diff_x = event->e_mu_prime().Px() - event->pim_mu_prime().Px();
+      //   e_pim_mom_diff_y = event->e_mu_prime().Py() - event->pim_mu_prime().Py();
+      //   e_pim_mom_diff_z = event->e_mu_prime().Pz() - event->pim_mu_prime().Pz();
+      //   hist->Fill_mom_diff_e_pim(e_pim_mom_diff, e_pim_mom_diff_x, e_pim_mom_diff_y, e_pim_mom_diff_z);
       //
-      //         e_pim_mom_diff = event->e_mu_prime().P() -
-      //                          event->pim_mu_prime().P(); e_pim_mom_diff_x =
-      //                 event->e_mu_prime().Px() - event->pim_mu_prime().Px();
-      //         e_pim_mom_diff_y =
-      //                 event->e_mu_prime().Py() - event->pim_mu_prime().Py();
-      //         e_pim_mom_diff_z =
-      //                 event->e_mu_prime().Pz() - event->pim_mu_prime().Pz();
-      //         hist->Fill_mom_diff_e_pim(e_pim_mom_diff, e_pim_mom_diff_x,
-      //                                   e_pim_mom_diff_y, e_pim_mom_diff_z);
-      //
-      //         //}
+      //   //}
       // }
-      // if (event->ProtonPipEvent() && (good_p || good_hadron_ctof_P) &&
-      //     (good_pip || good_hadron_ctof_pip)) {
-      //         p_pip_mom_diff = event->p_mu_prime().P() -
-      //                          event->pip_mu_prime().P(); p_pip_mom_diff_x =
-      //                 event->p_mu_prime().Px() - event->pip_mu_prime().Px();
-      //         p_pip_mom_diff_y =
-      //                 event->p_mu_prime().Py() - event->pip_mu_prime().Py();
-      //         p_pip_mom_diff_z =
-      //                 event->p_mu_prime().Pz() - event->pip_mu_prime().Pz();
-      //         hist->Fill_mom_diff_p_pip(p_pip_mom_diff, p_pip_mom_diff_x,
-      //                                   p_pip_mom_diff_y, p_pip_mom_diff_z);
+      // if (event->ProtonPipEvent() && (good_p || good_hadron_ctof_P) && (good_pip || good_hadron_ctof_pip)) {
+      //   p_pip_mom_diff = event->p_mu_prime().P() - event->pip_mu_prime().P();
+      //   p_pip_mom_diff_x = event->p_mu_prime().Px() - event->pip_mu_prime().Px();
+      //   p_pip_mom_diff_y = event->p_mu_prime().Py() - event->pip_mu_prime().Py();
+      //   p_pip_mom_diff_z = event->p_mu_prime().Pz() - event->pip_mu_prime().Pz();
+      //   hist->Fill_mom_diff_p_pip(p_pip_mom_diff, p_pip_mom_diff_x, p_pip_mom_diff_y, p_pip_mom_diff_z);
       // }
       if (event->W() < 3.50 && event->W() > 0.0 && event->Q2() < 15.0 && event->Q2() > 0.0 &&
           (good_p || good_hadron_ctof_P) && (good_pip || good_hadron_ctof_pip) &&
@@ -502,22 +475,22 @@ void datahandeler(std::string fin, std::string fout) {
 
             hist->Fill_WvsmmSQ_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
                                    event->MM2(), sector, mc_weight);
-            hist->Fill_W_2pi_all_sec(event->W(), event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(),
-                                     event->W_rho(), mc_weight);
+            hist->Fill_W_2pi_all_sec(event->W(), event->Q2(), event->W_2pi(), event->W_delta_pp(),
+                                     event->W_delta_zero(), event->W_rho(), mc_weight);
 
-            hist->Fill_theta_P_inv_mass(event->W(), event->W_rho(), (event->p_mu_prime_cm().Theta() * (180 / PI)),
-                                        mc_weight);
+            hist->Fill_theta_P_inv_mass(event->W(), event->Q2(), event->W_rho(),
+                                        (event->p_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
 
-            hist->Fill_theta_pim_inv_mass(event->W(), event->W_delta_pp(),
+            hist->Fill_theta_pim_inv_mass(event->W(), event->Q2(), event->W_delta_pp(),
                                           (event->pim_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
-            hist->Fill_theta_pip_inv_mass(event->W(), event->W_delta_zero(),
+            hist->Fill_theta_pip_inv_mass(event->W(), event->Q2(), event->W_delta_zero(),
                                           (event->pip_mu_prime_cm().Theta() * (180 / PI)), mc_weight);
 
-            hist->Fill_theta_P_lab_inv_mass(event->W(), event->W_rho(), (event->p_mu_prime().Theta() * (180 / PI)),
-                                            mc_weight);
-            hist->Fill_theta_pim_lab_inv_mass(event->W(), event->W_delta_pp(),
+            hist->Fill_theta_P_lab_inv_mass(event->W(), event->Q2(), event->W_rho(),
+                                            (event->p_mu_prime().Theta() * (180 / PI)), mc_weight);
+            hist->Fill_theta_pim_lab_inv_mass(event->W(), event->Q2(), event->W_delta_pp(),
                                               (event->pim_mu_prime().Theta() * (180 / PI)), mc_weight);
-            hist->Fill_theta_pip_lab_inv_mass(event->W(), event->W_delta_zero(),
+            hist->Fill_theta_pip_lab_inv_mass(event->W(), event->Q2(), event->W_delta_zero(),
                                               (event->pip_mu_prime().Theta() * (180 / PI)), mc_weight);
           } else {
             hist->Fill_WvsmmSQ_anti_2pi(event->W_2pi(), event->W_delta_pp(), event->W_delta_zero(), event->W_rho(),
