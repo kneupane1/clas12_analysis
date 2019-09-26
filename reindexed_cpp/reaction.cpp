@@ -22,7 +22,7 @@ Reaction::Reaction() {
         _pip_mu_prime_cm = new TLorentzVector();
         _pim_mu_prime_cm = new TLorentzVector();
 
-
+        _q_cm_thrown = new TLorentzVector();
         _p_mu_prime_cm_thrown = new TLorentzVector();
         _pip_mu_prime_cm_thrown = new TLorentzVector();
         _pim_mu_prime_cm_thrown = new TLorentzVector();
@@ -66,6 +66,19 @@ Reaction::Reaction() {
         _alpha_ppip_pipim = std::nan("-99");
         _alpha_pippim_pipf = std::nan("-99");
         _alpha_ppim_pipip = std::nan("-99");
+
+
+        _theta_gamma_thrown = std::nan("-99");
+        _phi_gamma_thrown = std::nan("-99");
+        _theta_prot_thrown = std::nan("-99");
+        _phi_prot_thrown = std::nan("-99");
+        _theta_pip_thrown = std::nan("-99");
+        _phi_pip_thrown = std::nan("-99");
+        _theta_pim_thrown = std::nan("-99");
+        _phi_pim_thrown = std::nan("-99");
+        _alpha_ppip_pipim_thrown = std::nan("-99");
+        _alpha_pippim_pipf_thrown = std::nan("-99");
+        _alpha_ppim_pipip_thrown = std::nan("-99");
 }
 Reaction::Reaction(TLorentzVector *beam) {
         _beam = beam;
@@ -87,6 +100,7 @@ Reaction::Reaction(TLorentzVector *beam) {
         _pip_mu_prime_cm = new TLorentzVector();
         _pim_mu_prime_cm = new TLorentzVector();
 
+        _q_cm_thrown = new TLorentzVector();
         _p_mu_prime_cm_thrown = new TLorentzVector();
         _pip_mu_prime_cm_thrown = new TLorentzVector();
         _pim_mu_prime_cm_thrown = new TLorentzVector();
@@ -136,6 +150,18 @@ Reaction::Reaction(TLorentzVector *beam) {
         _alpha_ppip_pipim = std::nan("-99");
         _alpha_pippim_pipf = std::nan("-99");
         _alpha_ppim_pipip = std::nan("-99");
+
+        _theta_gamma_thrown = std::nan("-99");
+        _phi_gamma_thrown = std::nan("-99");
+        _theta_prot_thrown = std::nan("-99");
+        _phi_prot_thrown = std::nan("-99");
+        _theta_pip_thrown = std::nan("-99");
+        _phi_pip_thrown = std::nan("-99");
+        _theta_pim_thrown = std::nan("-99");
+        _phi_pim_thrown = std::nan("-99");
+        _alpha_ppip_pipim_thrown = std::nan("-99");
+        _alpha_pippim_pipf_thrown = std::nan("-99");
+        _alpha_ppim_pipip_thrown = std::nan("-99");
 }
 Reaction::~Reaction() {
         // delete _beam;
@@ -157,7 +183,7 @@ Reaction::~Reaction() {
         delete _pip_mu_prime_cm;
         delete _pim_mu_prime_cm;
 
-
+        delete _q_cm_thrown;
         delete _p_mu_prime_cm_thrown;
         delete _pip_mu_prime_cm_thrown;
         delete _pim_mu_prime_cm_thrown;
@@ -166,6 +192,11 @@ Reaction::~Reaction() {
 void Reaction::SetElec_thrown(float px, float py, float pz, float mass) {
         _hasE = true;
         _elec_thrown->SetXYZM(px, py, pz, mass);
+        _q_cm_thrown->SetXYZM(0.0, 0.0, 0.0, 0.0);
+        _p_mu_prime_cm_thrown->SetXYZM(0.0, 0.0, 0.0, 0.0);
+        _pip_mu_prime_cm_thrown->SetXYZM(0.0, 0.0, 0.0, 0.0);
+        _pim_mu_prime_cm_thrown->SetXYZM(0.0, 0.0, 0.0, 0.0);
+
         _W_thrown = physics::W_calc(*_beam, *_elec_thrown);
         _Q2_thrown = physics::Q2_calc(*_beam, *_elec_thrown);
 }
@@ -415,151 +446,255 @@ TLorentzVector Reaction::pim_mu_prime_cm_thrown() {
         // if (twoPionEvent())
         return *_pim_mu_prime_cm_thrown; //(physics::boost_(*_pim, *_beam, *_elec));
 }
-// void Reaction::AlphaCalc() {
-//         TLorentzVector _q_cm_;
-//         TLorentzVector _p_mu_prime_cm_;
-//         TLorentzVector _pip_mu_prime_cm_;
-//         TLorentzVector _pim_mu_prime_cm_;
-//
-//         float theta_gamma;
-//         float phi_gamma;
-//         float theta_prot;
-//         float phi_prot;
-//         float theta_pip;
-//         float phi_pip;
-//         float theta_pim;
-//         float phi_pim;
-//
-//         //  Float_t m_proton, m_pip, beta;
-//         Float_t a_gamma, b_gamma, a_beta, b_beta;
-//         TVector3 Vect3_gamma, Vect3_beta, V3_anti_z(0, 0, -1);
-//         float alpha_PPIp_piPIm;
-//         float alpha_PIpPIm_pipf;
-//         float alpha_PPIm_piPIp;
-//
-//         if (twoPionEvent()) {
-//                 *_q_cm = (physics::boost_((*_beam - *_elec), *_beam,
-//                 *_elec));
-//                 // *_p_mu_prime_cm = physics::boost_(*_prot, *_beam, *_elec);
-//                 // *_pip_mu_prime_cm = physics::boost_(*_pip, *_beam,
-//                 *_elec);
-//                 // *_pim_mu_prime_cm = physics::boost_(*_pim, *_beam,
-//                 *_elec); _q_cm_ = (*_q_cm); _p_mu_prime_cm_ =
-//                 (*_p_mu_prime_cm); _pip_mu_prime_cm_ = (*_pip_mu_prime_cm);
-//                 _pim_mu_prime_cm_ = (*_pim_mu_prime_cm);
-//
-//                 theta_gamma = _q_cm_.Theta() * 180 / PI;
-//                 theta_prot = _p_mu_prime_cm_.Theta() * 180 / PI;
-//                 theta_pip = _pip_mu_prime_cm_.Theta() * 180 / PI;
-//                 theta_pim = _pim_mu_prime_cm_.Theta() * 180 / PI;
-//                 if (_q_cm_.Phi() > 0)
-//                         phi_gamma = _q_cm_.Phi() * 180 / PI;
-//                 else if (_q_cm_.Phi() < 0)
-//                         phi_gamma = (_q_cm_.Phi() + 2 * PI) * 180 / PI;
-//
-//                 if (_p_mu_prime_cm_.Phi() > 0)
-//                         phi_gamma = _p_mu_prime_cm_.Phi() * 180 / PI;
-//                 else if (_p_mu_prime_cm_.Phi() < 0)
-//                         phi_gamma = (_p_mu_prime_cm_.Phi() + 2 * PI) * 180 /
-//                         PI;
-//                 if (_pip_mu_prime_cm_.Phi() > 0)
-//                         phi_gamma = _pip_mu_prime_cm_.Phi() * 180 / PI;
-//                 else if (_pip_mu_prime_cm_.Phi() < 0)
-//                         phi_gamma = (_pip_mu_prime_cm_.Phi() + 2 * PI) * 180
-//                         / PI;
-//                 if (_pim_mu_prime_cm_.Phi() > 0)
-//                         phi_gamma = _pim_mu_prime_cm_.Phi() * 180 / PI;
-//                 else if (_pim_mu_prime_cm_.Phi() < 0)
-//                         phi_gamma = (_pim_mu_prime_cm_.Phi() + 2 * PI) * 180
-//                         / PI;
-//                 // 1 this one is used for α[π−]
-//                 a_gamma = sqrt(1. / (1 - pow((_pim_mu_prime_cm_.Vect().Unit()
-//                 * V3_anti_z),
-//                                              2))); // V3_anti_z(0,0,-1);
-//                 b_gamma = -(_pim_mu_prime_cm_.Vect().Unit() * V3_anti_z) *
-//                 a_gamma; Vect3_gamma = a_gamma * V3_anti_z + b_gamma *
-//                 _pim_mu_prime_cm_.Vect().Unit();
-//
-//                 a_beta = sqrt(1. / (1 - pow((_pim_mu_prime_cm_.Vect().Unit()
-//                 * _pip_mu_prime_cm_.Vect().Unit()), 2))); b_beta =
-//                 -(_pim_mu_prime_cm_.Vect().Unit() *
-//                 _pip_mu_prime_cm_.Vect().Unit()) * a_beta; Vect3_beta =
-//                 a_beta * _pip_mu_prime_cm_.Vect().Unit() + b_beta *
-//                 _pim_mu_prime_cm_.Vect().Unit();
-//
-//                 alpha_PPIp_piPIm = (180. / PI) * acos(Vect3_gamma *
-//                 Vect3_beta); if (Vect3_gamma.Cross(Vect3_beta) *
-//                 _pim_mu_prime_cm_.Vect() < 0)
-//                         alpha_PPIp_piPIm = 360. - alpha_PPIp_piPIm;
-//                         //α[pπ+][p'π−]
-//
-//                 /// 2
-//                 a_gamma = sqrt(1. / (1 - pow((_p_mu_prime_cm_.Vect().Unit() *
-//                 V3_anti_z), 2))); b_gamma = -(_p_mu_prime_cm_.Vect().Unit() *
-//                 V3_anti_z) * a_gamma; Vect3_gamma = a_gamma * V3_anti_z +
-//                 b_gamma * _p_mu_prime_cm_.Vect().Unit();
-//
-//                 a_beta = sqrt(1. / (1 - pow((_p_mu_prime_cm_.Vect().Unit() *
-//                 _pip_mu_prime_cm_.Vect().Unit()), 2))); b_beta =
-//                 -(_p_mu_prime_cm_.Vect().Unit() *
-//                 _pip_mu_prime_cm_.Vect().Unit()) * a_beta; Vect3_beta =
-//                 a_beta * _pip_mu_prime_cm_.Vect().Unit() + b_beta *
-//                 _p_mu_prime_cm_.Vect().Unit();
-//
-//                 alpha_PIpPIm_pipf = (180. / PI) * acos(Vect3_gamma *
-//                 Vect3_beta);
-//
-//                 if (Vect3_gamma.Cross(Vect3_beta) * _p_mu_prime_cm_.Vect() <
-//                 0)
-//                         alpha_PIpPIm_pipf = 360. - alpha_PIpPIm_pipf;
-//                         //α[pp'][π+π−]
-//
-//                 /// 3
-//                 a_gamma = sqrt(1. / (1 - pow((_pip_mu_prime_cm_.Vect().Unit()
-//                 * V3_anti_z), 2))); b_gamma =
-//                 -(_pip_mu_prime_cm_.Vect().Unit() * V3_anti_z) * a_gamma;
-//                 Vect3_gamma = a_gamma * V3_anti_z + b_gamma *
-//                 _pip_mu_prime_cm_.Vect().Unit();
-//
-//                 a_beta = sqrt(1. / (1 - pow((_pip_mu_prime_cm_.Vect().Unit()
-//                 * _pim_mu_prime_cm_.Vect().Unit()), 2))); b_beta =
-//                 -(_pip_mu_prime_cm_.Vect().Unit() *
-//                 _pim_mu_prime_cm_.Vect().Unit()) * a_beta; Vect3_beta =
-//                 a_beta * _pim_mu_prime_cm_.Vect().Unit() + b_beta *
-//                 _pip_mu_prime_cm_.Vect().Unit();
-//
-//                 alpha_PPIm_piPIp = (180. / PI) * acos(Vect3_gamma *
-//                 Vect3_beta);
-//
-//                 if (Vect3_gamma.Cross(Vect3_beta) * _pip_mu_prime_cm_.Vect()
-//                 < 0)
-//                         alpha_PPIm_piPIp = 360. - alpha_PPIm_piPIp; //
-//                         α[pπ−][p'π+]
-//                 //  return;
-//                 // return (phi_P_cm, phi_PIp_cm, phi_PIm_cm,
-//                 theta_PIm_cm,theta_PIp_cm,
-//                 // theta_P_cm,
-//                 alpha_PPIp_piPIm,alpha_PIpPIm_pipf,alpha_PPIm_piPIp);
-//
-//                 _theta_gamma = theta_gamma;
-//                 _phi_gamma = phi_gamma;
-//                 _theta_prot = theta_prot;
-//                 _phi_prot = phi_prot;
-//                 _theta_pip = theta_pip;
-//                 _phi_pip = phi_pip;
-//                 _theta_pim = theta_pim;
-//                 _phi_pim = phi_pim;
-//
-//                 _alpha_ppip_pipim = alpha_PPIp_piPIm;
-//                 _alpha_pippim_pipf = alpha_PIpPIm_pipf; // i haven't made
-//                 functions to output these angles _alpha_ppim_pipip =
-//                 alpha_PPIm_piPIp; // i haven't made functions to output these
-//                 angles
-//         }
-// }
-// float Reaction::alpha_ppip_pipim() {
-//         return _alpha_ppip_pipim;
-// }
+void Reaction::AlphaCalc() {
+        TLorentzVector _q_cm_;
+        TLorentzVector _p_mu_prime_cm_;
+        TLorentzVector _pip_mu_prime_cm_;
+        TLorentzVector _pim_mu_prime_cm_;
+
+        float theta_gamma;
+        float phi_gamma;
+        float theta_prot;
+        float phi_prot;
+        float theta_pip;
+        float phi_pip;
+        float theta_pim;
+        float phi_pim;
+
+        //  Float_t m_proton, m_pip, beta;
+        Float_t a_gamma, b_gamma, a_beta, b_beta;
+        TVector3 Vect3_gamma, Vect3_beta, V3_anti_z(0, 0, -1);
+        float alpha_PPIp_piPIm;
+        float alpha_PIpPIm_pipf;
+        float alpha_PPIm_piPIp;
+
+        if (twoPionEvent()) {
+                *_q_cm = (physics::boost_((*_beam - *_elec), *_beam, *_elec));
+                // *_p_mu_prime_cm = physics::boost_(*_prot, *_beam, *_elec);
+                // *_pip_mu_prime_cm = physics::boost_(*_pip, *_beam,*_elec);
+                // *_pim_mu_prime_cm = physics::boost_(*_pim, *_beam, *_elec);
+                _q_cm_ = (*_q_cm);
+                _p_mu_prime_cm_ =(*_p_mu_prime_cm);
+                _pip_mu_prime_cm_ = (*_pip_mu_prime_cm);
+                _pim_mu_prime_cm_ = (*_pim_mu_prime_cm);
+
+                theta_gamma = _q_cm_.Theta() * 180 / PI;
+                theta_prot = _p_mu_prime_cm_.Theta() * 180 / PI;
+                theta_pip = _pip_mu_prime_cm_.Theta() * 180 / PI;
+                theta_pim = _pim_mu_prime_cm_.Theta() * 180 / PI;
+                if (_q_cm_.Phi() > 0)
+                        phi_gamma = _q_cm_.Phi() * 180 / PI;
+                else if (_q_cm_.Phi() < 0)
+                        phi_gamma = (_q_cm_.Phi() + 2 * PI) * 180 / PI;
+
+                if (_p_mu_prime_cm_.Phi() > 0)
+                        phi_gamma = _p_mu_prime_cm_.Phi() * 180 / PI;
+                else if (_p_mu_prime_cm_.Phi() < 0)
+                        phi_gamma = (_p_mu_prime_cm_.Phi() + 2 * PI) * 180 /PI;
+                if (_pip_mu_prime_cm_.Phi() > 0)
+                        phi_gamma = _pip_mu_prime_cm_.Phi() * 180 / PI;
+                else if (_pip_mu_prime_cm_.Phi() < 0)
+                        phi_gamma = (_pip_mu_prime_cm_.Phi() + 2 * PI) * 180/ PI;
+                if (_pim_mu_prime_cm_.Phi() > 0)
+                        phi_gamma = _pim_mu_prime_cm_.Phi() * 180 / PI;
+                else if (_pim_mu_prime_cm_.Phi() < 0)
+                        phi_gamma = (_pim_mu_prime_cm_.Phi() + 2 * PI) * 180/ PI;
+                // 1 this one is used for α[π−]
+                a_gamma = sqrt(1. / (1 - pow((_pim_mu_prime_cm_.Vect().Unit()* V3_anti_z), 2))); // V3_anti_z(0,0,-1);
+                b_gamma = -(_pim_mu_prime_cm_.Vect().Unit() * V3_anti_z) *a_gamma;
+                Vect3_gamma = a_gamma * V3_anti_z + b_gamma *_pim_mu_prime_cm_.Vect().Unit();
+
+                a_beta = sqrt(1. / (1 - pow((_pim_mu_prime_cm_.Vect().Unit()* _pip_mu_prime_cm_.Vect().Unit()), 2)));
+                b_beta =-(_pim_mu_prime_cm_.Vect().Unit() *_pip_mu_prime_cm_.Vect().Unit()) * a_beta;
+                Vect3_beta = a_beta * _pip_mu_prime_cm_.Vect().Unit() + b_beta *_pim_mu_prime_cm_.Vect().Unit();
+
+                alpha_PPIp_piPIm = (180. / PI) * acos(Vect3_gamma *Vect3_beta);
+                if (Vect3_gamma.Cross(Vect3_beta) *_pim_mu_prime_cm_.Vect() < 0)
+                        alpha_PPIp_piPIm = 360. - alpha_PPIp_piPIm;
+
+
+                //α[pπ+][p'π−]
+                /// 2
+                a_gamma = sqrt(1. / (1 - pow((_p_mu_prime_cm_.Vect().Unit() * V3_anti_z), 2)));
+                b_gamma = -(_p_mu_prime_cm_.Vect().Unit() * V3_anti_z) * a_gamma;
+                Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _p_mu_prime_cm_.Vect().Unit();
+
+                a_beta = sqrt(1. / (1 - pow((_p_mu_prime_cm_.Vect().Unit() * _pip_mu_prime_cm_.Vect().Unit()), 2)));
+                b_beta =-(_p_mu_prime_cm_.Vect().Unit() *_pip_mu_prime_cm_.Vect().Unit()) * a_beta;
+                Vect3_beta = a_beta * _pip_mu_prime_cm_.Vect().Unit() + b_beta *_p_mu_prime_cm_.Vect().Unit();
+
+                alpha_PIpPIm_pipf = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
+
+                if (Vect3_gamma.Cross(Vect3_beta) * _p_mu_prime_cm_.Vect() < 0)
+                        alpha_PIpPIm_pipf = 360. - alpha_PIpPIm_pipf;
+                //α[pp'][π+π−]
+
+                /// 3
+                a_gamma = sqrt(1. / (1 - pow((_pip_mu_prime_cm_.Vect().Unit()* V3_anti_z), 2)));
+                b_gamma =-(_pip_mu_prime_cm_.Vect().Unit() * V3_anti_z) * a_gamma;
+                Vect3_gamma = a_gamma * V3_anti_z + b_gamma *_pip_mu_prime_cm_.Vect().Unit();
+
+                a_beta = sqrt(1. / (1 - pow((_pip_mu_prime_cm_.Vect().Unit()* _pim_mu_prime_cm_.Vect().Unit()), 2)));
+                b_beta =-(_pip_mu_prime_cm_.Vect().Unit() *_pim_mu_prime_cm_.Vect().Unit()) * a_beta;
+                Vect3_beta =a_beta * _pim_mu_prime_cm_.Vect().Unit() + b_beta *_pip_mu_prime_cm_.Vect().Unit();
+
+                alpha_PPIm_piPIp = (180. / PI) * acos(Vect3_gamma *Vect3_beta);
+
+                if (Vect3_gamma.Cross(Vect3_beta) * _pip_mu_prime_cm_.Vect()< 0)
+                        alpha_PPIm_piPIp = 360. - alpha_PPIm_piPIp;
+                //α[pπ−][p'π+]
+                //  return;
+                // return (phi_P_cm, phi_PIp_cm, phi_PIm_cm,theta_PIm_cm,theta_PIp_cm,
+                // theta_P_cm,alpha_PPIp_piPIm,alpha_PIpPIm_pipf,alpha_PPIm_piPIp);
+
+                _theta_gamma = theta_gamma;
+                _phi_gamma = phi_gamma;
+                _theta_prot = theta_prot;
+                _phi_prot = phi_prot;
+                _theta_pip = theta_pip;
+                _phi_pip = phi_pip;
+                _theta_pim = theta_pim;
+                _phi_pim = phi_pim;
+
+                _alpha_ppip_pipim = alpha_PPIp_piPIm;
+                _alpha_pippim_pipf = alpha_PIpPIm_pipf;
+                _alpha_ppim_pipip = alpha_PPIm_piPIp;
+        }
+}
+float Reaction::alpha_ppip_pipim() { // pipim bhaneko proton prime pim ho?
+        return _alpha_ppip_pipim;
+}
+float Reaction::alpha_pippim_pipf() {
+        return _alpha_pippim_pipf;
+}
+float Reaction::alpha_ppim_pipip() {
+        return _alpha_ppim_pipip;
+}
+
+void Reaction::AlphaCalc_thrown() {
+        TLorentzVector _q_cm_thrown_;
+        TLorentzVector _p_mu_prime_cm_thrown_;
+        TLorentzVector _pip_mu_prime_cm_thrown_;
+        TLorentzVector _pim_mu_prime_cm_thrown_;
+
+        float theta_gamma_thrown;
+        float phi_gamma_thrown;
+        float theta_prot_thrown;
+        float phi_prot_thrown;
+        float theta_pip_thrown;
+        float phi_pip_thrown;
+        float theta_pim_thrown;
+        float phi_pim_thrown;
+
+        //  Float_t m_proton, m_pip, beta;
+        Float_t a_gamma_thrown, b_gamma_thrown, a_beta_thrown, b_beta_thrown;
+        TVector3 Vect3_gamma_thrown, Vect3_beta_thrown, V3_anti_z_thrown(0, 0, -1);
+        float alpha_PPIp_piPIm_thrown;
+        float alpha_PIpPIm_pipf_thrown;
+        float alpha_PPIm_piPIp_thrown;
+
+
+        *_q_cm_thrown = (physics::boost_((*_beam - *_elec_thrown), *_beam, *_elec_thrown));
+        // *_p_mu_prime_cm = physics::boost_(*_prot, *_beam, *_elec);
+        // *_pip_mu_prime_cm = physics::boost_(*_pip, *_beam,*_elec);
+        // *_pim_mu_prime_cm = physics::boost_(*_pim, *_beam, *_elec);
+        _q_cm_thrown_ = (*_q_cm_thrown);
+        _p_mu_prime_cm_thrown_ =(*_p_mu_prime_cm_thrown);
+        _pip_mu_prime_cm_thrown_ = (*_pip_mu_prime_cm_thrown);
+        _pim_mu_prime_cm_thrown_ = (*_pim_mu_prime_cm_thrown);
+
+        theta_gamma_thrown = _q_cm_thrown_.Theta() * 180 / PI;
+        theta_prot_thrown = _p_mu_prime_cm_thrown_.Theta() * 180 / PI;
+        theta_pip_thrown = _pip_mu_prime_cm_thrown_.Theta() * 180 / PI;
+        theta_pim_thrown = _pim_mu_prime_cm_thrown_.Theta() * 180 / PI;
+        if (_q_cm_thrown_.Phi() > 0)
+                phi_gamma_thrown = _q_cm_thrown_.Phi() * 180 / PI;
+        else if (_q_cm_thrown_.Phi() < 0)
+                phi_gamma_thrown = (_q_cm_thrown_.Phi() + 2 * PI) * 180 / PI;
+
+        if (_p_mu_prime_cm_thrown_.Phi() > 0)
+                phi_gamma_thrown = _p_mu_prime_cm_thrown_.Phi() * 180 / PI;
+        else if (_p_mu_prime_cm_thrown_.Phi() < 0)
+                phi_gamma_thrown = (_p_mu_prime_cm_thrown_.Phi() + 2 * PI) * 180 /PI;
+        if (_pip_mu_prime_cm_thrown_.Phi() > 0)
+                phi_gamma_thrown = _pip_mu_prime_cm_thrown_.Phi() * 180 / PI;
+        else if (_pip_mu_prime_cm_thrown_.Phi() < 0)
+                phi_gamma_thrown = (_pip_mu_prime_cm_thrown_.Phi() + 2 * PI) * 180/ PI;
+        if (_pim_mu_prime_cm_thrown_.Phi() > 0)
+                phi_gamma_thrown = _pim_mu_prime_cm_thrown_.Phi() * 180 / PI;
+        else if (_pim_mu_prime_cm_thrown_.Phi() < 0)
+                phi_gamma_thrown = (_pim_mu_prime_cm_thrown_.Phi() + 2 * PI) * 180/ PI;
+        // 1 this one is used for α[π−]
+        a_gamma_thrown = sqrt(1. / (1 - pow((_pim_mu_prime_cm_thrown_.Vect().Unit()* V3_anti_z_thrown), 2)));         // V3_anti_z_thrown(0,0,-1);
+        b_gamma_thrown = -(_pim_mu_prime_cm_thrown_.Vect().Unit() * V3_anti_z_thrown) *a_gamma_thrown;
+        Vect3_gamma_thrown = a_gamma_thrown * V3_anti_z_thrown + b_gamma_thrown *_pim_mu_prime_cm_thrown_.Vect().Unit();
+
+        a_beta_thrown = sqrt(1. / (1 - pow((_pim_mu_prime_cm_thrown_.Vect().Unit()* _pip_mu_prime_cm_thrown_.Vect().Unit()), 2)));
+        b_beta_thrown =-(_pim_mu_prime_cm_thrown_.Vect().Unit() *_pip_mu_prime_cm_thrown_.Vect().Unit()) * a_beta_thrown;
+        Vect3_beta_thrown = a_beta_thrown * _pip_mu_prime_cm_thrown_.Vect().Unit() + b_beta_thrown *_pim_mu_prime_cm_thrown_.Vect().Unit();
+
+        alpha_PPIp_piPIm_thrown = (180. / PI) * acos(Vect3_gamma_thrown *Vect3_beta_thrown);
+        if (Vect3_gamma_thrown.Cross(Vect3_beta_thrown) *_pim_mu_prime_cm_thrown_.Vect() < 0)
+                alpha_PPIp_piPIm_thrown = 360. - alpha_PPIp_piPIm_thrown;
+
+
+        //α[pπ+][p'π−]
+        /// 2
+        a_gamma_thrown = sqrt(1. / (1 - pow((_p_mu_prime_cm_thrown_.Vect().Unit() * V3_anti_z_thrown), 2)));
+        b_gamma_thrown = -(_p_mu_prime_cm_thrown_.Vect().Unit() * V3_anti_z_thrown) * a_gamma_thrown;
+        Vect3_gamma_thrown = a_gamma_thrown * V3_anti_z_thrown + b_gamma_thrown * _p_mu_prime_cm_thrown_.Vect().Unit();
+
+        a_beta_thrown = sqrt(1. / (1 - pow((_p_mu_prime_cm_thrown_.Vect().Unit() * _pip_mu_prime_cm_thrown_.Vect().Unit()), 2)));
+        b_beta_thrown =-(_p_mu_prime_cm_thrown_.Vect().Unit() *_pip_mu_prime_cm_thrown_.Vect().Unit()) * a_beta_thrown;
+        Vect3_beta_thrown = a_beta_thrown * _pip_mu_prime_cm_thrown_.Vect().Unit() + b_beta_thrown *_p_mu_prime_cm_thrown_.Vect().Unit();
+
+        alpha_PIpPIm_pipf_thrown = (180. / PI) * acos(Vect3_gamma_thrown * Vect3_beta_thrown);
+
+        if (Vect3_gamma_thrown.Cross(Vect3_beta_thrown) * _p_mu_prime_cm_thrown_.Vect() < 0)
+                alpha_PIpPIm_pipf_thrown = 360. - alpha_PIpPIm_pipf_thrown;
+        //α[pp'][π+π−]
+
+        /// 3
+        a_gamma_thrown = sqrt(1. / (1 - pow((_pip_mu_prime_cm_thrown_.Vect().Unit()* V3_anti_z_thrown), 2)));
+        b_gamma_thrown =-(_pip_mu_prime_cm_thrown_.Vect().Unit() * V3_anti_z_thrown) * a_gamma_thrown;
+        Vect3_gamma_thrown = a_gamma_thrown * V3_anti_z_thrown + b_gamma_thrown *_pip_mu_prime_cm_thrown_.Vect().Unit();
+
+        a_beta_thrown = sqrt(1. / (1 - pow((_pip_mu_prime_cm_thrown_.Vect().Unit()* _pim_mu_prime_cm_thrown_.Vect().Unit()), 2)));
+        b_beta_thrown =-(_pip_mu_prime_cm_thrown_.Vect().Unit() *_pim_mu_prime_cm_thrown_.Vect().Unit()) * a_beta_thrown;
+        Vect3_beta_thrown =a_beta_thrown * _pim_mu_prime_cm_thrown_.Vect().Unit() + b_beta_thrown *_pip_mu_prime_cm_thrown_.Vect().Unit();
+
+        alpha_PPIm_piPIp_thrown = (180. / PI) * acos(Vect3_gamma_thrown *Vect3_beta_thrown);
+
+        if (Vect3_gamma_thrown.Cross(Vect3_beta_thrown) * _pip_mu_prime_cm_thrown_.Vect()< 0)
+                alpha_PPIm_piPIp_thrown = 360. - alpha_PPIm_piPIp_thrown;
+        //α[pπ−][p'π+]
+        //  return;
+        // return (phi_P_cm, phi_PIp_cm, phi_PIm_cm,theta_PIm_cm,theta_PIp_cm,
+        // theta_P_cm,alpha_PPIp_piPIm,alpha_PIpPIm_pipf,alpha_PPIm_piPIp);
+
+        _theta_gamma_thrown = theta_gamma_thrown;
+        _phi_gamma_thrown = phi_gamma_thrown;
+        _theta_prot_thrown = theta_prot_thrown;
+        _phi_prot_thrown = phi_prot_thrown;
+        _theta_pip_thrown = theta_pip_thrown;
+        _phi_pip_thrown = phi_pip_thrown;
+        _theta_pim_thrown = theta_pim_thrown;
+        _phi_pim_thrown = phi_pim_thrown;
+
+        _alpha_ppip_pipim_thrown = alpha_PPIp_piPIm_thrown;
+        _alpha_pippim_pipf_thrown = alpha_PIpPIm_pipf_thrown;
+        _alpha_ppim_pipip_thrown = alpha_PPIm_piPIp_thrown;
+
+}
+float Reaction::alpha_ppip_pipim_thrown() { // pipim bhaneko proton prime pim ho?
+        return _alpha_ppip_pipim_thrown;
+}
+float Reaction::alpha_pippim_pipf_thrown() {
+        return _alpha_pippim_pipf_thrown;
+}
+float Reaction::alpha_ppim_pipip_thrown() {
+        return _alpha_ppim_pipip_thrown;
+}
 
 float Reaction::MM() {
         return _MM;
