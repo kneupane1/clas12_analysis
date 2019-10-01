@@ -56,11 +56,11 @@ class Histogram {
 
   static const short w_range_num = 2;
   std::string w_range_name[w_range_num] = {" W<2.5 ",
-                                           " 3.0<W<3.5 "};  //{" W<2.0 ", " 2.0<W<2.5 ", " 2.5<W<3.0 ", " 3.0<W<3.5 "};
+                                           " 2.5<W<3.5 "};  //{" W<2.0 ", " 2.0<W<2.5 ", " 2.5<W<3.0 ", " 3.0<W<3.5 "};
 
   static const short q2_range_num = 2;
   std::string q2_range_name[q2_range_num] = {" Q2<4.5 ",
-                                             " 2.0<Q2<15.0 "};  //{" Q2<2.0 ", " 2.0<Q2<5.0 ", " 5.0<Q2<10.0 "};
+                                             " 4.5<Q2<15.0 "};  //{" Q2<2.0 ", " 2.0<Q2<5.0 ", " 5.0<Q2<10.0 "};
   // Kinematics
 
   TH1D *pid_size1;
