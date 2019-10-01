@@ -480,7 +480,7 @@ void datahandeler(std::string fin, std::string fout) {
             //         hist->Fill_2pion_mmSQ(event->MM2(), sector,
             //         mc_weight);
             // }
-            if (event->MM2() < 0.01 && event->MM2() > -0.01) {  // cut # 14
+            if (event->MM2() < 0.03 && event->MM2() > -0.03) {  // cut # 14
 
               // if (abs(dt->dt_P()) < 0.6)
               // hist->Fill_deltat_prot_after(pid_of_part, charge_at_part, dt->dt_P(), dt->dt_Pi(), mom_at_part);
